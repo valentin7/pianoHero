@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import spark.template.freemarker.FreeMarkerEngine;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
+import edu.brown.cs.pianoHeroDatabase.PianoHeroQuery;
 import freemarker.template.Configuration;
 
 public class Main {
@@ -31,7 +34,7 @@ public class Main {
 
     @Override
     public void
-    handle(final Exception e, final Request req, final Response res) {
+        handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -46,12 +49,20 @@ public class Main {
   private static class HighScoresHandler implements Route {
     @Override
     public Object handle(final Request req, final Response res) {
-      // TODO get all the SongScores from the database and store them in scores
-      // so they correspond with their song ID
-      final Map<String, ArrayList<SongScore>> scores =
-          new HashMap<String, ArrayList<SongScore>>();
+      final Map<Integer, Collection<SongScore>> scores =
+          new HashMap<Integer, Collection<SongScore>>();
 
-      return GSON.toJson(scores);
+      try {
+        for (final Integer id : songIDs) {
+          final Collection<SongScore> songScores = phquery.getScoresForSong(id);
+          scores.put(id, songScores);
+        }
+
+        return GSON.toJson(scores);
+      } catch (final SQLException e) {
+        System.err.println("ERROR: Error receiving high scores from database.");
+        return null;
+      }
     }
   }
 
@@ -67,10 +78,18 @@ public class Main {
   private static class MainMenuSongsHandler implements Route {
     @Override
     public Object handle(final Request req, final Response res) {
-      // TODO get all the Songs from the database and store them in songs
-      final List<Song> songs = new ArrayList<Song>();
+      List<Song> songs;
+      try {
+        songs = phquery.getAllSongs();
+        for (final Song song : songs) {
+          songIDs.add(song.get_id());
+        }
 
-      return GSON.toJson(songs);
+        return GSON.toJson(songs);
+      } catch (final SQLException e) {
+        System.err.println("ERROR: Error receiving songs from database.");
+        return null;
+      }
     }
   }
 
@@ -123,6 +142,9 @@ public class Main {
   private static final Gson GSON = new Gson();
 
   private static final int STATUS = 500;
+  private static String dbPath;
+  private static PianoHeroQuery phquery;
+  private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 
   private static FreeMarkerEngine createEngine() {
     final Configuration config = new Configuration();
@@ -139,6 +161,13 @@ public class Main {
   }
 
   public static void main(String[] args) {
+    try {
+      phquery = new PianoHeroQuery(dbPath);
+    } catch (ClassNotFoundException | SQLException e) {
+      System.err.println("ERROR: Error connecting to database.");
+      System.exit(-1);
+    }
+
     runSparkServer();
   }
 
