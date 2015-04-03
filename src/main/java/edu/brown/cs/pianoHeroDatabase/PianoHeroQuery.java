@@ -42,7 +42,7 @@ public class PianoHeroQuery {
    *           if the class cannot be located
    */
   public PianoHeroQuery(String path) throws SQLException,
-  ClassNotFoundException {
+      ClassNotFoundException {
     Class.forName("org.sqlite.JDBC");
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
     final Statement stat = conn.createStatement();
@@ -107,25 +107,45 @@ public class PianoHeroQuery {
     }
   }
 
-  /*
-   * public List<Song> getAllSongs() throws SQLException { final String query =
-   * "SELECT * FROM song LIMIT 200;"; final PreparedStatement prep =
-   * conn.prepareStatement(query);
+  /**
+   * Gets all songs from the database with a limit of 200.
    * 
-   * final ResultSet results = prep.executeQuery(); final List<Song> songs = new
-   * ArrayList<Song>(); while (results.next()) { final String title =
-   * results.getString(SONGNAME_INDEX); final int songId =
-   * results.getInt(SONGID_INDEX); final String mp3Path =
-   * results.getString(SONGFILE_INDEX); final String imagePath =
-   * results.getString(SONGIMAGE_INDEX); final Array keyStrokes =
-   * results.getArray(SONGKEYS_INDEX); final boolean[][] keys = (boolean[][])
-   * keyStrokes.getArray();
-   * 
-   * songs.add(new Song(title, songId, mp3Path, imagePath, keys)); }
-   * prep.close(); results.close();
-   * 
-   * return songs; }
+   * @return a list of all songs
+   * @throws SQLException
+   *           if there is an error querying
    */
+  public List<Song> getAllSongs() throws SQLException {
+    final String query =
+        "SELECT * FROM song LIMIT 200;";
+    final PreparedStatement prep =
+        conn.prepareStatement(query);
+
+    final ResultSet results = prep.executeQuery();
+    final List<Song> songs = new ArrayList<Song>();
+
+    while (results.next()) {
+      final String title = results.getString(SONGNAME_INDEX);
+      final int songId = results.getInt(SONGID_INDEX);
+      final String mp3Path = results.getString(SONGFILE_INDEX);
+      final String imagePath = results.getString(SONGIMAGE_INDEX);
+      final Object keyStrokes = results.getObject(SONGKEYS_INDEX);
+
+      Song s;
+      if (keyStrokes instanceof String) {
+        // this means we're getting from the fake, dummy database. So we put
+        // null for the keys.
+        s = new Song(title, songId, mp3Path, imagePath, null);
+      } else {
+        boolean[][] keys = (boolean[][]) keyStrokes;
+        s = new Song(title, songId, mp3Path, imagePath, keys);
+      }
+      songs.add(s);
+    }
+    prep.close();
+    results.close();
+
+    return songs;
+  }
 
   /**
    * Gets a list of song scores for a certain song id.
@@ -173,7 +193,7 @@ public class PianoHeroQuery {
    *           if there is an error in the query.
    */
   public List<SongScore> getScoresForUsername(String username)
-      throws SQLException {
+    throws SQLException {
     try {
       String query = "SELECT * FROM Score WHERE username = ? ORDER BY scoreValue DESC;";
 

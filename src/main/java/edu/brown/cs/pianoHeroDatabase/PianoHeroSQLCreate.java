@@ -30,7 +30,7 @@ public class PianoHeroSQLCreate {
    *           - if there is an exception creating the tables.
    */
   public PianoHeroSQLCreate(String db) throws ClassNotFoundException,
-      SQLException {
+  SQLException {
     // Load the driver class
     Class.forName("org.sqlite.JDBC");
     String urlToDB = "jdbc:sqlite:" + db;
@@ -117,8 +117,8 @@ public class PianoHeroSQLCreate {
     PreparedStatement ps = conn.prepareStatement(query);
 
     ps.setInt(1, score.getSongID());
-    ps.setInt(2, score.getScore());
-    ps.setString(3, score.getUserName());
+    ps.setString(2, score.getUserName());
+    ps.setInt(3, score.getScore());
 
     ps.executeUpdate();
 
