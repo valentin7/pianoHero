@@ -1,6 +1,5 @@
 package edu.brown.cs.pianoHeroDatabase;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,11 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import edu.brown.cs.pianoHero.Song;
 import edu.brown.cs.pianoHero.SongScore;
 
+/**
+ * Class that handles all the queries to the SQL database for Piano Hero.
+ *
+ * @author valentin
+ *
+ */
 public class PianoHeroQuery {
 
   private final Connection conn;
@@ -22,8 +27,8 @@ public class PianoHeroQuery {
   private final int SONGIMAGE_INDEX = 4;
   private final int SONGKEYS_INDEX = 5;
 
-  private final int SCOREVALUE_INDEX = 2;
-  private final int USERNAME_INDEX = 3;
+  private final int USERNAME_INDEX = 2;
+  private final int SCOREVALUE_INDEX = 3;
 
   /**
    * Constructs a PianoHeroQuery with the directory at the given path.
@@ -37,11 +42,12 @@ public class PianoHeroQuery {
    *           if the class cannot be located
    */
   public PianoHeroQuery(String path) throws SQLException,
-  ClassNotFoundException {
+      ClassNotFoundException {
     Class.forName("org.sqlite.JDBC");
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
     Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys = ON;");
+    System.out.println("got here!!!");
     stat.close();
   }
 
@@ -55,9 +61,9 @@ public class PianoHeroQuery {
     conn.close();
   }
 
-  public Song getSongById(Integer id) throws SQLException {
+  public Song getSongById(int id) throws SQLException {
     try {
-      String query = "SELECT * FROM song WHERE id = ?";
+      String query = "SELECT * FROM Song WHERE Song.id = ?;"; // WHERE id = ?";
       PreparedStatement prep = conn.prepareStatement(query);
       prep.setInt(1, id);
       ResultSet results = prep.executeQuery();
@@ -67,31 +73,49 @@ public class PianoHeroQuery {
       int songId = results.getInt(SONGID_INDEX);
       String mp3Path = results.getString(SONGFILE_INDEX);
       String imagePath = results.getString(SONGIMAGE_INDEX);
-      Array keyStrokes = results.getArray(SONGKEYS_INDEX);
-      boolean[][] keys = (boolean[][]) keyStrokes.getArray();
+      Object keyStrokes = results.getObject(SONGKEYS_INDEX);
 
-      Song s = new Song(title, songId, mp3Path, imagePath, keys);
+      Song s;
+
+      if (keyStrokes instanceof String) {
+        // this means we're getting from the fake, dummy database. So we put
+        // null for the keys.
+        s = new Song(title, songId, mp3Path, imagePath, null);
+      } else {
+        System.out.println("DIDNT GET STRING!!");
+        boolean[][] keys = (boolean[][]) keyStrokes;
+        s = new Song(title, songId, mp3Path, imagePath, keys);
+      }
 
       results.close();
       prep.close();
 
       return s;
     } catch (SQLException e) {
-      System.err.println("Error querying for neighbors: " + e.getMessage());
+      System.err.println("Error querying  : " + e.getMessage());
       return null;
     }
 
   }
 
-  public Collection<SongScore> getScoresForSong(int songId) throws SQLException {
+  /**
+   * Gets a list of song scores for a certain song id.
+   *
+   * @param songId
+   *          : int the id of the song.
+   * @return a list of songscores fot the song's id.
+   * @throws SQLException
+   *           if there is error querying the database.
+   */
+  public List<SongScore> getScoresForSong(int songId) throws SQLException {
     try {
-      String query = "SELECT * FROM score WHERE songId = ?";
+      String query = "SELECT * FROM Score WHERE songId = ? ORDER BY scoreValue DESC;";
 
       PreparedStatement prep = conn.prepareStatement(query);
       prep.setInt(1, songId);
       ResultSet results = prep.executeQuery();
 
-      Collection<SongScore> songScores = new ArrayList<SongScore>();
+      List<SongScore> songScores = new ArrayList<SongScore>();
       while (results.next()) {
         String username = results.getString(USERNAME_INDEX);
         int scoreValue = results.getInt(SCOREVALUE_INDEX);
@@ -103,22 +127,30 @@ public class PianoHeroQuery {
 
       return songScores;
     } catch (SQLException e) {
-      System.err.println("Error querying for neighbors: " + e.getMessage());
+      System.err.println("Error querying: " + e.getMessage());
       return null;
     }
-
   }
 
-  public Collection<SongScore> getScoresForUsername(String username)
-      throws SQLException {
+  /**
+   * Gets a list of scores for a certain user.
+   *
+   * @param username
+   *          - String, the username of the user.
+   * @return a list of songscores.
+   * @throws SQLException
+   *           if there is an error in the query.
+   */
+  public List<SongScore> getScoresForUsername(String username)
+    throws SQLException {
     try {
-      String query = "SELECT * FROM score WHERE username = ?";
+      String query = "SELECT * FROM Score WHERE username = ? ORDER BY scoreValue DESC;";
 
       PreparedStatement prep = conn.prepareStatement(query);
       prep.setString(1, username);
       ResultSet results = prep.executeQuery();
 
-      Collection<SongScore> songScores = new ArrayList<SongScore>();
+      List<SongScore> songScores = new ArrayList<SongScore>();
       while (results.next()) {
         int scoreValue = results.getInt(SCOREVALUE_INDEX);
         int songId = results.getInt(SONGID_INDEX);
@@ -130,7 +162,7 @@ public class PianoHeroQuery {
 
       return songScores;
     } catch (SQLException e) {
-      System.err.println("Error querying for neighbors: " + e.getMessage());
+      System.err.println("Error querying: " + e.getMessage());
       return null;
     }
 

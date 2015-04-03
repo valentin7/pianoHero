@@ -11,21 +11,26 @@ import edu.brown.cs.pianoHero.Song;
 import edu.brown.cs.pianoHero.SongScore;
 
 /**
- * This class creates a database from sample csv files
+ * This class creates a database for PianoHero
  *
+ * @author valentin
  */
 public class PianoHeroSQLCreate {
 
   private Connection conn;
 
   /**
+   * Constructor for PianoHeroSQLCreate
    *
    * @param db
+   *          - String: the path to the sqlite3 database.
    * @throws ClassNotFoundException
+   *           - if there is no class found JDBC.
    * @throws SQLException
+   *           - if there is an exception creating the tables.
    */
   public PianoHeroSQLCreate(String db) throws ClassNotFoundException,
-  SQLException {
+      SQLException {
     // Load the driver class
     Class.forName("org.sqlite.JDBC");
     String urlToDB = "jdbc:sqlite:" + db;
@@ -45,21 +50,22 @@ public class PianoHeroSQLCreate {
     buildTable(schema);
 
     // schema to create a table for songs
-    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  INTEGER,"
+    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
         + "songImage TEXT, songKeys BLOB);";
 
     buildTable(schema2);
-
-    // schema to create a table called enrollment
-    // String schema3 = "CREATE TABLE enrollment(" + "name TEXT," +
-    // "course TEXT,"
-    // + "sem TEXT," + "grade TEXT,"
-    // + "FOREIGN KEY (name) REFERENCES student(name)"
-    // + "ON DELETE CASCADE ON UPDATE CASCADE);";
-    //
-    // buildTable(schema3);
   }
 
+  /**
+   * Adds a song the the sql database
+   *
+   * @param song
+   *          : Song, the song to fill
+   * @throws IOException
+   *           : if there is an error writing on the file.
+   * @throws SQLException
+   *           : if there is an error with the query.
+   */
   public void fillSong(Song song) throws IOException, SQLException {
     /*
      * prepare an all purpose insert statement; note the use of question marks.
@@ -67,7 +73,7 @@ public class PianoHeroSQLCreate {
      * building a tuple to insert into the table. This allows us to use the Same
      * PreparedStatement without having to create a new one for each insertion.
      */
-    String query = "INSERT INTO song VALUES (?,?,?,?)";
+    String query = "INSERT INTO song VALUES (?,?,?,?,?)";
     PreparedStatement ps = conn.prepareStatement(query);
 
     ps.setInt(1, song.get_id());
@@ -75,9 +81,11 @@ public class PianoHeroSQLCreate {
     ps.setString(3, song.get_mp3Path());
     ps.setString(4, song.get_imagePath());
 
-    java.sql.Array keys = conn.createArrayOf("VARCHAR", song.get_keyStrokes());
+    ps.setObject(5, song.get_keyStrokes());
 
-    ps.setArray(5, keys);
+    // java.sql.Array keys = conn.createArrayOf("VARCHAR",
+    // song.get_keyStrokes());
+    // ps.setArray(5, keys);
 
     ps.executeUpdate();
 
@@ -88,6 +96,16 @@ public class PianoHeroSQLCreate {
     ps.close();
   }
 
+  /**
+   * Adds a score to the database.
+   *
+   * @param score
+   *          : SongScore to add.
+   * @throws IOException
+   *           : if there is an error writing to the file.
+   * @throws SQLException
+   *           : if there is an error querying.
+   */
   public void fillScore(SongScore score) throws IOException, SQLException {
     /*
      * prepare an all purpose insert statement; note the use of question marks.
@@ -115,7 +133,9 @@ public class PianoHeroSQLCreate {
    * Creates a new table according to the schema
    *
    * @param schema
+   *          : String the schema for PianoHero tables.
    * @throws SQLException
+   *           : if there is an error executing the updates.
    */
   private void buildTable(String schema) throws SQLException {
     // PreparedStatement to execute the command in
@@ -127,13 +147,13 @@ public class PianoHeroSQLCreate {
     prep.executeUpdate();
 
     prep.close();
-
   }
 
   /**
    * Closes any associated resources with the table
    *
    * @throws SQLException
+   *           : if there is an error closing the database.
    */
   public void close() throws SQLException {
     conn.close();
