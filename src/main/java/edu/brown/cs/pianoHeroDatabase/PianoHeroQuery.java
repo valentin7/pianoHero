@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import edu.brown.cs.pianoHero.Song;
 import edu.brown.cs.pianoHero.SongScore;
@@ -40,7 +41,7 @@ public class PianoHeroQuery {
   ClassNotFoundException {
     Class.forName("org.sqlite.JDBC");
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
-    Statement stat = conn.createStatement();
+    final Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys = ON;");
     stat.close();
   }
@@ -55,54 +56,48 @@ public class PianoHeroQuery {
     conn.close();
   }
 
-  public Song getSongById(Integer id) throws SQLException {
-    try {
-      String query = "SELECT * FROM song WHERE id = ?";
-      PreparedStatement prep = conn.prepareStatement(query);
-      prep.setInt(1, id);
-      ResultSet results = prep.executeQuery();
-      results.next();
+  public List<Song> getAllSongs() throws SQLException {
+    final String query = "SELECT * FROM song LIMIT 200;";
+    final PreparedStatement prep = conn.prepareStatement(query);
 
-      String title = results.getString(SONGNAME_INDEX);
-      int songId = results.getInt(SONGID_INDEX);
-      String mp3Path = results.getString(SONGFILE_INDEX);
-      String imagePath = results.getString(SONGIMAGE_INDEX);
-      Array keyStrokes = results.getArray(SONGKEYS_INDEX);
-      boolean[][] keys = (boolean[][]) keyStrokes.getArray();
+    final ResultSet results = prep.executeQuery();
+    final List<Song> songs = new ArrayList<Song>();
+    while (results.next()) {
+      final String title = results.getString(SONGNAME_INDEX);
+      final int songId = results.getInt(SONGID_INDEX);
+      final String mp3Path = results.getString(SONGFILE_INDEX);
+      final String imagePath = results.getString(SONGIMAGE_INDEX);
+      final Array keyStrokes = results.getArray(SONGKEYS_INDEX);
+      final boolean[][] keys = (boolean[][]) keyStrokes.getArray();
 
-      Song s = new Song(title, songId, mp3Path, imagePath, keys);
-
-      results.close();
-      prep.close();
-
-      return s;
-    } catch (SQLException e) {
-      System.err.println("Error querying for neighbors: " + e.getMessage());
-      return null;
+      songs.add(new Song(title, songId, mp3Path, imagePath, keys));
     }
+    prep.close();
+    results.close();
 
+    return songs;
   }
 
   public Collection<SongScore> getScoresForSong(int songId) throws SQLException {
     try {
-      String query = "SELECT * FROM score WHERE songId = ?";
+      final String query = "SELECT * FROM score WHERE songId = ?";
 
-      PreparedStatement prep = conn.prepareStatement(query);
+      final PreparedStatement prep = conn.prepareStatement(query);
       prep.setInt(1, songId);
-      ResultSet results = prep.executeQuery();
+      final ResultSet results = prep.executeQuery();
 
-      Collection<SongScore> songScores = new ArrayList<SongScore>();
+      final Collection<SongScore> songScores = new ArrayList<SongScore>();
       while (results.next()) {
-        String username = results.getString(USERNAME_INDEX);
-        int scoreValue = results.getInt(SCOREVALUE_INDEX);
-        SongScore s = new SongScore(songId, scoreValue, username);
+        final String username = results.getString(USERNAME_INDEX);
+        final int scoreValue = results.getInt(SCOREVALUE_INDEX);
+        final SongScore s = new SongScore(songId, scoreValue, username);
         songScores.add(s);
       }
       results.close();
       prep.close();
 
       return songScores;
-    } catch (SQLException e) {
+    } catch (final SQLException e) {
       System.err.println("Error querying for neighbors: " + e.getMessage());
       return null;
     }
@@ -112,24 +107,52 @@ public class PianoHeroQuery {
   public Collection<SongScore> getScoresForUsername(String username)
       throws SQLException {
     try {
-      String query = "SELECT * FROM score WHERE username = ?";
+      final String query = "SELECT * FROM score WHERE username = ?";
 
-      PreparedStatement prep = conn.prepareStatement(query);
+      final PreparedStatement prep = conn.prepareStatement(query);
       prep.setString(1, username);
-      ResultSet results = prep.executeQuery();
+      final ResultSet results = prep.executeQuery();
 
-      Collection<SongScore> songScores = new ArrayList<SongScore>();
+      final Collection<SongScore> songScores = new ArrayList<SongScore>();
       while (results.next()) {
-        int scoreValue = results.getInt(SCOREVALUE_INDEX);
-        int songId = results.getInt(SONGID_INDEX);
-        SongScore s = new SongScore(songId, scoreValue, username);
+        final int scoreValue = results.getInt(SCOREVALUE_INDEX);
+        final int songId = results.getInt(SONGID_INDEX);
+        final SongScore s = new SongScore(songId, scoreValue, username);
         songScores.add(s);
       }
       results.close();
       prep.close();
 
       return songScores;
-    } catch (SQLException e) {
+    } catch (final SQLException e) {
+      System.err.println("Error querying for neighbors: " + e.getMessage());
+      return null;
+    }
+
+  }
+
+  public Song getSongById(Integer id) throws SQLException {
+    try {
+      final String query = "SELECT * FROM song WHERE id = ?;";
+      final PreparedStatement prep = conn.prepareStatement(query);
+      prep.setInt(1, id);
+      final ResultSet results = prep.executeQuery();
+      results.next();
+
+      final String title = results.getString(SONGNAME_INDEX);
+      final int songId = results.getInt(SONGID_INDEX);
+      final String mp3Path = results.getString(SONGFILE_INDEX);
+      final String imagePath = results.getString(SONGIMAGE_INDEX);
+      final Array keyStrokes = results.getArray(SONGKEYS_INDEX);
+      final boolean[][] keys = (boolean[][]) keyStrokes.getArray();
+
+      final Song s = new Song(title, songId, mp3Path, imagePath, keys);
+
+      results.close();
+      prep.close();
+
+      return s;
+    } catch (final SQLException e) {
       System.err.println("Error querying for neighbors: " + e.getMessage());
       return null;
     }
