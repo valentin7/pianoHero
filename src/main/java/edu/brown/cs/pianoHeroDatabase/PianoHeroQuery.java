@@ -42,7 +42,7 @@ public class PianoHeroQuery {
    *           if the class cannot be located
    */
   public PianoHeroQuery(String path) throws SQLException,
-      ClassNotFoundException {
+  ClassNotFoundException {
     Class.forName("org.sqlite.JDBC");
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
     final Statement stat = conn.createStatement();
@@ -90,6 +90,7 @@ public class PianoHeroQuery {
         // this means we're getting from the fake, dummy database. So we put
         // null for the keys.
         s = new Song(title, songId, mp3Path, imagePath, null);
+        System.out.println("songkEYS GOT: " + keyStrokes);
       } else {
         System.out.println("DIDNT GET STRING!!");
         boolean[][] keys = (boolean[][]) keyStrokes;
@@ -109,7 +110,7 @@ public class PianoHeroQuery {
 
   /**
    * Gets all songs from the database with a limit of 200.
-   * 
+   *
    * @return a list of all songs
    * @throws SQLException
    *           if there is an error querying
@@ -193,7 +194,7 @@ public class PianoHeroQuery {
    *           if there is an error in the query.
    */
   public List<SongScore> getScoresForUsername(String username)
-    throws SQLException {
+      throws SQLException {
     try {
       String query = "SELECT * FROM Score WHERE username = ? ORDER BY scoreValue DESC;";
 
