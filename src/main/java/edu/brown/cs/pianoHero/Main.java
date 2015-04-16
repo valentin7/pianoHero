@@ -98,7 +98,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero");
-      return new ModelAndView(variables, "mainMenu.ftl");
+      return new ModelAndView(variables, "main.ftl");
     }
   }
 
