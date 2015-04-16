@@ -32,5 +32,7 @@
       <input type="submit" value="Send">
       </div>
     </form>
+
+    <button onclick="createSong()">Create a song</button>
   </body>
 </html>
