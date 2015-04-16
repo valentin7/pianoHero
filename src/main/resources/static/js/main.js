@@ -14,11 +14,11 @@ function createSong() {
   var randomKeyStrokes = new Array(songLength);
 
   for (var i = 0; i < songLength; i ++) {
-    startingIndex = Math.random() * 8;
+    startingIndex = Math.round(Math.random() * 8);
     skipStep = Math.round(Math.random() * maxKeys);
 
     randomKeyStrokes[i] = new Array();
-    for (var strokeIndex = startingIndex; strokeIndex < maxKeys; strokeIndex+=skipStep) {
+    for (var strokeIndex = 0; strokeIndex < maxKeys; strokeIndex+=skipStep) {
       randomKeyStrokes[i][strokeIndex] = true;
     }
   }
