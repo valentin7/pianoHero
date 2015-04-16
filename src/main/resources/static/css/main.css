@@ -1,0 +1,343 @@
+body, html {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+.backLayer {
+	z-index: -50;
+	position: fixed;
+}
+
+#bckGndImg {
+	width: 100%;
+}
+
+.frontLayer {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+h1, h2, h3 {
+	color: #fff;
+	margin: 0 auto 0;
+	text-align: center;
+}
+
+h1 {
+	font-size: 72px;
+	font-weight: 600;
+}
+
+h2 {
+	font-size: 48px;
+}
+
+h3 {
+	font-size: 36px;
+	font-weight: 300;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+p {
+	font-size: 18px;
+}
+
+.smallMarginBott {
+	margin-bottom: .6em;
+}
+
+button {
+	display: block;
+	background-color: transparent;
+	border: 1px solid #fff;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 1px;
+	height: 5em;
+	-webkit-transition: background-color 500ms;
+   -moz-transition: background-color 500ms;
+   -o-transition: background-color 500ms;
+   transition: background-color 500ms;
+}
+
+button:hover {
+	background-color: rgba(0, 0, 0, .5);
+	cursor: pointer;
+	-webkit-transition: background-color 500ms;
+   -moz-transition: background-color 500ms;
+   -o-transition: background-color 500ms;
+   transition: background-color 500ms;
+}
+
+.medButt {
+	width: 150px;
+}
+
+.bigButt {
+	width: 200px;
+}
+
+.centeredButt {
+	margin: 0 auto 0;
+}
+
+.topLeftButt {
+	position: absolute;
+	top: 36px;
+	left: 36px;
+}
+
+.centerLayer {
+	width: 800px;
+	margin: 0 auto 0;
+	padding: 36px;
+}
+
+#songTitle {
+	margin: 20% 0 20% 0;
+}
+
+.arrowButt {
+	width: 50px;
+	position: absolute;
+	top: 40%;
+}
+
+#leftArr {
+	left: 36px;
+}
+
+#rightArr {
+	right: 36px;
+}
+
+.rightCol {
+	position: fixed;
+	width: 300px;
+	height: 100%;
+	right: 0px;
+	top: 0;
+	padding: 36px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, .75);
+}
+
+label {
+	color: #acacac;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.smallLabel {
+	font-size: 12px;
+}
+
+.white {
+	color: #f2f2f2;
+}
+
+.light {
+	color: #acacac;
+}
+
+.dark {
+	color: #222;
+}
+
+.scoreDiv {
+	margin: 0 0 54px 0;
+}
+
+.barOutline {
+	position: relative;
+	height: 18px;
+	width: 200px;
+	border: 1px solid #f2f2f2;
+	margin: 0 auto 0;
+}
+
+.barInner {
+	height: 100%;
+	display: block;
+}
+
+.barLabel {
+	font-size:8px;
+	position: absolute;
+	bottom: -15px;
+}
+
+#progressBar {
+	background-color: #f2f2f2;
+	width: 0%;
+}
+
+#lifeBar {
+	width: 100%;
+	background-color: green;
+}
+
+.leftBarLabel {
+	left: 0;
+}
+
+.rightBarLabel {
+	right: 0;
+}
+
+#restartButt {
+	visibility: hidden;
+}
+
+.mainDiv {
+	padding: 36px;
+	margin- right: 372px;
+	width: Calc(100% - 444px);
+	background-color: rgba(0, 0, 0, .25);
+}
+
+#songTitleGame {
+	margin-bottom: 48px;
+}
+
+#gameDiv {
+	position: relative;
+	display: block;
+	width: 920px;
+	height: 620px;
+	margin: 0 auto 0;
+}
+
+canvas {
+	display: block;
+	background-color: rgba(0, 0, 0, .75);
+}
+
+#gameOverLay {
+	z-index: 10;
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+#overLayMessage {
+	margin: 30% 0 0 0;
+}
+
+.slot {
+	position: absolute;
+	bottom: 20px;
+	text-transform: uppercase;
+	display: block;
+	height: 40px;
+	width: 40px;
+}
+
+.slot p {
+	text-align: center;
+	font-size: 10px;
+	margin: 13px 0 0 0;
+	padding: 0;
+}
+
+.redSlot {
+	border: 1px solid red;
+	color: red;
+}
+
+.pinkSlot {
+	border: 1px solid pink;
+	color: pink;
+}
+
+.purpSlot {
+	border: 1px solid purple;
+	color: purple;
+}
+
+.blueSlot {
+	border: 1px solid blue;
+	color: blue;
+}
+
+.greenSlot {
+	border: 1px solid green;
+	color: green;
+}
+
+.yellSlot {
+	border: 1px solid yellow;
+	color: yellow;
+}
+
+.orangeSlot {
+	border: 1px solid orange;
+	color: orange;
+}
+
+#qSlot {
+	left: 20px;
+}
+
+#wSlot {
+	left: 80px;
+}
+
+#threeSlot {
+	left: 140px;
+}
+
+#eSlot {
+	left: 200px;
+}
+
+#fourSlot {
+	left: 260px;
+}
+
+#rSlot {
+	left: 320px;
+}
+
+#vSlot {
+	left: 380px;
+}
+
+#semiSlot {
+	right: 20px;
+}
+
+#lSlot {
+	right: 80px;
+}
+
+#oSlot {
+	right: 140px;
+}
+
+#kSlot {
+	right: 200px;
+}
+
+#iSlot {
+	right: 260px;
+}
+
+#jSlot {
+	right: 320px;
+}
+
+#spSlot {
+	right: 380px;
+}
