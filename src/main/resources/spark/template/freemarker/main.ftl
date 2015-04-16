@@ -14,5 +14,23 @@
 
   <body id="body">
     <h1>PIANO HERO</h1>
+    <form action="/storesong"
+      enctype="multipart/form-data" method="post">
+      <p>
+      Name of the song:<br>
+      <input type="text" name="songTitle" size="30">
+      </p>
+      <p>
+      Upload song image:<br>
+      <input type="file" name="songImage" size="40">
+      </p>
+      <p>
+      Upload song mp3:<br>
+      <input type="file" name="songMp3" size="40">
+      </p>
+      <div>
+      <input type="submit" value="Send">
+      </div>
+    </form>
   </body>
 </html>

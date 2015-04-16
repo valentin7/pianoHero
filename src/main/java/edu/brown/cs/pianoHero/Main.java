@@ -115,14 +115,24 @@ public class Main {
     @Override
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
-      final String title = qm.value("title");
+      final String title = qm.value("songTitle");
       // TODO figure out best way to store mp3/ image files -> should
       // back end or front end store them and how?
-      final String mp3Path = qm.value("mp3Path");
-      final String imagePath = qm.value("imagePath");
+      // final String mp3Path = qm.value("mp3Path");
+      // final String imagePath = qm.value("imagePath");
+      File image = GSON.fromJson(qm.value("songImage"), File.class);
+      System.out.println("image file name::");
+      System.out.println(image);
+      // System.out.println(image.getName());
+
+      File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
+      System.out.println("song mp3 file name::");
+      System.out.println(mp3);
+      // System.out.println(mp3.getName());
       // TODO figure out if this works? should we be storing songs as 2D arrays
       // or as HashMaps?
-      final Map keyStrokes = GSON.fromJson(qm.value("keyStrokes"), Map.class);
+      // final Map keyStrokes = GSON.fromJson(qm.value("keyStrokes"),
+      // Map.class);
 
       // TODO store the song data in the database
 
