@@ -1,36 +1,71 @@
 
+$(document).ready(function(){
 
-$(document).ready(function() {
-console.log("PIANO HERO");
+	/////////////////////////////////////////////////////
+	// LOCAL DEFAULTS
+	/////////////////////////////////////////////////////
+	var whiteStripes = {
+		songTitle: "Seven Nation Army",
+		songImage: "../img/seven.jpg"
+	}
+
+	var macMiller = {
+		songTitle: "Here We Go",
+		songImage: "../img/macmiller.jpg"
+	}
+
+	var earlSweatshirt = {
+		songTitle: "Chum",
+		songImage: "../img/sweatshirt.jpg"
+	}
+
+	var list = [whiteStripes, macMiller, earlSweatshirt];
+
+	/////////////////////////////////////////////////////////
+	// HOME ELEMENTS
+	/////////////////////////////////////////////////////////
+
+	// SET HOME ELEMENTS
+	var currInd = 0;
+	var curr = list[currInd];
+	setPageElements();
+
+	// ATTACH SCROLL FUNCTION TO BUTTONS
+	$("#leftArr").bind("click", function() {
+		scrollThroughList("left");
+	})
+
+	$("#rightArr").bind("click", function() {
+		scrollThroughList("right");
+	})
+
+	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
+	$("#playButt").bind("click", function() {
+		// method here to get html for game page and the correct information
+	})
+
+	//SCROLL THROUGH LIST FUNCTION
+	function scrollThroughList(dir) {
+		if (dir == "right") {
+			if (currInd == list.length - 1) currInd = 0;
+			else currInd = currInd + 1;
+		} else {
+			if (currInd == 0) currInd = list.length - 1;
+			else currInd = currInd - 1;
+		}
+		curr = list[currInd];
+		setPageElements();
+	}
+
+	// SET HOME PAGE ELEMENT FUNCTION
+	function setPageElements() {
+		$("#bckGndImg").attr("src", curr.songImage);
+		$("#songTitle").text(curr.songTitle);
+	}
+
+	/////////////////////////////////////
+	//GAME DEFAULTS
+	/////////////////////////////////////
 
 });
-
-
-function createSong() {
-
-  songLength = Math.round(Math.random() * 100 + 32);
-  maxKeys = 8;
-  console.log(songLength);
-  var randomKeyStrokes = new Array(songLength);
-
-  for (var i = 0; i < songLength; i ++) {
-    //startingIndex = Math.round(Math.random() * 8);
-    skipStep = Math.floor(Math.random() * maxKeys);
-
-    console.log("got here");
-    randomKeyStrokes[i] = new Array(maxKeys);
-    randomKeyStrokes[i][skipStep] = true;
-
-    for (var j = 0; j < maxKeys; j++) {
-      if (j != skipStep){
-        randomKeyStrokes[i][j] = false;
-      }
-    }
-    /*for (var strokeIndex = startingIndex; strokeIndex < maxKeys; strokeIndex+=skipStep) {
-      randomKeyStrokes[i][strokeIndex] = true;
-    }*/
-  }
-
-  console.log("created random song strokes:");
-  console.log(randomKeyStrokes);
-}
+>>>>>>> origin/master
