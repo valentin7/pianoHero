@@ -91,6 +91,7 @@ public class Main {
 
         return GSON.toJson(songs);
       } catch (final SQLException e) {
+        e.printStackTrace();
         System.err.println("ERROR: Error receiving songs from database.");
         return null;
       }
@@ -111,7 +112,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: Play Song");
-      return new ModelAndView(variables, "playSong.ftl");
+      return new ModelAndView(variables, "game.ftl");
     }
   }
 
@@ -156,7 +157,7 @@ public class Main {
   private static final Gson GSON = new Gson();
 
   private static final int STATUS = 500;
-  private static String dbPath;
+  private static String dbPath = "pianoHeroSQL.sqlite3";
   private static PianoHeroQuery phquery;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 

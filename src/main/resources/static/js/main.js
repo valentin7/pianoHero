@@ -2,6 +2,29 @@
 $(document).ready(function(){
 
 	/////////////////////////////////////////////////////
+	// GETTING SONG INFORMATION FROM SERVER
+	/////////////////////////////////////////////////////
+	
+	var currInd = 0;
+	var curr;
+	var list = [];
+
+	$.get("/getsongs", function(responseJSON) {
+		var songs = JSON.parse(responseJSON);
+		for (i = 0; i < songs.length; i++) {
+			var song = {
+				songID: songs[i]._id,
+				songTitle: songs[i]._title,
+				songImage: songs[i]._imagePath
+			}
+			list.push(song);
+		}
+		curr = list[currInd];
+		setPageElements();
+	})
+
+
+	/////////////////////////////////////////////////////
 	// LOCAL DEFAULTS
 	/////////////////////////////////////////////////////
 	var whiteStripes = {
@@ -19,16 +42,16 @@ $(document).ready(function(){
 		songImage: "../img/sweatshirt.jpg"
 	}
 
-	var list = [whiteStripes, macMiller, earlSweatshirt];
+	//var list = [whiteStripes, macMiller, earlSweatshirt];
 
 	/////////////////////////////////////////////////////////
 	// HOME ELEMENTS
 	/////////////////////////////////////////////////////////
 
 	// SET HOME ELEMENTS
-	var currInd = 0;
-	var curr = list[currInd];
-	setPageElements();
+	//var currInd = 0;
+	//var curr = list[currInd];
+	//setPageElements();
 
 	// ATTACH SCROLL FUNCTION TO BUTTONS
 	$("#leftArr").bind("click", function() {
@@ -59,6 +82,7 @@ $(document).ready(function(){
 
 	// SET HOME PAGE ELEMENT FUNCTION
 	function setPageElements() {
+		console.log(curr.songImage);
 		$("#bckGndImg").attr("src", curr.songImage);
 		$("#songTitle").text(curr.songTitle);
 	}

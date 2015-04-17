@@ -117,7 +117,7 @@ public class PianoHeroQuery {
    */
   public List<Song> getAllSongs() throws SQLException {
     final String query =
-        "SELECT * FROM song LIMIT 200;";
+        "SELECT * FROM Song LIMIT 200;";
     final PreparedStatement prep =
         conn.prepareStatement(query);
 
