@@ -2,12 +2,10 @@
 
 $(document).ready(function() {
 console.log("PIANO HERO");
-
 });
 
 
 function createSong() {
-
   songLength = Math.round(Math.random() * 100 + 32);
   maxKeys = 8;
   console.log(songLength);

@@ -1,9 +1,13 @@
 package edu.brown.cs.pianoHero;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -178,7 +182,31 @@ public class Main {
       System.exit(-1);
     }
 
+    saveData();
+
     runSparkServer();
+  }
+
+  private static void saveData() {
+
+    // try (PrintWriter writer = new PrintWriter(
+    // "sick.txt", "UTF-8")) {
+    // writer.println("The first line");
+    // writer.println("The second line");
+    // writer.close();
+    // } catch (IOException e) {
+    // System.err.println("ERROR: error saving file");
+    // e.printStackTrace();
+    // }
+
+    try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream("/pianoHeroFiles/filename.txt"), "utf-8"))) {
+
+      writer.write("something");
+    } catch (IOException e) {
+      System.err.println("ERROR: error saving the file");
+      e.printStackTrace();
+    }
   }
 
   private static void runSparkServer() {
