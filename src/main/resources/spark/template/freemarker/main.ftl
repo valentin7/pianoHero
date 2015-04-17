@@ -14,8 +14,7 @@
 
   <body id="body">
     <h1>PIANO HERO</h1>
-    <form action="/storesong"
-      enctype="multipart/form-data" method="post">
+    <form action="/storesong" enctype="multipart/form-data" method="POST">
       <p>
       Name of the song:<br>
       <input type="text" name="songTitle" size="30">

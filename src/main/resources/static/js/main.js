@@ -21,12 +21,12 @@ function createSong() {
     randomKeyStrokes[i] = new Array(maxKeys);
     randomKeyStrokes[i][skipStep] = true;
 
-    for (var j = 1; j < maxKeys; j++) {
+    for (var j = 0; j < maxKeys; j++) {
       if (j != skipStep){
         randomKeyStrokes[i][j] = false;
       }
     }
-    /*for (var strokeIndex = 0; strokeIndex < maxKeys; strokeIndex+=skipStep) {
+    /*for (var strokeIndex = startingIndex; strokeIndex < maxKeys; strokeIndex+=skipStep) {
       randomKeyStrokes[i][strokeIndex] = true;
     }*/
   }
