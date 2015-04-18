@@ -91,12 +91,28 @@ public class Main {
 
         return GSON.toJson(songs);
       } catch (final SQLException e) {
-        e.printStackTrace();
         System.err.println("ERROR: Error receiving songs from database.");
-        return null;
+        return GSON.toJson(null);
       }
     }
   }
+  
+  private static class PlaySongHandler implements Route {
+    @Override
+    public Object handle(final Request req, final Response res) {
+      final QueryParamsMap qm = req.queryMap();
+      final int songID = Integer.parseInt(qm.value("songID"));
+      
+      try {
+        Song song = phquery.getSongById(songID);
+        return GSON.toJson(song);
+      } catch (SQLException e) {
+        System.err.println("ERROR: Error receiving song information from database.");
+        return GSON.toJson(null);
+      }
+    }
+  }
+
 
   private static class MainMenuView implements TemplateViewRoute {
     @Override
@@ -225,5 +241,6 @@ public class Main {
     Spark.get("/getsongs", new MainMenuSongsHandler());
     Spark.get("/gethighscores", new HighScoresHandler());
     Spark.post("/storesong", new SongFactoryHandler());
+    Spark.post("/getsongtoplay", new PlaySongHandler());
   }
 }

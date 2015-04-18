@@ -11,6 +11,19 @@ $(document).ready(function(){
 	}
 
 	//////////////////////////////////
+	// GET SONG INFO FROM SERVER
+	//////////////////////////////////
+	var song;
+	var songID = window.location.hash.substring(1);
+	var postParameters = {
+		songID: songID
+	};
+	$.post("/getsongtoplay", postParameters, function(responseJSON){
+		song = JSON.parse(responseJSON);
+		console.log(song);
+	})
+
+	//////////////////////////////////
 	// SCREEN ELEMENTS
 	//////////////////////////////////
 	var curr = macMiller;

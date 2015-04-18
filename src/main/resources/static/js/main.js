@@ -5,6 +5,7 @@ $(document).ready(function(){
 	// GETTING SONG INFORMATION FROM SERVER
 	/////////////////////////////////////////////////////
 	
+	/*
 	var currInd = 0;
 	var curr;
 	var list = [];
@@ -21,7 +22,7 @@ $(document).ready(function(){
 		}
 		curr = list[currInd];
 		setPageElements();
-	})
+	}) */
 
 
 	/////////////////////////////////////////////////////
@@ -42,16 +43,16 @@ $(document).ready(function(){
 		songImage: "../img/sweatshirt.jpg"
 	}
 
-	//var list = [whiteStripes, macMiller, earlSweatshirt];
+	var list = [whiteStripes, macMiller, earlSweatshirt];
 
 	/////////////////////////////////////////////////////////
 	// HOME ELEMENTS
 	/////////////////////////////////////////////////////////
 
 	// SET HOME ELEMENTS
-	//var currInd = 0;
-	//var curr = list[currInd];
-	//setPageElements();
+	var currInd = 0;
+	var curr = list[currInd];
+	setPageElements();
 
 	// ATTACH SCROLL FUNCTION TO BUTTONS
 	$("#leftArr").bind("click", function() {
@@ -65,6 +66,7 @@ $(document).ready(function(){
 	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
 	$("#playButt").bind("click", function() {
 		// method here to get html for game page and the correct information
+		window.location.href = '/playsong#' + curr.songID;
 	})
 
 	//SCROLL THROUGH LIST FUNCTION
