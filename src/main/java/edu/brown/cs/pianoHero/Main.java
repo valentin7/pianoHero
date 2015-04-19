@@ -8,8 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import spark.ExceptionHandler;
 import spark.ModelAndView;
@@ -34,7 +36,7 @@ public class Main {
 
     @Override
     public void
-    handle(final Exception e, final Request req, final Response res) {
+        handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -103,7 +105,7 @@ public class Main {
         return GSON.toJson(song);
       } catch (SQLException e) {
         System.err
-            .println("ERROR: Error receiving song information from database.");
+        .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
@@ -205,9 +207,30 @@ public class Main {
 
   private static void doTest() {
 
-    Song s = new Song("testSong", 2, "/pianoHeroFiles/songs/",
-        "/pianoHeroFiles/songImages/", null);
-    phManager.saveSong(s, null, null);
+    Set<File> allMp3s = new HashSet<File>();
+    File mp3File = new File("otherDirectory/Intro.mp3");
+    File imageFile = new File("otherDirectory/otherKiwiCover.png");
+
+    // PianoHeroFileHandler.getAllFilesAndFolder(mp3Dir, allMp3s);
+    //
+    // for (File fm : allMp3s) {
+    // System.out.println("song:");
+    // System.out.println(fm);
+    // if (!fm.isDirectory()) {
+    // File dest = new File(fm.getParentFile().toString(), "new"
+    // + fm.getName());
+    // // PianoHeroFileHandler.copyFile(fm, dest);
+    // }
+    // }
+
+    System.out.println("path:");
+    System.out.println(mp3File.getPath());
+    System.out.println(mp3File.toString());
+
+    boolean[][] keyStrokes = { {false, true}, {true, false}};
+    Song s = new Song("testSong", 2, mp3File.getPath(),
+        imageFile.getPath(), keyStrokes);
+    phManager.saveSong(s, mp3File, imageFile);
   }
 
   private static void runSparkServer() {

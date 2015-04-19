@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
@@ -70,6 +71,38 @@ public class PianoHeroFileHandler {
 
   }
 
+  public static void saveSongKeystrokes(boolean[][] keyStrokes, int songId) {
+    String path = "pianoHeroFiles/songKeyStrokes/";
+    String keyStrokesID = songId + "_keyStrokes.txt";
+    try (PrintWriter writer = new PrintWriter(path + keyStrokesID, "UTF-8")) {
+
+      for (int i = 0; i < keyStrokes.length; i++) {
+        String line = "";
+        for (int j = 0; j < keyStrokes[i].length; j++) {
+          String add = keyStrokes[i][j] ? "1" : "0";
+          line += add;
+        }
+        writer.println(line);
+      }
+      writer.close();
+    } catch (IOException e) {
+      System.err
+      .println("ERROR: error saving keystrokes for songId: " + songId);
+      // e.printStackTrace();
+    }
+  }
+
+  public boolean[][] convertBooleansTo2D(boolean[] array, int length) {
+    boolean[][] boolean2d = new boolean[length][array.length / length];
+
+    for (int i = 0; i < length; i++) {
+      for (int j = 0; j < array.length / length; j++) {
+        boolean2d[i][j] = array[i * j];
+      }
+    }
+    return boolean2d;
+  }
+
   public static void getAllFilesAndFolder(File folder, Set<File> all) {
     all.add(folder);
     if (folder.isFile()) {
@@ -113,7 +146,7 @@ public class PianoHeroFileHandler {
    * @throws IOException
    */
   public static void writeFile(String canonicalFilename, String text)
-    throws IOException
+      throws IOException
   {
     File file = new File(canonicalFilename);
     BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -133,13 +166,30 @@ public class PianoHeroFileHandler {
     InputStream inputStream = new ByteArrayInputStream(bytes);
     int token = -1;
 
-    while ((token = inputStream.read()) != -1)
-    {
+    while ((token = inputStream.read()) != -1) {
       bufferedOutputStream.write(token);
     }
     bufferedOutputStream.flush();
     bufferedOutputStream.close();
     inputStream.close();
+  }
+
+  /**
+   * Convert a byte array to a boolean array. Bit 0 is represented with false,
+   * Bit 1 is represented with 1
+   *
+   * @param bytes
+   *          byte[]
+   * @return boolean[]
+   */
+  public static boolean[] byteArray2BitArray(byte[] bytes) {
+    boolean[] bits = new boolean[bytes.length * 8];
+    for (int i = 0; i < bytes.length * 8; i++) {
+      if ((bytes[i / 8] & (1 << (7 - (i % 8)))) > 0) {
+        bits[i] = true;
+      }
+    }
+    return bits;
   }
 
 }

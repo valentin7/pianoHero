@@ -21,9 +21,8 @@ public class PianoHeroManager {
   }
 
   public void saveSong(Song song, File songFile, File songImage) {
-
     try {
-      File songDest = new File("pianoHeroFiles/songImages/"
+      File songDest = new File("pianoHeroFiles/songs/"
           + "copied" + songFile.getName());
       PianoHeroFileHandler.copyFile(songFile, songDest);
 
@@ -31,9 +30,13 @@ public class PianoHeroManager {
           + "copied" + songImage.getName());
       PianoHeroFileHandler.copyFile(songImage, imageDest);
 
+      PianoHeroFileHandler.saveSongKeystrokes(song.get_keyStrokes(),
+          song.get_id());
+
       phSQLCreate.fillSong(song);
     } catch (SQLException | IOException e) {
       System.err.println("ERROR: error saving song");
     }
   }
+
 }
