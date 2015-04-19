@@ -36,7 +36,7 @@ public class Main {
 
     @Override
     public void
-        handle(final Exception e, final Request req, final Response res) {
+    handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -105,7 +105,7 @@ public class Main {
         return GSON.toJson(song);
       } catch (SQLException e) {
         System.err
-        .println("ERROR: Error receiving song information from database.");
+            .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
@@ -135,8 +135,6 @@ public class Main {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
 
-      // TODO figure out best way to store mp3/ image files -> should
-      // back end or front end store them and how?
       // final String mp3Path = qm.value("mp3Path");
       // final String imagePath = qm.value("imagePath");
       File image = GSON.fromJson(qm.value("songImage"), File.class);
@@ -147,13 +145,17 @@ public class Main {
       File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
       System.out.println("song mp3 file name::");
       System.out.println(mp3);
+
       // System.out.println(mp3.getName());
       // TODO figure out if this works? should we be storing songs as 2D arrays
       // or as HashMaps?
       // final Map keyStrokes = GSON.fromJson(qm.value("keyStrokes"),
       // Map.class);
 
-      // TODO store the song data in the database
+      boolean[][] keyStrokes = { {false, true}, {true, false}};
+      Song s = new Song("testSong", 2, mp3.getPath(),
+          image.getPath(), keyStrokes);
+      phManager.saveSong(s, mp3, image);
 
       return null;
     }

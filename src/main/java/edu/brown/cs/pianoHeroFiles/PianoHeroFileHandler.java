@@ -103,6 +103,11 @@ public class PianoHeroFileHandler {
     return boolean2d;
   }
 
+  public static File getSongImageFromPath(String path) {
+    File image = new File(path);
+    return image;
+  }
+
   public static void getAllFilesAndFolder(File folder, Set<File> all) {
     all.add(folder);
     if (folder.isFile()) {

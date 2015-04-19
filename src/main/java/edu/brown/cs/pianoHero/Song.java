@@ -1,5 +1,7 @@
 package edu.brown.cs.pianoHero;
 
+import java.io.File;
+
 /**
  * Represents a song to be played in PianoHero.
  *
@@ -82,6 +84,24 @@ public class Song {
    */
   public String get_title() {
     return _title;
+  }
+
+  /**
+   * Gets the image associated with this song from its path.
+   *
+   * @return image File.
+   */
+  public File getImageFile() {
+    return new File(_imagePath);
+  }
+
+  /**
+   * Gets the mp3 file associated with this song from its path.
+   * 
+   * @return mp3 file.
+   */
+  public File getMp3Path() {
+    return new File(_mp3Path);
   }
 
 }

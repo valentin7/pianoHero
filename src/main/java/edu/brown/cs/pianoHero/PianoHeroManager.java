@@ -14,7 +14,7 @@ public class PianoHeroManager {
   PianoHeroSQLCreate phSQLCreate;
 
   public PianoHeroManager(String dbPath) throws ClassNotFoundException,
-      SQLException {
+  SQLException {
     // this.phQuery = phQuery;
     phFileHandler = new PianoHeroFileHandler();
     phSQLCreate = new PianoHeroSQLCreate(dbPath);
