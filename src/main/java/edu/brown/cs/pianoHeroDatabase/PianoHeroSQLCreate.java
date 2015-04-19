@@ -66,7 +66,7 @@ public class PianoHeroSQLCreate {
    * @throws SQLException
    *           : if there is an error with the query.
    */
-  public void fillSong(Song song) throws IOException, SQLException {
+  public void fillSong(Song song) {
     /*
      * prepares an all purpose insert statement for saving songs.
      */
@@ -103,7 +103,7 @@ public class PianoHeroSQLCreate {
    * @throws SQLException
    *           : if there is an error querying.
    */
-  public void fillScore(SongScore score) throws SQLException {
+  public void fillScore(SongScore score) {
     /*
      * prepare an all purpose insert statement; note the use of question marks.
      * Each question mark corresponds to an attribute. Essentially we are

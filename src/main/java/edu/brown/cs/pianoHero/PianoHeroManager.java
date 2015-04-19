@@ -30,11 +30,8 @@ public class PianoHeroManager {
           + "copied" + songImage.getName());
       PianoHeroFileHandler.copyFile(songImage, imageDest);
 
-      // PianoHeroFileHandler.saveSongKeystrokes(song.get_keyStrokes(),
-      // song.get_id());
-
       phSQLCreate.fillSong(song);
-    } catch (SQLException | IOException e) {
+    } catch (IOException e) {
       System.err.println("ERROR: error saving song");
     }
   }

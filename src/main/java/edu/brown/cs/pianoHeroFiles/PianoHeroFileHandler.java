@@ -60,6 +60,13 @@ public class PianoHeroFileHandler {
     }
   }
 
+  /**
+   * Saves an image to file directory and returns its saved path as a string
+   *
+   * @param image
+   *          file
+   * @return path saved
+   */
   public static String saveImage(File image) {
     try {
       File imageDir = new File("pianoHeroFiles/songImages/");
@@ -75,6 +82,13 @@ public class PianoHeroFileHandler {
     return null;
   }
 
+  /**
+   * Saves an mp3 file directory and returns its saved path as a string
+   *
+   * @param mp3
+   *          file
+   * @return path saved
+   */
   public static String saveMp3(File mp3) {
     try {
       File songsDir = new File("pianoHeroFiles/songs/");
@@ -106,7 +120,7 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-          .println("ERROR: error saving keystrokes for songId: " + songId);
+      .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
@@ -231,7 +245,7 @@ public class PianoHeroFileHandler {
    * @throws IOException
    */
   public static void writeFile(String canonicalFilename, String text)
-    throws IOException
+      throws IOException
   {
     File file = new File(canonicalFilename);
     BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -244,7 +258,7 @@ public class PianoHeroFileHandler {
    * plain text use the writeFile method.
    */
   public static void writeFileAsBytes(String fullPath, byte[] bytes)
-    throws IOException
+      throws IOException
   {
     OutputStream bufferedOutputStream = new BufferedOutputStream(
         new FileOutputStream(fullPath));

@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
 import edu.brown.cs.pianoHeroDatabase.PianoHeroQuery;
+import edu.brown.cs.pianoHeroDatabase.PianoHeroSQLCreate;
 import edu.brown.cs.pianoHeroFiles.PianoHeroFileHandler;
 import freemarker.template.Configuration;
 
@@ -37,7 +38,7 @@ public class Main {
 
     @Override
     public void
-    handle(final Exception e, final Request req, final Response res) {
+        handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -55,16 +56,16 @@ public class Main {
       final Map<Integer, Collection<SongScore>> scores =
           new HashMap<Integer, Collection<SongScore>>();
 
-      try {
-        for (final Integer id : songIDs) {
-          final Collection<SongScore> songScores = phquery.getScoresForSong(id);
-          scores.put(id, songScores);
-        }
-        return GSON.toJson(scores);
-      } catch (final SQLException e) {
-        System.err.println("ERROR: Error receiving high scores from database.");
-        return null;
+      // try {
+      for (final Integer id : songIDs) {
+        final Collection<SongScore> songScores = phquery.getScoresForSong(id);
+        scores.put(id, songScores);
       }
+      return GSON.toJson(scores);
+      // } catch (final SQLException e) {
+      // System.err.println("ERROR: Error receiving high scores from database.");
+      // return null;
+      // }
     }
   }
 
@@ -101,14 +102,14 @@ public class Main {
       final QueryParamsMap qm = req.queryMap();
       final int songID = Integer.parseInt(qm.value("songID"));
 
-      try {
-        Song song = phquery.getSongById(songID);
-        return GSON.toJson(song);
-      } catch (SQLException e) {
-        System.err
-            .println("ERROR: Error receiving song information from database.");
-        return GSON.toJson(null);
-      }
+      // try {
+      Song song = phquery.getSongById(songID);
+      return GSON.toJson(song);
+      // } catch (SQLException e) {
+      // System.err
+      // .println("ERROR: Error receiving song information from database.");
+      // return GSON.toJson(null);
+      // }
     }
   }
 
@@ -154,9 +155,15 @@ public class Main {
       // Map.class);
 
       boolean[][] keyStrokes = { {false, true}, {true, false}};
-      Song s = new Song("testSong", 2, mp3.getPath(),
-          image.getPath(), keyStrokes);
-      phManager.saveSong(s, mp3, image);
+
+      String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3);
+      String savedImagePath = PianoHeroFileHandler.saveImage(image);
+
+      Song s = new Song("testSong", 2, savedMp3Path,
+          savedImagePath, keyStrokes);
+      saveSongInDb(s);
+
+      // phManager.saveSong(s, mp3, image);
 
       return null;
     }
@@ -176,6 +183,8 @@ public class Main {
   private static final int STATUS = 500;
   private static String dbPath = "pianoHeroSQL.sqlite3";
   private static PianoHeroQuery phquery;
+  private static PianoHeroSQLCreate phSQLcreate;
+
   private static PianoHeroManager phManager;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 
@@ -196,6 +205,7 @@ public class Main {
   public static void main(String[] args) {
     try {
       phquery = new PianoHeroQuery(dbPath);
+      phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
@@ -239,29 +249,91 @@ public class Main {
 
     Song s = new Song("testSong", 2, savedMp3Path,
         savedImagePath, keyStrokes);
+    saveSongInDb(s);
 
-    phManager.saveSong(s, mp3File, imageFile);
+    // phManager.saveSong(s, mp3File, imageFile);
 
-    System.out.println("now showing we get the File from the song itself:");
-    File sImage = s.getImageFile();
-    File sSong = s.getMp3File();
-    boolean[][] retrievedStrokes = PianoHeroFileHandler.getStrokesArray(s
-        .get_keyStrokesPath());
-    System.out.println(sImage);
-    System.out.println(sSong);
+    System.out.println();
+    System.out
+    .println("now showing we get the Files and keystrokes from the song:");
+    Song retrievedSong = phquery.getSongById(2);
+    File sImage = retrievedSong.getImageFile();
+    File sSong = retrievedSong.getMp3File();
+    boolean[][] retrievedStrokes = PianoHeroFileHandler
+        .getStrokesArray(retrievedSong.get_keyStrokesPath());
+
     System.out.println(sImage.getPath());
     System.out.println(sSong.getPath());
-    System.out.println("keyStrokes:");
+    System.out.println("retrieved keyStrokes:");
     printKeyStrokes(retrievedStrokes);
 
+    System.out.println();
+    System.out.println("High scores:");
+    SongScore score = new SongScore(7, 99, "JJ");
+    SongScore score2 = new SongScore(6, 32, "JJ");
+    SongScore score3 = new SongScore(7, 22, "Tom");
+
+    List<SongScore> scores = new ArrayList<SongScore>();
+    scores.add(score);
+    scores.add(score2);
+    scores.add(score3);
+
+    saveScoresInDb(scores);
+    System.out.println("Scores from the database are: ");
+    printScoresForSong(7);
+    System.out.println();
+    printScoresForUser("JJ");
   }
 
+  /**
+   * prints keystrokes for given 2d boolean array.
+   *
+   * @param keyStrokes
+   */
   private static void printKeyStrokes(boolean[][] keyStrokes) {
     for (int i = 0; i < keyStrokes.length; i++) {
       for (int j = 0; j < keyStrokes[i].length; j++) {
         System.out.print(keyStrokes[i][j] + " ");
       }
       System.out.println();
+    }
+  }
+
+  /**
+   * prints the scores for a given song.
+   *
+   * @param keyStrokes
+   */
+  private static void printScoresForSong(int id) {
+    List<SongScore> scores = phquery.getScoresForSong(id);
+    for (int i = 0; i < scores.size(); i++) {
+      System.out.println(scores.get(i).toString());
+    }
+  }
+
+  /**
+   * prints the scores for a given user.
+   * 
+   * @param username
+   */
+  private static void printScoresForUser(String username) {
+    List<SongScore> scores = phquery.getScoresForUsername(username);
+    for (int i = 0; i < scores.size(); i++) {
+      System.out.println(scores.get(i).toString());
+    }
+  }
+
+  private static void saveSongInDb(Song s) {
+    phSQLcreate.fillSong(s);
+  }
+
+  private static void saveScoreInDb(SongScore s) {
+    phSQLcreate.fillScore(s);
+  }
+
+  private static void saveScoresInDb(List<SongScore> scores) {
+    for (SongScore s : scores) {
+      saveScoreInDb(s);
     }
   }
 

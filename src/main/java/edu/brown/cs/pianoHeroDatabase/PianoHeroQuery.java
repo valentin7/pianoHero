@@ -71,7 +71,7 @@ public class PianoHeroQuery {
    * @throws SQLException
    *           : error with the query
    */
-  public Song getSongById(int id) throws SQLException {
+  public Song getSongById(int id) {
     String query = "SELECT * FROM Song WHERE Song.id = ?;"; // WHERE id = ?";
 
     try (PreparedStatement prep = conn.prepareStatement(query)) {
@@ -86,6 +86,7 @@ public class PianoHeroQuery {
       // Object keyStrokes = results.getObject(SONGKEYS_INDEX);
       final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
 
+      System.out.println("keyStrokes path:: " + keyStrokesPath);
       Song s;
       boolean[][] songKeyStrokes = PianoHeroFileHandler
           .getStrokesArray(keyStrokesPath);
@@ -124,40 +125,47 @@ public class PianoHeroQuery {
   public List<Song> getAllSongs() throws SQLException {
     final String query =
         "SELECT * FROM Song LIMIT 200;";
-    final PreparedStatement prep =
-        conn.prepareStatement(query);
 
-    final ResultSet results = prep.executeQuery();
-    final List<Song> songs = new ArrayList<Song>();
+    try (
+        final PreparedStatement prep =
+        conn.prepareStatement(query)) {
 
-    while (results.next()) {
-      final String title = results.getString(SONGNAME_INDEX);
-      final int songId = results.getInt(SONGID_INDEX);
-      final String mp3Path = results.getString(SONGFILE_INDEX);
-      final String imagePath = results.getString(SONGIMAGE_INDEX);
-      // final Object keyStrokes = results.getObject(SONGKEYS_INDEX);
-      final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
+      final ResultSet results = prep.executeQuery();
+      final List<Song> songs = new ArrayList<Song>();
 
-      Song s;
-      boolean[][] songKeyStrokes = PianoHeroFileHandler
-          .getStrokesArray(keyStrokesPath);
+      while (results.next()) {
+        final String title = results.getString(SONGNAME_INDEX);
+        final int songId = results.getInt(SONGID_INDEX);
+        final String mp3Path = results.getString(SONGFILE_INDEX);
+        final String imagePath = results.getString(SONGIMAGE_INDEX);
+        // final Object keyStrokes = results.getObject(SONGKEYS_INDEX);
+        final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
 
-      s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);
+        Song s;
+        boolean[][] songKeyStrokes = PianoHeroFileHandler
+            .getStrokesArray(keyStrokesPath);
 
-      // if (keyStrokes instanceof String) {
-      // // this means we're getting from the fake, dummy database. So we put
-      // // null for the keys.
-      // s = new Song(title, songId, mp3Path, imagePath, null);
-      // } else {
-      // boolean[][] keys = (boolean[][]) keyStrokes;
-      // s = new Song(title, songId, mp3Path, imagePath, keys);
-      // }
-      songs.add(s);
+        s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);
+
+        // if (keyStrokes instanceof String) {
+        // // this means we're getting from the fake, dummy database. So we put
+        // // null for the keys.
+        // s = new Song(title, songId, mp3Path, imagePath, null);
+        // } else {
+        // boolean[][] keys = (boolean[][]) keyStrokes;
+        // s = new Song(title, songId, mp3Path, imagePath, keys);
+        // }
+        songs.add(s);
+      }
+      results.close();
+      prep.close();
+      return songs;
+
+    } catch (SQLException e) {
+      System.err.println("ERROR: error retrieving all songs");
     }
-    prep.close();
-    results.close();
 
-    return songs;
+    return null;
   }
 
   /**
@@ -169,7 +177,7 @@ public class PianoHeroQuery {
    * @throws SQLException
    *           if there is error querying the database.
    */
-  public List<SongScore> getScoresForSong(int songId) throws SQLException {
+  public List<SongScore> getScoresForSong(int songId) {
     try {
       String query = "SELECT * FROM Score WHERE songId = ? ORDER BY scoreValue DESC;";
 
@@ -205,8 +213,7 @@ public class PianoHeroQuery {
    * @throws SQLException
    *           if there is an error in the query.
    */
-  public List<SongScore> getScoresForUsername(String username)
-    throws SQLException {
+  public List<SongScore> getScoresForUsername(String username) {
     try {
       String query = "SELECT * FROM Score WHERE username = ? ORDER BY scoreValue DESC;";
 
