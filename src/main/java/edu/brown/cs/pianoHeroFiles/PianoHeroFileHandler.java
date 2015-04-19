@@ -1,4 +1,4 @@
-package edu.brown.cs.pianoHero;
+package edu.brown.cs.pianoHeroFiles;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
@@ -15,7 +15,7 @@ import java.io.Writer;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PianoFileHandler {
+public class PianoHeroFileHandler {
 
   public void doFileHandling() {
 
@@ -47,7 +47,7 @@ public class PianoFileHandler {
 
       Set<File> allMp3s = new HashSet<File>();
       File mp3Dir = new File("pianoHeroFiles/songs/");
-      getAllFileAndFolder(mp3Dir, allMp3s);
+      getAllFilesAndFolder(mp3Dir, allMp3s);
 
       for (File fm : allMp3s) {
         System.out.println("song:");
@@ -66,7 +66,11 @@ public class PianoFileHandler {
 
   }
 
-  public static void getAllFileAndFolder(File folder, Set<File> all) {
+  public void saveFile(File file) {
+
+  }
+
+  public static void getAllFilesAndFolder(File folder, Set<File> all) {
     all.add(folder);
     if (folder.isFile()) {
       return;
@@ -76,23 +80,27 @@ public class PianoFileHandler {
         all.add(file);
       }
       if (file.isDirectory()) {
-        getAllFileAndFolder(file, all);
+        getAllFilesAndFolder(file, all);
       }
     }
   }
 
-  static void copyFile(File src, File dst) throws IOException {
+  public static void copyFile(File src, File dst) throws IOException {
     InputStream in = new FileInputStream(src);
     OutputStream out = new FileOutputStream(dst);
-
-    // Transfer bytes from in to out
-    byte[] buf = new byte[1024];
-    int len;
-    while ((len = in.read(buf)) > 0) {
-      out.write(buf, 0, len);
+    try {
+      // Transfer bytes from in to out
+      byte[] buf = new byte[1024];
+      int len;
+      while ((len = in.read(buf)) > 0) {
+        out.write(buf, 0, len);
+      }
+    } catch (IOException e) {
+      System.err.println("ERROR: couldn't copy file in directory");
+    } finally {
+      in.close();
+      out.close();
     }
-    in.close();
-    out.close();
   }
 
   /**

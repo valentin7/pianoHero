@@ -34,7 +34,7 @@ public class Main {
 
     @Override
     public void
-        handle(final Exception e, final Request req, final Response res) {
+    handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -103,7 +103,7 @@ public class Main {
         return GSON.toJson(song);
       } catch (SQLException e) {
         System.err
-        .println("ERROR: Error receiving song information from database.");
+            .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
@@ -171,6 +171,7 @@ public class Main {
   private static final int STATUS = 500;
   private static String dbPath = "pianoHeroSQL.sqlite3";
   private static PianoHeroQuery phquery;
+  private static PianoHeroManager phManager;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 
   private static FreeMarkerEngine createEngine() {
@@ -190,16 +191,23 @@ public class Main {
   public static void main(String[] args) {
     try {
       phquery = new PianoHeroQuery(dbPath);
+      phManager = new PianoHeroManager(dbPath);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
       System.exit(-1);
     }
 
-    PianoFileHandler phFileHandler = new PianoFileHandler();
-
-    phFileHandler.doFileHandling();
-
+    // PianoHeroFileHandler phFileHandler = new PianoHeroFileHandler();
+    // phFileHandler.doFileHandling();
+    doTest();
     runSparkServer();
+  }
+
+  private static void doTest() {
+
+    Song s = new Song("testSong", 2, "/pianoHeroFiles/songs/",
+        "/pianoHeroFiles/songImages/", null);
+    phManager.saveSong(s, null, null);
   }
 
   private static void runSparkServer() {

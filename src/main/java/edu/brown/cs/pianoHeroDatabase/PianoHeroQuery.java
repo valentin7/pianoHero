@@ -71,9 +71,9 @@ public class PianoHeroQuery {
    *           : error with the query
    */
   public Song getSongById(int id) throws SQLException {
-    try {
-      String query = "SELECT * FROM Song WHERE Song.id = ?;"; // WHERE id = ?";
-      PreparedStatement prep = conn.prepareStatement(query);
+    String query = "SELECT * FROM Song WHERE Song.id = ?;"; // WHERE id = ?";
+
+    try (PreparedStatement prep = conn.prepareStatement(query)) {
       prep.setInt(1, id);
       ResultSet results = prep.executeQuery();
       results.next();
