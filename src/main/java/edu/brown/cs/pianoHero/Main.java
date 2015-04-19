@@ -1,9 +1,15 @@
 package edu.brown.cs.pianoHero;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,8 +18,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import spark.ExceptionHandler;
 import spark.ModelAndView;
@@ -61,7 +69,6 @@ public class Main {
           final Collection<SongScore> songScores = phquery.getScoresForSong(id);
           scores.put(id, songScores);
         }
-
         return GSON.toJson(scores);
       } catch (final SQLException e) {
         System.err.println("ERROR: Error receiving high scores from database.");
@@ -96,23 +103,23 @@ public class Main {
       }
     }
   }
-  
+
   private static class PlaySongHandler implements Route {
     @Override
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final int songID = Integer.parseInt(qm.value("songID"));
-      
+
       try {
         Song song = phquery.getSongById(songID);
         return GSON.toJson(song);
       } catch (SQLException e) {
-        System.err.println("ERROR: Error receiving song information from database.");
+        System.err
+        .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
   }
-
 
   private static class MainMenuView implements TemplateViewRoute {
     @Override
@@ -137,6 +144,7 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
+
       // TODO figure out best way to store mp3/ image files -> should
       // back end or front end store them and how?
       // final String mp3Path = qm.value("mp3Path");
@@ -205,7 +213,6 @@ public class Main {
   }
 
   private static void saveData() {
-
     // try (PrintWriter writer = new PrintWriter(
     // "sick.txt", "UTF-8")) {
     // writer.println("The first line");
@@ -217,13 +224,107 @@ public class Main {
     // }
 
     try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-        new FileOutputStream("/pianoHeroFiles/filename.txt"), "utf-8"))) {
+        new FileOutputStream("filename.txt"), "utf-8"))) {
+      File dir = new File("pianoHeroFiles/songImages/");
+      File actualFile = new File(dir, "hey");
 
+      File f = new File("C:\\pianoHeroFiles\\songImages\\kiwiCover.png");
+      System.out.println(f.getName().toString());
+
+      File newDir = new File("pianoHeroFiles/songImages/new/");
+      File newFile = new File(f, "kiwi2.png");
+
+      // System.out.println(actualFile);
       writer.write("something");
+
+      writeFile("pianoHeroFiles/test.txt", "something, brah.");
+
+      Set<File> allMp3s = new HashSet<File>();
+      File mp3Dir = new File("pianoHeroFiles/songs/");
+      getAllFileAndFolder(mp3Dir, allMp3s);
+
+      for (File fm : allMp3s) {
+        System.out.println("song:");
+        System.out.println(fm);
+        if (!fm.isDirectory()) {
+          File dest = new File(fm.getParentFile().toString(), "new"
+              + fm.getName());
+          copyFile(fm, dest);
+        }
+      }
+
     } catch (IOException e) {
       System.err.println("ERROR: error saving the file");
       e.printStackTrace();
     }
+  }
+
+  public static void getAllFileAndFolder(File folder, Set<File> all) {
+    all.add(folder);
+    if (folder.isFile()) {
+      return;
+    }
+    for (File file : folder.listFiles()) {
+      if (file.isFile()) {
+        all.add(file);
+      }
+      if (file.isDirectory()) {
+        getAllFileAndFolder(file, all);
+      }
+    }
+  }
+
+  static void copyFile(File src, File dst) throws IOException {
+    InputStream in = new FileInputStream(src);
+    OutputStream out = new FileOutputStream(dst);
+
+    // Transfer bytes from in to out
+    byte[] buf = new byte[1024];
+    int len;
+    while ((len = in.read(buf)) > 0) {
+      out.write(buf, 0, len);
+    }
+    in.close();
+    out.close();
+  }
+
+  /**
+   * Save the given text to the given filename.
+   *
+   * @param canonicalFilename
+   *          Like /Users/al/foo/bar.txt
+   * @param text
+   *          All the text you want to save to the file as one String.
+   * @throws IOException
+   */
+  public static void writeFile(String canonicalFilename, String text)
+    throws IOException
+  {
+    File file = new File(canonicalFilename);
+    BufferedWriter out = new BufferedWriter(new FileWriter(file));
+    out.write(text);
+    out.close();
+  }
+
+  /**
+   * Write an array of bytes to a file. Presumably this is binary data; for
+   * plain text use the writeFile method.
+   */
+  public static void writeFileAsBytes(String fullPath, byte[] bytes)
+      throws IOException
+  {
+    OutputStream bufferedOutputStream = new BufferedOutputStream(
+        new FileOutputStream(fullPath));
+    InputStream inputStream = new ByteArrayInputStream(bytes);
+    int token = -1;
+
+    while ((token = inputStream.read()) != -1)
+    {
+      bufferedOutputStream.write(token);
+    }
+    bufferedOutputStream.flush();
+    bufferedOutputStream.close();
+    inputStream.close();
   }
 
   private static void runSparkServer() {
@@ -237,7 +338,6 @@ public class Main {
     Spark.get("/highscores", new HighScoresView(), freeMarker);
     Spark.get("/playsong", new PlaySongView(), freeMarker);
     Spark.get("/songfactory", new SongFactoryView(), freeMarker);
-
     Spark.get("/getsongs", new MainMenuSongsHandler());
     Spark.get("/gethighscores", new HighScoresHandler());
     Spark.post("/storesong", new SongFactoryHandler());
