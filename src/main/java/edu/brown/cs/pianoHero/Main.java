@@ -37,7 +37,7 @@ public class Main {
 
     @Override
     public void
-        handle(final Exception e, final Request req, final Response res) {
+    handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -106,7 +106,7 @@ public class Main {
         return GSON.toJson(song);
       } catch (SQLException e) {
         System.err
-        .println("ERROR: Error receiving song information from database.");
+            .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
@@ -226,13 +226,19 @@ public class Main {
     // }
     // }
 
-    System.out.println("path:");
+    System.out.println("initial paths:");
     System.out.println(mp3File.getPath());
+    System.out.println(imageFile.getPath());
 
     boolean[][] keyStrokes = { {false, true}, {true, false}};
+    System.out.println("initial strokes: ");
+    printKeyStrokes(keyStrokes);
 
-    Song s = new Song("testSong", 2, mp3File.getPath(),
-        imageFile.getPath(), keyStrokes);
+    String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
+    String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
+
+    Song s = new Song("testSong", 2, savedMp3Path,
+        savedImagePath, keyStrokes);
 
     phManager.saveSong(s, mp3File, imageFile);
 
@@ -246,13 +252,17 @@ public class Main {
     System.out.println(sImage.getPath());
     System.out.println(sSong.getPath());
     System.out.println("keyStrokes:");
-    for (int i = 0; i < retrievedStrokes.length; i++) {
-      for (int j = 0; j < retrievedStrokes[i].length; j++) {
-        System.out.print(retrievedStrokes[i][j]);
+    printKeyStrokes(retrievedStrokes);
+
+  }
+
+  private static void printKeyStrokes(boolean[][] keyStrokes) {
+    for (int i = 0; i < keyStrokes.length; i++) {
+      for (int j = 0; j < keyStrokes[i].length; j++) {
+        System.out.print(keyStrokes[i][j] + " ");
       }
       System.out.println();
     }
-
   }
 
   private static void runSparkServer() {

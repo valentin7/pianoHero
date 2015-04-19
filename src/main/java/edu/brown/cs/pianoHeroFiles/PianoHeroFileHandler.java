@@ -24,16 +24,6 @@ public class PianoHeroFileHandler {
 
   public void doFileHandling() {
 
-    // try (PrintWriter writer = new PrintWriter(
-    // "sick.txt", "UTF-8")) {
-    // writer.println("The first line");
-    // writer.println("The second line");
-    // writer.close();
-    // } catch (IOException e) {
-    // System.err.println("ERROR: error saving file");
-    // e.printStackTrace();
-    // }
-
     try (Writer writer = new BufferedWriter(new OutputStreamWriter(
         new FileOutputStream("filename.txt"), "utf-8"))) {
       File dir = new File("pianoHeroFiles/songImages/");
@@ -68,11 +58,35 @@ public class PianoHeroFileHandler {
       System.err.println("ERROR: error saving the file");
       e.printStackTrace();
     }
-
   }
 
-  public void saveFile(File file) {
+  public static String saveImage(File image) {
+    try {
+      File imageDir = new File("pianoHeroFiles/songImages/");
+      File dest = new File(imageDir, "new"
+          + image.getName());
 
+      copyFile(image, dest);
+
+      return dest.getPath();
+    } catch (IOException e) {
+      System.err.println("ERROR: error saving image");
+    }
+    return null;
+  }
+
+  public static String saveMp3(File mp3) {
+    try {
+      File songsDir = new File("pianoHeroFiles/songs/");
+      File dest = new File(songsDir, "new"
+          + mp3.getName());
+
+      copyFile(mp3, dest);
+      return dest.getPath();
+    } catch (IOException e) {
+      System.err.println("ERROR: error saving image");
+    }
+    return null;
   }
 
   public static String saveSongKeystrokes(boolean[][] keyStrokes, int songId) {
@@ -92,8 +106,7 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-      .println("ERROR: error saving keystrokes for songId: " + songId);
-      // e.printStackTrace();
+          .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
@@ -103,28 +116,27 @@ public class PianoHeroFileHandler {
 
     for (int i = 0; i < length; i++) {
       for (int j = 0; j < array.length / length; j++) {
-        boolean2d[i][j] = array[i * j];
+        boolean2d[i][j] = array[j + i * length];
       }
     }
     return boolean2d;
   }
 
   public static boolean[] convert2DBooleansTo1D(boolean[][] boolean2D) {
-    // boolean[][] boolean2d = new boolean[length][array.length / length];
     boolean[] boolean1D = new boolean[boolean2D.length * boolean2D[0].length];
 
     for (int i = 0; i < boolean2D.length; i++) {
       for (int j = 0; j < boolean2D[i].length; j++) {
         assert (boolean2D[i].length == boolean2D[0].length);
-        boolean1D[j * (1 + i)] = boolean2D[i][j];
+        boolean1D[j + i * boolean2D.length] = boolean2D[i][j];
       }
     }
     return boolean1D;
   }
 
-  public static File getSongImageFromPath(String path) {
-    File image = new File(path);
-    return image;
+  public static File getFileFromPath(String path) {
+    File file = new File(path);
+    return file;
   }
 
   public static void getAllFilesAndFolder(File folder, Set<File> all) {
@@ -177,7 +189,6 @@ public class PianoHeroFileHandler {
 
       bufferedReader.close();
 
-      System.out.println(results1D);
       return convert1DBooleansTo2D(results1D, length);
 
     } catch (FileNotFoundException ex) {
@@ -220,7 +231,7 @@ public class PianoHeroFileHandler {
    * @throws IOException
    */
   public static void writeFile(String canonicalFilename, String text)
-      throws IOException
+    throws IOException
   {
     File file = new File(canonicalFilename);
     BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -233,7 +244,7 @@ public class PianoHeroFileHandler {
    * plain text use the writeFile method.
    */
   public static void writeFileAsBytes(String fullPath, byte[] bytes)
-      throws IOException
+    throws IOException
   {
     OutputStream bufferedOutputStream = new BufferedOutputStream(
         new FileOutputStream(fullPath));
