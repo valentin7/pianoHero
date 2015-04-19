@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 
 import edu.brown.cs.pianoHeroDatabase.PianoHeroQuery;
+import edu.brown.cs.pianoHeroFiles.PianoHeroFileHandler;
 import freemarker.template.Configuration;
 
 public class Main {
@@ -36,7 +37,7 @@ public class Main {
 
     @Override
     public void
-    handle(final Exception e, final Request req, final Response res) {
+        handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -105,7 +106,7 @@ public class Main {
         return GSON.toJson(song);
       } catch (SQLException e) {
         System.err
-            .println("ERROR: Error receiving song information from database.");
+        .println("ERROR: Error receiving song information from database.");
         return GSON.toJson(null);
       }
     }
@@ -227,12 +228,31 @@ public class Main {
 
     System.out.println("path:");
     System.out.println(mp3File.getPath());
-    System.out.println(mp3File.toString());
 
     boolean[][] keyStrokes = { {false, true}, {true, false}};
+
     Song s = new Song("testSong", 2, mp3File.getPath(),
         imageFile.getPath(), keyStrokes);
+
     phManager.saveSong(s, mp3File, imageFile);
+
+    System.out.println("now showing we get the File from the song itself:");
+    File sImage = s.getImageFile();
+    File sSong = s.getMp3File();
+    boolean[][] retrievedStrokes = PianoHeroFileHandler.getStrokesArray(s
+        .get_keyStrokesPath());
+    System.out.println(sImage);
+    System.out.println(sSong);
+    System.out.println(sImage.getPath());
+    System.out.println(sSong.getPath());
+    System.out.println("keyStrokes:");
+    for (int i = 0; i < retrievedStrokes.length; i++) {
+      for (int j = 0; j < retrievedStrokes[i].length; j++) {
+        System.out.print(retrievedStrokes[i][j]);
+      }
+      System.out.println();
+    }
+
   }
 
   private static void runSparkServer() {

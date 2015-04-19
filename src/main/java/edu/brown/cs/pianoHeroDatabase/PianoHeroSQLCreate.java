@@ -51,7 +51,7 @@ public class PianoHeroSQLCreate {
 
     // schema to create a table for songs
     String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
-        + "songImage TEXT, songKeys BLOB);";
+        + "songImage TEXT, songKeys TEXT);";
 
     buildTable(schema2);
   }
@@ -79,8 +79,9 @@ public class PianoHeroSQLCreate {
       ps.setString(3, song.get_mp3Path());
       ps.setString(4, song.get_imagePath());
 
-      ps.setObject(5, song.get_keyStrokes());
+      ps.setString(5, song.get_keyStrokesPath());
 
+      // PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, songId)
       // java.sql.Array keys = conn.createArrayOf("VARCHAR",
       // song.get_keyStrokes());
       // ps.setArray(5, keys);

@@ -1,11 +1,14 @@
 package edu.brown.cs.pianoHeroFiles;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +16,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,10 +75,11 @@ public class PianoHeroFileHandler {
 
   }
 
-  public static void saveSongKeystrokes(boolean[][] keyStrokes, int songId) {
+  public static String saveSongKeystrokes(boolean[][] keyStrokes, int songId) {
     String path = "pianoHeroFiles/songKeyStrokes/";
     String keyStrokesID = songId + "_keyStrokes.txt";
-    try (PrintWriter writer = new PrintWriter(path + keyStrokesID, "UTF-8")) {
+    String keyStrokesPath = path + keyStrokesID;
+    try (PrintWriter writer = new PrintWriter(keyStrokesPath, "UTF-8")) {
 
       for (int i = 0; i < keyStrokes.length; i++) {
         String line = "";
@@ -90,9 +95,10 @@ public class PianoHeroFileHandler {
       .println("ERROR: error saving keystrokes for songId: " + songId);
       // e.printStackTrace();
     }
+    return keyStrokesPath;
   }
 
-  public boolean[][] convertBooleansTo2D(boolean[] array, int length) {
+  public static boolean[][] convert1DBooleansTo2D(boolean[] array, int length) {
     boolean[][] boolean2d = new boolean[length][array.length / length];
 
     for (int i = 0; i < length; i++) {
@@ -101,6 +107,19 @@ public class PianoHeroFileHandler {
       }
     }
     return boolean2d;
+  }
+
+  public static boolean[] convert2DBooleansTo1D(boolean[][] boolean2D) {
+    // boolean[][] boolean2d = new boolean[length][array.length / length];
+    boolean[] boolean1D = new boolean[boolean2D.length * boolean2D[0].length];
+
+    for (int i = 0; i < boolean2D.length; i++) {
+      for (int j = 0; j < boolean2D[i].length; j++) {
+        assert (boolean2D[i].length == boolean2D[0].length);
+        boolean1D[j * (1 + i)] = boolean2D[i][j];
+      }
+    }
+    return boolean1D;
   }
 
   public static File getSongImageFromPath(String path) {
@@ -121,6 +140,56 @@ public class PianoHeroFileHandler {
         getAllFilesAndFolder(file, all);
       }
     }
+  }
+
+  public static boolean[][] getStrokesArray(String fileName) {
+    // This will reference one line at a time
+    String line = null;
+
+    // FileReader reads text files in the default encoding.
+    try (FileReader fileReader =
+        new FileReader(fileName)) {
+
+      // It's good to always wrap FileReader in BufferedReader.
+      BufferedReader bufferedReader =
+          new BufferedReader(fileReader);
+      System.out.println("opened file");
+
+      int length = 0;
+      ArrayList<Boolean> results = new ArrayList<Boolean>();
+      while ((line = bufferedReader.readLine()) != null) {
+        if (line != null) {
+          length = line.length();
+          for (int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) == '0') {
+              results.add(false);
+            } else if (line.charAt(i) == '1') {
+              results.add(true);
+            }
+          }
+        }
+      }
+
+      boolean[] results1D = new boolean[results.size()];
+      for (int i = 0; i < results.size(); i++) {
+        results1D[i] = results.get(i);
+      }
+
+      bufferedReader.close();
+
+      System.out.println(results1D);
+      return convert1DBooleansTo2D(results1D, length);
+
+    } catch (FileNotFoundException ex) {
+      System.out.println(
+          "Unable to open file '" +
+              fileName + "'");
+    } catch (IOException ex) {
+      System.out.println(
+          "Error reading file '"
+              + fileName + "'");
+    }
+    return null;
   }
 
   public static void copyFile(File src, File dst) throws IOException {

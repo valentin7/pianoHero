@@ -14,7 +14,7 @@ public class PianoHeroManager {
   PianoHeroSQLCreate phSQLCreate;
 
   public PianoHeroManager(String dbPath) throws ClassNotFoundException,
-  SQLException {
+      SQLException {
     // this.phQuery = phQuery;
     phFileHandler = new PianoHeroFileHandler();
     phSQLCreate = new PianoHeroSQLCreate(dbPath);
@@ -30,8 +30,8 @@ public class PianoHeroManager {
           + "copied" + songImage.getName());
       PianoHeroFileHandler.copyFile(songImage, imageDest);
 
-      PianoHeroFileHandler.saveSongKeystrokes(song.get_keyStrokes(),
-          song.get_id());
+      // PianoHeroFileHandler.saveSongKeystrokes(song.get_keyStrokes(),
+      // song.get_id());
 
       phSQLCreate.fillSong(song);
     } catch (SQLException | IOException e) {
