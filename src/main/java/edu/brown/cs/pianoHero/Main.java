@@ -138,9 +138,13 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
-      final String mp3Path = qm.value("mp3Path");
-      final String imagePath = qm.value("imagePath");
+      //final String mp3Path = qm.value("mp3Path");
+      //final String imagePath = qm.value("imagePath");
       final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
+      
+      File mp3Path = GSON.fromJson(qm.value("mp3Path"), File.class);
+      File imagePath = GSON.fromJson(qm.value("imagePath"), File.class);
+      
       
       // File image = GSON.fromJson(qm.value("songImage"), File.class);
       // System.out.println("image file name::");
@@ -183,7 +187,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: Song Factory");
-      return new ModelAndView(variables, "songfactory.ftl");
+      return new ModelAndView(variables, "testing.ftl");
     }
   }
 
