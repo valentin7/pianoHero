@@ -1,0 +1,395 @@
+body, html {
+	margin: 0;
+	padding: 0;
+	font-family: Roboto, Sans Serif;
+}
+
+.backLayer {
+	z-index: -50;
+	position: fixed;
+}
+
+#bckGndImg {
+	width: 100%;
+}
+
+.frontLayer {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+.darkerBackground {
+	background-color: rgba(0, 0, 0, .7);
+}
+
+h1, h2, h3, h4 {
+	color: #fff;
+	margin: 0 auto 0;
+	text-align: center;
+	letter-spacing: 3px;
+}
+
+h1 {
+	font-size: 72px;
+	font-weight: 900;
+}
+
+h2 {
+	font-size: 48px;
+}
+
+h3 {
+	font-size: 36px;
+	font-weight: 300;
+}
+
+h4 {
+	font-size: 24px;
+	font-weight: 100;
+}
+
+p {
+	font-size: 18px;
+}
+
+.medMarginTop {
+	margin-top: 1em;
+}
+
+.smallMarginBott {
+	margin-bottom: .6em;
+}
+
+button, .button {
+	position: relative;
+	display: block;
+	background-color: transparent;
+	border: 1px solid #fff;
+	color: #fff;
+	text-transform: uppercase;
+	font-size: 10px;
+	letter-spacing: 2px;
+	height: 5em;
+	text-align: center;
+	-webkit-transition: background-color 500ms;
+   transition: background-color 500ms;
+}
+
+button:hover, .button:hover {
+	background-color: rgba(0, 0, 0, .75);
+	border: 3px solid #fff;
+	cursor: pointer;
+	-webkit-transition: background-color 500ms;
+   transition: background-color 500ms;
+}
+
+.medButt {
+	width: 150px;
+}
+
+.bigButt {
+	width: 200px;
+}
+
+.centeredButt {
+	margin: 0 auto 0;
+}
+
+.topLeftButt {
+	position: absolute;
+	top: 36px;
+	left: 36px;
+}
+
+#songTitle {
+	margin: 15% 0 6px 0;
+}
+
+#artistName {
+	margin: 0 0 5% 0;
+}
+
+.arrowButt {
+	width: 50px;
+	position: absolute;
+	top: 45%;
+}
+
+#leftArr {
+	left: 36px;
+}
+
+#rightArr {
+	right: 36px;
+}
+
+.rightCol {
+	position: fixed;
+	width: 300px;
+	height: 100%;
+	right: 0px;
+	top: 0;
+	padding: 36px;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+label {
+	letter-spacing: 2px;
+}
+
+.smallLabel {
+	font-size: 12px;
+}
+
+.white {
+	color: #f2f2f2;
+}
+
+.light {
+	color: #acacac;
+}
+
+.dark {
+	color: #222;
+}
+
+.scoreDiv {
+	margin: 0 0 54px 0;
+}
+
+.barOutline {
+	position: relative;
+	height: 18px;
+	width: 200px;
+	border: 1px solid #f2f2f2;
+	margin: 0 auto 0;
+}
+
+.barInner {
+	height: 100%;
+	display: block;
+}
+
+.barLabel {
+	font-size: 10px;
+	position: absolute;
+	bottom: -15px;
+}
+
+#progressBar {
+	background-color: #f2f2f2;
+	width: 0%;
+}
+
+#lifeBar {
+	width: 100%;
+	background-color: green;
+}
+
+.leftBarLabel {
+	left: 0;
+}
+
+.rightBarLabel {
+	right: 0;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.gone {
+	display: none;
+}
+
+.mainDiv {
+	padding: 36px;
+	margin-right: 372px;
+	width: Calc(100% - 444px);
+}
+
+#songTitleGame {
+	margin-bottom: 4px;
+}
+
+#artistNameGame {
+	margin-bottom: 24px;
+}
+
+#gameDiv {
+	position: relative;
+	display: block;
+	width: 920px;
+	height: 650px;
+	margin: 0 auto 0;
+}
+
+.gameDivButt {
+	margin-top: 40px;
+}
+
+canvas {
+	display: block;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+#gameOverLay {
+	z-index: 10;
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#overLayMessage {
+	margin: 20% 0 0 0;
+}
+
+.subMessage {
+	text-align: center;
+	width: 500px;
+	margin: 10px auto 0;
+}
+
+.slot {
+	position: absolute;
+	z-index: 100;
+	text-transform: uppercase;
+	display: block;
+	height: 50px;
+	width: 50px;
+	color: black;
+	border: 1px solid black;
+}
+
+.gameSlot {
+	bottom: 100px;
+}
+
+.createSlot {
+	top: 50px;
+}
+
+.slot p {
+	text-align: center;
+	font-size: 18px;
+	margin-top: 15px;
+	margin-left: 2px;
+	padding: 0;
+}
+
+.redSlot {
+	background-color: red;
+}
+
+.pinkSlot {
+	background-color: pink;
+}
+
+.purpSlot {
+	background-color: purple;
+}
+
+.blueSlot {
+	background-color: blue;
+}
+
+.greenSlot {
+	background-color: green;
+}
+
+.yellSlot {
+	background-color: yellow;
+}
+
+.orangeSlot {
+	background-color: orange;
+}
+
+#zeroSlot {
+	left: 20px;
+}
+
+#oneSlot {
+	left: 80px;
+}
+
+#twoSlot {
+	left: 140px;
+}
+
+#threeSlot {
+	left: 200px;
+}
+
+#fourSlot {
+	left: 260px;
+}
+
+#fiveSlot {
+	left: 320px;
+}
+
+#sixSlot {
+	left: 435px;
+}
+
+#sevenSlot {
+	right: 320px;
+}
+
+#eightSlot {
+	right: 260px;
+}
+
+#nineSlot {
+	right: 200px;
+}
+
+#tenSlot {
+	right: 140px;
+}
+
+#elevenSlot {
+	right: 80px;
+}
+
+#twelveSlot {
+	right: 20px;
+}
+
+#artistNameGame {
+
+}
+
+#overLayForm {
+	width: 300px;
+	margin: 10px auto 0;
+}
+
+#overLayForm label {
+	text-transform: uppercase;
+	font-size: 12px;
+	color: white;
+}
+
+.overLayInput {
+	width: 300px;
+	height: 1.5em;
+	font-size: 18px;
+	margin: 4px auto 10px;
+	color: white;
+	display: block;
+}
+
+#overLayForm input[type="text"] {
+	border: none;
+	border-left: 2px solid white;
+	padding-left: 10px;
+	background-color: rgba(0,0,0, .1);
+}
