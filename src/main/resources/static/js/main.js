@@ -1,96 +1,98 @@
-
 $(document).ready(function(){
-
-	/////////////////////////////////////////////////////
-	// GETTING SONG INFORMATION FROM SERVER
-	/////////////////////////////////////////////////////
-	
-	/*
-	var currInd = 0;
-	var curr;
-	var list = [];
-
-	$.get("/getsongs", function(responseJSON) {
-		var songs = JSON.parse(responseJSON);
-		for (i = 0; i < songs.length; i++) {
-			var song = {
-				songID: songs[i]._id,
-				songTitle: songs[i]._title,
-				songImage: songs[i]._imagePath
-			}
-			list.push(song);
-		}
-		curr = list[currInd];
-		setPageElements();
-	}) */
-
 
 	/////////////////////////////////////////////////////
 	// LOCAL DEFAULTS
 	/////////////////////////////////////////////////////
-	var whiteStripes = {
-		songTitle: "Seven Nation Army",
-		songImage: "../img/seven.jpg"
+	var mickJenkins = {
+		artistName: "Mick Jenkins",
+		songTitle: "Jazz",
+		songImage: "../img/mick.png",
+		songFile: "../songFiles/Jazz.mp3"
 	}
 
 	var macMiller = {
-		songTitle: "Here We Go",
-		songImage: "../img/macmiller.jpg"
+		artistName: "Mac Miller",
+		songTitle: "Diablo",
+		songImage: "../img/mac2.png",
+		songFile: "../songFiles/Diablo.mp3"
 	}
 
-	var earlSweatshirt = {
-		songTitle: "Chum",
-		songImage: "../img/sweatshirt.jpg"
+	var vinceStaples = {
+		artistName: "Vince Staples",
+		songTitle: "Nate",
+		songImage: "../img/vince.jpg",
+		songFile: "../songFiles/Nate.mp3"
 	}
 
-	var list = [whiteStripes, macMiller, earlSweatshirt];
+	var _list = [mickJenkins, macMiller, vinceStaples];
 
 	/////////////////////////////////////////////////////////
 	// HOME ELEMENTS
 	/////////////////////////////////////////////////////////
 
 	// SET HOME ELEMENTS
-	var currInd = 0;
-	var curr = list[currInd];
+	var _currInd = 0;
+	var _curr = _list[_currInd];
+	var _song;
 	setPageElements();
 
 	// ATTACH SCROLL FUNCTION TO BUTTONS
-	$("#leftArr").bind("click", function() {
+	$("#leftArr").on("click", function() {
 		scrollThroughList("left");
 	})
-
-	$("#rightArr").bind("click", function() {
+	$("#rightArr").on("click", function() {
 		scrollThroughList("right");
 	})
-
-	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
-	$("#playButt").bind("click", function() {
-		// method here to get html for game page and the correct information
-		window.location.href = '/playsong#' + curr.songID;
-	})
+	$(document.body).on("keydown", function(e){
+		if (e.which == 37) { // left arrow key
+			hoverButton($("#leftArr"));
+			scrollThroughList("left");
+		}
+		if (e.which == 39) { // right arrow key
+			hoverButton($("#rightArr"));
+			scrollThroughList("right");
+		}
+  });
 
 	//SCROLL THROUGH LIST FUNCTION
 	function scrollThroughList(dir) {
 		if (dir == "right") {
-			if (currInd == list.length - 1) currInd = 0;
-			else currInd = currInd + 1;
+			if (_currInd == _list.length - 1) _currInd = 0;
+			else _currInd = _currInd + 1;
 		} else {
-			if (currInd == 0) currInd = list.length - 1;
-			else currInd = currInd - 1;
+			if (_currInd == 0) _currInd = _list.length - 1;
+			else _currInd = _currInd - 1;
 		}
-		curr = list[currInd];
+		_curr = _list[_currInd];
 		setPageElements();
 	}
 
 	// SET HOME PAGE ELEMENT FUNCTION
 	function setPageElements() {
-		console.log(curr.songImage);
-		$("#bckGndImg").attr("src", curr.songImage);
-		$("#songTitle").text(curr.songTitle);
+		if (_song != null) _song.pause();
+		_song = new Audio(_curr.songFile);
+		_song.play();
+		$("#bckGndImg").attr("src", _curr.songImage);
+		$("#songTitle").text(_curr.songTitle);
+		$("#artistName").text(_curr.artistName);
 	}
 
-	/////////////////////////////////////
-	//GAME DEFAULTS
-	/////////////////////////////////////
+	// MAKES BUTTON APPEAR HOVERED FOR THE ARROW KEYS
+	function hoverButton(button) {
+		button.css("background-color", "rgba(0, 0, 0, .9)");
+		button.css("border", "3px solid #fff");
+		setTimeout(function() {
+			button.removeAttr('style');
+		}, 800);
+	}
 
+	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
+	$("#playButt").on("click", function() {
+		window.location = "game.html";
+	})
+
+	// ATTACH TO CREATE BUTTON
+	$("#createButt").on("click", function(e) {
+		window.location = "create.html";
+	})
 });

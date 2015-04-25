@@ -138,15 +138,19 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
-      final String mp3Path = qm.value("mp3Path");
-      final String imagePath = qm.value("imagePath");
-      final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"),
-          boolean[].class);
 
-      File image = GSON.fromJson(qm.value("songImage"), File.class);
-      System.out.println("image file name::");
-      System.out.println(image);
-      System.out.println(image.getName());
+      //final String mp3Path = qm.value("mp3Path");
+      //final String imagePath = qm.value("imagePath");
+      final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
+      
+      File mp3Path = GSON.fromJson(qm.value("mp3Path"), File.class);
+      File imagePath = GSON.fromJson(qm.value("imagePath"), File.class);
+      
+      
+      // File image = GSON.fromJson(qm.value("songImage"), File.class);
+      // System.out.println("image file name::");
+      // System.out.println(image);
+      // System.out.println(image.getName());
 
       // File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
       // System.out.println("song mp3 file name::");
