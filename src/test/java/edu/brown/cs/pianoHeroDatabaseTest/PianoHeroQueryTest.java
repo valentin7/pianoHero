@@ -19,7 +19,6 @@ public class PianoHeroQueryTest {
     System.out.println("QUERY!!! ");
     System.out.println(query);
     Song a = query.getSongById(1);
-    System.out.println("song name: " + a.get_id());
     assertTrue(a.get_title().equals("Intro"));
   }
 
@@ -42,7 +41,8 @@ public class PianoHeroQueryTest {
   }
 
   @Test
-  public void gettingScoresTest() throws ClassNotFoundException, SQLException {
+  public void gettingScoresTest() throws ClassNotFoundException, SQLException
+  {
     PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<SongScore> songScores = query.getScoresForSong(1);
 

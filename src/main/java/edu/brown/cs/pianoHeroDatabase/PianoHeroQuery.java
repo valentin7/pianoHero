@@ -89,7 +89,7 @@ public class PianoHeroQuery {
       System.out.println("keyStrokes path:: " + keyStrokesPath);
       Song s;
 
-      boolean[][] songKeyStrokes = PianoHeroFileHandler
+      boolean[] songKeyStrokes = PianoHeroFileHandler
           .getStrokesArray(keyStrokesPath);
 
       s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);
@@ -134,7 +134,6 @@ public class PianoHeroQuery {
       final ResultSet results = prep.executeQuery();
       final List<Song> songs = new ArrayList<Song>();
 
-
       while (results.next()) {
         final String title = results.getString(SONGNAME_INDEX);
         final int songId = results.getInt(SONGID_INDEX);
@@ -144,7 +143,7 @@ public class PianoHeroQuery {
         final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
 
         Song s;
-        boolean[][] songKeyStrokes = PianoHeroFileHandler
+        boolean[] songKeyStrokes = PianoHeroFileHandler
             .getStrokesArray(keyStrokesPath);
 
         s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);

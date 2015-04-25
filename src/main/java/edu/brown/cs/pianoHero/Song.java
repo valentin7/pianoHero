@@ -14,7 +14,7 @@ public class Song {
 
   private final String _title;
   private final int _id;
-  private final boolean[][] _keyStrokes;
+  private final boolean[] _keyStrokes;
   private String _mp3Path;
   private File _mp3File;
   private File _imageFile;
@@ -36,7 +36,7 @@ public class Song {
    *          the path to the 2D array containing the song's keystrokes
    */
   public Song(String title, int id, String mp3Path, String imagePath,
-      boolean[][] keyStrokes) {
+      boolean[] keyStrokes) {
     _title = title;
     _id = id;
     _mp3Path = mp3Path;
@@ -118,7 +118,7 @@ public class Song {
    *
    * @return boolean array with key strokes.
    */
-  public boolean[][] getKeystrokes() {
+  public boolean[] getKeystrokes() {
     return _keyStrokes;
   }
 }
