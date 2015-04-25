@@ -30,7 +30,7 @@ public class SongScore {
 
   /**
    * Returns the user's score.
-   * 
+   *
    * @return the user's score
    */
   public int getScore() {
@@ -39,7 +39,7 @@ public class SongScore {
 
   /**
    * Returns the song ID.
-   * 
+   *
    * @return the song ID
    */
   public int getSongID() {
@@ -48,11 +48,16 @@ public class SongScore {
 
   /**
    * Returns the name of the user who received the score.
-   * 
+   *
    * @return the name of the user who received the score
    */
   public String getUserName() {
     return _userName;
+  }
+
+  @Override
+  public String toString() {
+    return getUserName() + " scored " + getScore() + " on song " + getSongID();
   }
 
 }

@@ -15,21 +15,24 @@ public class PianoHeroQueryTest {
 
   @Test
   public void simpleSongTest() throws ClassNotFoundException, SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
+    System.out.println("QUERY!!! ");
+    System.out.println(query);
     Song a = query.getSongById(1);
+    System.out.println("song name: " + a.get_id());
     assertTrue(a.get_title().equals("Intro"));
   }
 
   @Test
   public void song2Test() throws ClassNotFoundException, SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     Song a = query.getSongById(2);
     assertTrue(a.get_title().equals("Ertesuppe"));
   }
 
   @Test
   public void allSongsTest() throws ClassNotFoundException, SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<Song> all = query.getAllSongs();
     int addIds = 0;
     for (Song s : all) {
@@ -40,7 +43,7 @@ public class PianoHeroQueryTest {
 
   @Test
   public void gettingScoresTest() throws ClassNotFoundException, SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<SongScore> songScores = query.getScoresForSong(1);
 
     assertTrue(songScores.get(0).getUserName().equals("testUser1"));
@@ -50,7 +53,7 @@ public class PianoHeroQueryTest {
   @Test
   public void gettingMultipleScoresTest() throws ClassNotFoundException,
     SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<SongScore> songScores = query.getScoresForSong(2);
 
     assertTrue(songScores.get(0).getUserName().equals("testUser1"));
@@ -64,7 +67,7 @@ public class PianoHeroQueryTest {
   public void gettingScoreByUsernameTest()
     throws ClassNotFoundException,
     SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<SongScore> songScores = query
         .getScoresForUsername("testUser2");
 
@@ -76,7 +79,7 @@ public class PianoHeroQueryTest {
   public void gettingMultipleScoresByUsernameTest()
     throws ClassNotFoundException,
     SQLException {
-    PianoHeroQuery query = new PianoHeroQuery("pianoHeroSQL.sqlite3");
+    PianoHeroQuery query = new PianoHeroQuery("pianoHeroQueryTesting.sqlite3");
     List<SongScore> songScores = query
         .getScoresForUsername("testUser1");
 

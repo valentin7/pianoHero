@@ -1,5 +1,9 @@
 package edu.brown.cs.pianoHero;
 
+import java.io.File;
+
+import edu.brown.cs.pianoHeroFiles.PianoHeroFileHandler;
+
 /**
  * Represents a song to be played in PianoHero.
  *
@@ -10,9 +14,12 @@ public class Song {
 
   private final String _title;
   private final int _id;
-  private final String _mp3Path;
-  private final String _imagePath;
-  private final boolean[] _keyStrokes;
+  private final boolean[][] _keyStrokes;
+  private String _mp3Path;
+  private File _mp3File;
+  private File _imageFile;
+  private String _imagePath;
+  private String _keyStrokesPath;
 
   /**
    * Instantiates a new Song.
@@ -29,12 +36,16 @@ public class Song {
    *          the path to the 2D array containing the song's keystrokes
    */
   public Song(String title, int id, String mp3Path, String imagePath,
-      boolean[] keyStrokes) {
+      boolean[][] keyStrokes) {
     _title = title;
     _id = id;
     _mp3Path = mp3Path;
     _imagePath = imagePath;
     _keyStrokes = keyStrokes;
+    _keyStrokesPath = PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, id);
+
+    _mp3File = new File(_mp3Path);
+    _imageFile = new File(_imagePath);
   }
 
   /**
@@ -62,8 +73,8 @@ public class Song {
    * @return the path to the 2D array containing the song's keystrokes
    *         information
    */
-  public boolean[] get_keyStrokes() {
-    return _keyStrokes;
+  public String get_keyStrokesPath() {
+    return _keyStrokesPath;
   }
 
   /**
@@ -84,4 +95,30 @@ public class Song {
     return _title;
   }
 
+  /**
+   * Gets the image associated with this song.
+   *
+   * @return image File.
+   */
+  public File getImageFile() {
+    return _imageFile;
+  }
+
+  /**
+   * Gets the mp3 file associated with this song.
+   *
+   * @return mp3 file.
+   */
+  public File getMp3File() {
+    return _mp3File;
+  }
+
+  /**
+   * Gets the keystrokes array associated with this song.
+   *
+   * @return boolean array with key strokes.
+   */
+  public boolean[][] getKeystrokes() {
+    return _keyStrokes;
+  }
 }

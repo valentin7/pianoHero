@@ -17,10 +17,10 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void simpleFillSongTest() throws ClassNotFoundException, SQLException,
-  IOException {
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
-    boolean[] keyStrokes = {false, true};
+    boolean[][] keyStrokes = {{false, true}};
 
     Song s = new Song("NewSong", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
         keyStrokes);
@@ -34,8 +34,8 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void simpleFillScoreTest() throws ClassNotFoundException,
-  SQLException,
-  IOException {
+    SQLException,
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
     SongScore s = new SongScore(7, 99, "JJ");
@@ -50,11 +50,11 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void checkIfKeysConservedTest() throws ClassNotFoundException,
-  SQLException,
-  IOException {
+    SQLException,
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
-    boolean[] keyStrokes = {false, true};
+    boolean[][] keyStrokes = {{false, true}};
 
     Song s = new Song("NewSong", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
         keyStrokes);
@@ -63,7 +63,9 @@ public class PianoHeroSQLCreateTest {
 
     PianoHeroQuery query = new PianoHeroQuery("toFillPianoHeroSQL.sqlite3");
     Song a = query.getSongById(3);
-    System.out.println("song's keyStrokes: " + a.get_keyStrokes());
-    // assertTrue(a.get_keyStrokes().equals(keyStrokes));
+    System.out.println("song's keyStroke path:  " + a.get_keyStrokesPath());
+
+    // boolean[][] keyStrokes = PianoHeroFileHandler.get
+    // assertTrue(a.getKeystrokes().equals(keyStrokes));
   }
 }

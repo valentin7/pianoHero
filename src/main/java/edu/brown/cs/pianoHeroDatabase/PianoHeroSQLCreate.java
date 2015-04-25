@@ -51,7 +51,7 @@ public class PianoHeroSQLCreate {
 
     // schema to create a table for songs
     String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
-        + "songImage TEXT, songKeys BLOB);";
+        + "songImage TEXT, songKeys TEXT);";
 
     buildTable(schema2);
   }
@@ -66,34 +66,31 @@ public class PianoHeroSQLCreate {
    * @throws SQLException
    *           : if there is an error with the query.
    */
-  public void fillSong(Song song) throws IOException, SQLException {
+  public void fillSong(Song song) {
     /*
-     * prepare an all purpose insert statement; note the use of question marks.
-     * Each question mark corresponds to an attribute. Essentially we are
-     * building a tuple to insert into the table. This allows us to use the Same
-     * PreparedStatement without having to create a new one for each insertion.
+     * prepares an all purpose insert statement for saving songs.
      */
     String query = "INSERT INTO song VALUES (?,?,?,?,?)";
-    PreparedStatement ps = conn.prepareStatement(query);
 
-    ps.setInt(1, song.get_id());
-    ps.setString(2, song.get_title());
-    ps.setString(3, song.get_mp3Path());
-    ps.setString(4, song.get_imagePath());
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
 
-    ps.setObject(5, song.get_keyStrokes());
+      ps.setInt(1, song.get_id());
+      ps.setString(2, song.get_title());
+      ps.setString(3, song.get_mp3Path());
+      ps.setString(4, song.get_imagePath());
 
-    // java.sql.Array keys = conn.createArrayOf("VARCHAR",
-    // song.get_keyStrokes());
-    // ps.setArray(5, keys);
+      ps.setString(5, song.get_keyStrokesPath());
 
-    ps.executeUpdate();
+      // PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, songId)
+      // java.sql.Array keys = conn.createArrayOf("VARCHAR",
+      // song.get_keyStrokes());
+      // ps.setArray(5, keys);
 
-    /*
-     * Make sure to close all of your resources. Most JDBC classes need to be
-     * closed.
-     */
-    ps.close();
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      System.err.println("ERROR: error saving song to database");
+    }
+
   }
 
   /**
@@ -106,7 +103,7 @@ public class PianoHeroSQLCreate {
    * @throws SQLException
    *           : if there is an error querying.
    */
-  public void fillScore(SongScore score) throws IOException, SQLException {
+  public void fillScore(SongScore score) {
     /*
      * prepare an all purpose insert statement; note the use of question marks.
      * Each question mark corresponds to an attribute. Essentially we are
@@ -114,19 +111,17 @@ public class PianoHeroSQLCreate {
      * PreparedStatement without having to create a new one for each insertion.
      */
     String query = "INSERT INTO score VALUES (?,?,?)";
-    PreparedStatement ps = conn.prepareStatement(query);
 
-    ps.setInt(1, score.getSongID());
-    ps.setString(2, score.getUserName());
-    ps.setInt(3, score.getScore());
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+      ps.setInt(1, score.getSongID());
+      ps.setString(2, score.getUserName());
+      ps.setInt(3, score.getScore());
 
-    ps.executeUpdate();
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      System.err.println("ERROR: couldn't save song to database");
+    }
 
-    /*
-     * Make sure to close all of your resources. Most JDBC classes need to be
-     * closed.
-     */
-    ps.close();
   }
 
   /**
