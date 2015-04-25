@@ -51,6 +51,10 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final Map<Integer, Collection<SongScore>> scores =
           new HashMap<Integer, Collection<SongScore>>();
+      
+      // FOR TESTING PURPOSES
+      songIDs.add(1);
+      songIDs.add(2);
 
       try {
         for (final Integer id : songIDs) {
@@ -70,7 +74,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: High Scores");
-      return new ModelAndView(variables, "highScores.ftl");
+      return new ModelAndView(variables, "highscores.ftl");
     }
   }
 
@@ -100,7 +104,11 @@ public class Main {
 
       try {
         Song song = phquery.getSongById(songID);
-        return GSON.toJson(song);
+        List<SongScore> scores = phquery.getScoresForSong(songID);
+        
+        final Map<String, Object> variables =
+            ImmutableMap.of("song", song, "highScore", scores.get(0));
+        return GSON.toJson(variables);
       } catch (SQLException e) {
         System.err
         .println("ERROR: Error receiving song information from database.");
@@ -132,28 +140,33 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
-
-      // TODO figure out best way to store mp3/ image files -> should
-      // back end or front end store them and how?
-      // final String mp3Path = qm.value("mp3Path");
-      // final String imagePath = qm.value("imagePath");
-      File image = GSON.fromJson(qm.value("songImage"), File.class);
-      System.out.println("image file name::");
-      System.out.println(image);
+      final String mp3Path = qm.value("mp3Path");
+      final String imagePath = qm.value("imagePath");
+      final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
+      
+      // File image = GSON.fromJson(qm.value("songImage"), File.class);
+      // System.out.println("image file name::");
+      // System.out.println(image);
       // System.out.println(image.getName());
 
-      File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
-      System.out.println("song mp3 file name::");
-      System.out.println(mp3);
+      // File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
+      // System.out.println("song mp3 file name::");
+      // System.out.println(mp3);
       // System.out.println(mp3.getName());
-      // TODO figure out if this works? should we be storing songs as 2D arrays
-      // or as HashMaps?
-      // final Map keyStrokes = GSON.fromJson(qm.value("keyStrokes"),
-      // Map.class);
+      
+      System.out.println("NEW SONG RECIEVED");
+      System.out.println("Title: " + title);
+      System.out.println("MP3 path: " + mp3Path);
+      System.out.println("Image path: " + imagePath);
+      System.out.print("Keystrokes array: ");
+      for (boolean bool : keyStrokes) {
+        System.out.print(bool + " ");
+      }
+      
 
       // TODO store the song data in the database
 
-      return null;
+      return GSON.toJson(true);
     }
   }
 
@@ -162,7 +175,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: Song Factory");
-      return new ModelAndView(variables, "songFactory.ftl");
+      return new ModelAndView(variables, "songfactory.ftl");
     }
   }
 

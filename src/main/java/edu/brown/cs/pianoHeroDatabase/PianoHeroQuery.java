@@ -90,10 +90,10 @@ public class PianoHeroQuery {
         // this means we're getting from the fake, dummy database. So we put
         // null for the keys.
         s = new Song(title, songId, mp3Path, imagePath, null);
-        System.out.println("songkEYS GOT: " + keyStrokes);
+        //System.out.println("songkEYS GOT: " + keyStrokes);
       } else {
         System.out.println("DIDNT GET STRING!!");
-        boolean[][] keys = (boolean[][]) keyStrokes;
+        boolean[] keys = (boolean[]) keyStrokes;
         s = new Song(title, songId, mp3Path, imagePath, keys);
       }
 
@@ -137,7 +137,7 @@ public class PianoHeroQuery {
         // null for the keys.
         s = new Song(title, songId, mp3Path, imagePath, null);
       } else {
-        boolean[][] keys = (boolean[][]) keyStrokes;
+        boolean[] keys = (boolean[]) keyStrokes;
         s = new Song(title, songId, mp3Path, imagePath, keys);
       }
       songs.add(s);

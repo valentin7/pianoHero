@@ -12,7 +12,7 @@ public class Song {
   private final int _id;
   private final String _mp3Path;
   private final String _imagePath;
-  private final boolean[][] _keyStrokes;
+  private final boolean[] _keyStrokes;
 
   /**
    * Instantiates a new Song.
@@ -29,7 +29,7 @@ public class Song {
    *          the path to the 2D array containing the song's keystrokes
    */
   public Song(String title, int id, String mp3Path, String imagePath,
-      boolean[][] keyStrokes) {
+      boolean[] keyStrokes) {
     _title = title;
     _id = id;
     _mp3Path = mp3Path;
@@ -62,7 +62,7 @@ public class Song {
    * @return the path to the 2D array containing the song's keystrokes
    *         information
    */
-  public boolean[][] get_keyStrokes() {
+  public boolean[] get_keyStrokes() {
     return _keyStrokes;
   }
 
