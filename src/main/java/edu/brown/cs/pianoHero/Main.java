@@ -38,7 +38,7 @@ public class Main {
 
     @Override
     public void
-        handle(final Exception e, final Request req, final Response res) {
+    handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -268,7 +268,7 @@ public class Main {
 
     System.out.println();
     System.out
-    .println("now showing we get the Files and keystrokes from the song:");
+        .println("now showing we get the Files and keystrokes from the song:");
     Song retrievedSong = phquery.getSongById(2);
     File sImage = retrievedSong.getImageFile();
     File sSong = retrievedSong.getMp3File();
@@ -326,7 +326,7 @@ public class Main {
 
   /**
    * prints the scores for a given user.
-   * 
+   *
    * @param username
    */
   private static void printScoresForUser(String username) {
