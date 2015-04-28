@@ -218,7 +218,6 @@ public class Main {
   public static void main(String[] args) {
     try {
       phquery = new PianoHeroQuery(dbPath);
-      phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
@@ -227,7 +226,6 @@ public class Main {
 
     // PianoHeroFileHandler phFileHandler = new PianoHeroFileHandler();
     // phFileHandler.doFileHandling();
-    doTest();
     runSparkServer();
   }
 
@@ -260,7 +258,7 @@ public class Main {
     String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
     String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
 
-    Song s = new Song("testSong", 2, savedMp3Path,
+    Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
         savedImagePath, keyStrokes);
     saveSongInDb(s);
 

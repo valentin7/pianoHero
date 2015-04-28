@@ -1,5 +1,31 @@
 $(document).ready(function(){
 
+	////////////////////////////////////////////////////
+	// GETTING SONG INFORMATION FROM SERVER
+	/////////////////////////////////////////////////////
+	
+	var _currInd = 0;
+	var _curr;
+	var _song;
+	var _list = [];
+
+	$.get("/getsongs", function(responseJSON) {
+		var songs = JSON.parse(responseJSON);
+		console.log(songs);
+		for (i = 0; i < songs.length; i++) {
+			var song = {
+				songID: songs[i]._id,
+				songTitle: songs[i]._title,
+				songImage: songs[i]._imagePath,
+				songFile: songs[i]._mp3Path,
+				artistName: songs[i]._artistName
+			}
+			_list.push(song);
+		}
+		_curr = _list[_currInd];
+		setPageElements();
+	})
+
 	/////////////////////////////////////////////////////
 	// LOCAL DEFAULTS
 	/////////////////////////////////////////////////////
@@ -24,17 +50,15 @@ $(document).ready(function(){
 		songFile: "../songFiles/Nate.mp3"
 	}
 
-	var _list = [mickJenkins, macMiller, vinceStaples];
+	// var _list = [mickJenkins, macMiller, vinceStaples];
 
 	/////////////////////////////////////////////////////////
 	// HOME ELEMENTS
 	/////////////////////////////////////////////////////////
 
 	// SET HOME ELEMENTS
-	var _currInd = 0;
-	var _curr = _list[_currInd];
-	var _song;
-	setPageElements();
+	//var _currInd = 0;
+	//var _curr = _list[_currInd];
 
 	// ATTACH SCROLL FUNCTION TO BUTTONS
 	$("#leftArr").on("click", function() {
@@ -88,11 +112,11 @@ $(document).ready(function(){
 
 	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
 	$("#playButt").on("click", function() {
-		window.location = "game.html";
+		window.location.href = '/playsong#' + curr.songID;
 	})
 
 	// ATTACH TO CREATE BUTTON
 	$("#createButt").on("click", function(e) {
-		window.location = "create.html";
+		window.location.href = '/songfactory';
 	})
 });

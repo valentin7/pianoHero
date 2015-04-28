@@ -15,6 +15,7 @@
       <div class="centerLayer">
   	    <h3>Piano Hero</h3>
   	    <h1 id="songTitle"></h1>
+  	    <h3 id="artistName"></h3>
   	    <button id="playButt" class="medButt centeredButt">Play</button>
       </div>
 	    <button id="leftArr" class="arrowButt"><</button>

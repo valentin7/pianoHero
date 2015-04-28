@@ -20,6 +20,7 @@ public class Song {
   private File _imageFile;
   private String _imagePath;
   private String _keyStrokesPath;
+  private String _artistName;
 
   /**
    * Instantiates a new Song.
@@ -35,9 +36,10 @@ public class Song {
    * @param keyStrokes
    *          the path to the 2D array containing the song's keystrokes
    */
-  public Song(String title, int id, String mp3Path, String imagePath,
+  public Song(String title, String artistName, int id, String mp3Path, String imagePath,
       boolean[] keyStrokes) {
     _title = title;
+    _artistName = artistName;
     _id = id;
     _mp3Path = mp3Path;
     _imagePath = imagePath;
@@ -64,6 +66,15 @@ public class Song {
    */
   public String get_imagePath() {
     return _imagePath;
+  }
+  
+  /**
+   * Returns the song's artist's name.
+   *
+   * @return the song's artist's name
+   */
+  public String get_artistName() {
+    return _artistName;
   }
 
   /**

@@ -37,23 +37,27 @@ public class PianoHeroSQLCreate {
 
     // Set up a connection to the db
     conn = DriverManager.getConnection(urlToDB);
-
-    // These delete the tables if they already exist
-    Statement stat = conn.createStatement();
-    stat.execute("DROP TABLE IF EXISTS Song");
-    stat.execute("DROP TABLE IF EXISTS Score");
-    stat.close();
-
-    // schema to create a table for scores
-    String schema = "CREATE TABLE Score (songId INTEGER, username  TEXT, scoreValue INTEGER);";
-
-    buildTable(schema);
-
-    // schema to create a table for songs
-    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
-        + "songImage TEXT, songKeys TEXT);";
-
-    buildTable(schema2);
+    
+    
+    // If we use these lines we overwrite our database, which we don't always
+    // want to do
+    
+//    // These delete the tables if they already exist
+//    Statement stat = conn.createStatement();
+//    stat.execute("DROP TABLE IF EXISTS Song");
+//    stat.execute("DROP TABLE IF EXISTS Score");
+//    stat.close();
+//
+//    // schema to create a table for scores
+//    String schema = "CREATE TABLE Score (songId INTEGER, username  TEXT, scoreValue INTEGER);";
+//
+//    buildTable(schema);
+//
+//    // schema to create a table for songs
+//    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
+//        + "songImage TEXT, songKeys TEXT);";
+//
+//    buildTable(schema2);
   }
 
   /**
