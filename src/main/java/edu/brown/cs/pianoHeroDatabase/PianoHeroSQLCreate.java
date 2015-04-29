@@ -74,7 +74,7 @@ public class PianoHeroSQLCreate {
     /*
      * prepares an all purpose insert statement for saving songs.
      */
-    String query = "INSERT INTO song VALUES (?,?,?,?,?)";
+    String query = "INSERT INTO song VALUES (?,?,?,?,?,?,?)";
 
     try (PreparedStatement ps = conn.prepareStatement(query)) {
 
@@ -84,6 +84,8 @@ public class PianoHeroSQLCreate {
       ps.setString(4, song.get_imagePath());
 
       ps.setString(5, song.get_keyStrokesPath());
+      ps.setString(6, song.get_artistName());
+      ps.setInt(7, song.get_length());
 
       // PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, songId)
       // java.sql.Array keys = conn.createArrayOf("VARCHAR",
@@ -114,6 +116,7 @@ public class PianoHeroSQLCreate {
      * building a tuple to insert into the table. This allows us to use the Same
      * PreparedStatement without having to create a new one for each insertion.
      */
+    System.out.println("fillScore");
     String query = "INSERT INTO score VALUES (?,?,?)";
 
     try (PreparedStatement ps = conn.prepareStatement(query)) {
@@ -122,6 +125,7 @@ public class PianoHeroSQLCreate {
       ps.setInt(3, score.getScore());
 
       ps.executeUpdate();
+      System.out.println("executed");
     } catch (SQLException e) {
       System.err.println("ERROR: couldn't save song to database");
     }

@@ -81,6 +81,22 @@ public class Main {
       return new ModelAndView(variables, "highscores.ftl");
     }
   }
+  
+  private static class SaveScoreHandler implements Route {
+    @Override
+    public Object handle(final Request req, final Response res) {
+      final QueryParamsMap qm = req.queryMap();
+      final int songID = Integer.parseInt(qm.value("songID"));
+      final int score = Integer.parseInt(qm.value("score"));
+      final String user = qm.value("user");
+
+      SongScore ss = new SongScore(songID, score, user);
+      System.out.println("saving song");
+      saveScoreInDb(ss);
+      
+      return GSON.toJson(null);
+    }
+  }
 
   private static class MainMenuSongsHandler implements Route {
     @Override
@@ -222,6 +238,7 @@ public class Main {
   public static void main(String[] args) {
     try {
       phquery = new PianoHeroQuery(dbPath);
+      phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
@@ -378,5 +395,6 @@ public class Main {
     Spark.get("/gethighscores", new HighScoresHandler());
     Spark.post("/storesong", new SongFactoryHandler());
     Spark.post("/getsongtoplay", new PlaySongHandler());
+    Spark.post("/savescore", new SaveScoreHandler());
   }
 }

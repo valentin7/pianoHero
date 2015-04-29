@@ -122,7 +122,7 @@ $(document).ready(function(){
 		$("#songTitleGame").text(_curr.songTitle);
 		$("#highScore").text(_curr.highScore._score);
 		$("#score").text(_score);
-		$("#songLength").text(_soundFile.duration);
+		$("#songLength").text(convertSongLength());
 	}
 
 	// FOR WHEN USERS CLICK ON KEYS
@@ -140,6 +140,9 @@ $(document).ready(function(){
 
 	// CONVERTS SONG LENGTH TO SECS
 	function convertSongLength() {
+		var minutes = Math.floor(_totalSecs / 60);
+		var seconds = _totalSecs - (minutes * 60);
+		return minutes + ":" + seconds;
 	}
 
 	// CONVERTS CURR SEC TO PROGRESS
@@ -332,6 +335,12 @@ $(document).ready(function(){
 		if (_curr.highScore._score <= _score) {
 			_curr.highScore._score = _score;
 			// MORE HERE TO SAVE IT IN THE BACK END
+			var postParameters = {
+				songID: songID,
+				score: _score,
+				user: "Default"
+			};
+			$.post("/savescore", postParameters);
 		}
 	}
 
