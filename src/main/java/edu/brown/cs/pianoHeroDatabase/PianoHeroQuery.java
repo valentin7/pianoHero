@@ -28,6 +28,7 @@ public class PianoHeroQuery {
   private final int SONGIMAGE_INDEX = 4;
   private final int SONGKEYS_INDEX = 5;
   private final int ARTIST_INDEX = 6;
+  private final int LENGTH_INDEX = 7;
 
   private final int USERNAME_INDEX = 2;
   private final int SCOREVALUE_INDEX = 3;
@@ -87,6 +88,7 @@ public class PianoHeroQuery {
       // Object keyStrokes = results.getObject(SONGKEYS_INDEX);
       final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
       final String artistName = results.getString(ARTIST_INDEX);
+      final int length = results.getInt(LENGTH_INDEX);
 
       System.out.println("keyStrokes path:: " + keyStrokesPath);
       Song s;
@@ -94,7 +96,7 @@ public class PianoHeroQuery {
       boolean[] songKeyStrokes = PianoHeroFileHandler
           .getStrokesArray(keyStrokesPath);
 
-      s = new Song(title, artistName, songId, mp3Path, imagePath, songKeyStrokes);
+      s = new Song(title, artistName, songId, mp3Path, imagePath, length, songKeyStrokes);
 
       // if (keyStrokes instanceof String) {
       // // this means we're getting from the fake, dummy database. So we put
@@ -144,12 +146,13 @@ public class PianoHeroQuery {
         // final Object keyStrokes = results.getObject(SONGKEYS_INDEX);
         final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
         final String artistName = results.getString(ARTIST_INDEX);
+        final int length = results.getInt(LENGTH_INDEX);
 
         Song s;
         boolean[] songKeyStrokes = PianoHeroFileHandler
             .getStrokesArray(keyStrokesPath);
 
-        s = new Song(title, artistName, songId, mp3Path, imagePath, songKeyStrokes);
+        s = new Song(title, artistName, songId, mp3Path, imagePath, length, songKeyStrokes);
 
         // if (keyStrokes instanceof String) {
         // // this means we're getting from the fake, dummy database. So we put

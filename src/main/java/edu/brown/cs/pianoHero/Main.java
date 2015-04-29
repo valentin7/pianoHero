@@ -111,6 +111,7 @@ public class Main {
       if (scores.isEmpty()) {
         scores.add(new SongScore(songID, 0, "Default"));
       }
+      System.out.println(song.get_length());
       
       final Map<String, Object> variables =
           ImmutableMap.of("song", song, "highScore", scores.get(0));
@@ -262,7 +263,7 @@ public class Main {
     String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
 
     Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
-        savedImagePath, keyStrokes);
+        savedImagePath, 200, keyStrokes);
     saveSongInDb(s);
 
     // phManager.saveSong(s, mp3File, imageFile);

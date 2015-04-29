@@ -23,7 +23,7 @@ public class PianoHeroSQLCreateTest {
     boolean[] keyStrokes = {false, true};
 
     Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
-        keyStrokes);
+        200, keyStrokes);
 
     db.fillSong(s);
 
@@ -57,7 +57,7 @@ public class PianoHeroSQLCreateTest {
     boolean[] keyStrokes = {false, true};
 
     Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
-        keyStrokes);
+        200, keyStrokes);
 
     db.fillSong(s);
 

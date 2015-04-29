@@ -21,6 +21,7 @@ public class Song {
   private String _imagePath;
   private String _keyStrokesPath;
   private String _artistName;
+  private int _length;
 
   /**
    * Instantiates a new Song.
@@ -37,12 +38,13 @@ public class Song {
    *          the path to the 2D array containing the song's keystrokes
    */
   public Song(String title, String artistName, int id, String mp3Path, String imagePath,
-      boolean[] keyStrokes) {
+      int length, boolean[] keyStrokes) {
     _title = title;
     _artistName = artistName;
     _id = id;
     _mp3Path = mp3Path;
     _imagePath = imagePath;
+    _length = length;
     _keyStrokes = keyStrokes;
     _keyStrokesPath = PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, id);
 
@@ -57,6 +59,15 @@ public class Song {
    */
   public int get_id() {
     return _id;
+  }
+  
+  /**
+   * Returns the song's length.
+   *
+   * @return the song's length
+   */
+  public int get_length() {
+    return _length;
   }
 
   /**

@@ -14,7 +14,8 @@ $(document).ready(function(){
 			songFile: response.song._mp3Path,
 			songImage: response.song._imagePath,
 			songTitle: response.song._title,
-			highScore: response.highScore
+			highScore: response.highScore,
+			length: response.song._length
 		}
 		setUpAudio();
 		initiatePageElements();
@@ -36,7 +37,6 @@ $(document).ready(function(){
 	function genFakeArray() {
 		var array = [];
 		var numOfRows = figureNumOfRowsForArray();
-		console.log(numOfRows);
 
 		for (var i = 0; i < numOfRows + 1; i++) { //
 			var ind = getArrayInd(i);
@@ -102,9 +102,8 @@ $(document).ready(function(){
 		_src.src = _curr.songFile;
 		_soundFile.appendChild(_src);
 		_soundFile.load();
-		console.log(_soundFile);
 		_soundFile.volume = 0.500000;
-		_totalSecs = convertSongLengthToSecs();
+		_totalSecs = _curr.length;
 	}
 
 	// STOCK SOUNDS
@@ -140,8 +139,7 @@ $(document).ready(function(){
 	/////////////////////////////////////////
 
 	// CONVERTS SONG LENGTH TO SECS
-	function convertSongLengthToSecs() {
-		;
+	function convertSongLength() {
 	}
 
 	// CONVERTS CURR SEC TO PROGRESS
