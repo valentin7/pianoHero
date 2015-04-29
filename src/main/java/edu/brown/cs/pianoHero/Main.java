@@ -108,9 +108,10 @@ public class Main {
 
       Song song = phquery.getSongById(songID);
       List<SongScore> scores = phquery.getScoresForSong(songID);
+      if (scores.isEmpty()) {
+        scores.add(new SongScore(songID, 0, "Default"));
+      }
       
-      System.out.println(scores);
-
       final Map<String, Object> variables =
           ImmutableMap.of("song", song, "highScore", scores.get(0));
       return GSON.toJson(variables);

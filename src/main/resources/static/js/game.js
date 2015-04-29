@@ -36,6 +36,7 @@ $(document).ready(function(){
 	function genFakeArray() {
 		var array = [];
 		var numOfRows = figureNumOfRowsForArray();
+		console.log(numOfRows);
 
 		for (var i = 0; i < numOfRows + 1; i++) { //
 			var ind = getArrayInd(i);
@@ -63,6 +64,7 @@ $(document).ready(function(){
 	// SCREEN ELEMENTS
 	//////////////////////////////////
 	// var _curr = macMiller;
+	var _gameArray;
 	var _totalSecs;
 	var _life = 100;
 	var _progress = 0;
@@ -95,10 +97,12 @@ $(document).ready(function(){
 	function setUpAudio() {
 		_soundFile = document.createElement("audio");
 		_soundFile.preload = "auto";
+		_soundFile.id = "audio";
 		_src = document.createElement("source");
 		_src.src = _curr.songFile;
 		_soundFile.appendChild(_src);
 		_soundFile.load();
+		console.log(_soundFile);
 		_soundFile.volume = 0.500000;
 		_totalSecs = convertSongLengthToSecs();
 	}
@@ -111,10 +115,10 @@ $(document).ready(function(){
 	//////////////////
 	// GET IT STARTED
 	//////////////////
-	var _gameArray = genFakeArray();
 
 	// SETS ELEMENTS
 	function initiatePageElements() {
+		_gameArray = genFakeArray();
 		$("#bckGndImg").attr("src", _curr.songImage);
 		$("#songTitleGame").text(_curr.songTitle);
 		$("#highScore").text(_curr.highScore._score);
@@ -137,7 +141,7 @@ $(document).ready(function(){
 
 	// CONVERTS SONG LENGTH TO SECS
 	function convertSongLengthToSecs() {
-		_soundFile.duration;
+		;
 	}
 
 	// CONVERTS CURR SEC TO PROGRESS
