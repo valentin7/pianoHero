@@ -1,6 +1,26 @@
 $(document).ready(function(){
 
 	//////////////////////////////////
+	// GET SONG INFO FROM SERVER
+	//////////////////////////////////
+	var _curr;
+	var songID = window.location.hash.substring(1);
+	var postParameters = {
+		songID: songID
+	};
+	$.post("/getsongtoplay", postParameters, function(responseJSON){
+		response = JSON.parse(responseJSON);
+		_curr = {
+			songFile: response.song._mp3Path,
+			songImage: response.song._imagePath,
+			songTitle: response.song._title,
+			highScore: response.highScore
+		}
+		setUpAudio();
+		initiatePageElements();
+	})
+
+	//////////////////////////////////
 	// LOCAL DEFAULT INFO
 	//////////////////////////////////
 
@@ -16,6 +36,7 @@ $(document).ready(function(){
 	function genFakeArray() {
 		var array = [];
 		var numOfRows = figureNumOfRowsForArray();
+		console.log(numOfRows);
 
 		for (var i = 0; i < numOfRows + 1; i++) { //
 			var ind = getArrayInd(i);
@@ -42,8 +63,9 @@ $(document).ready(function(){
 	//////////////////////////////////
 	// SCREEN ELEMENTS
 	//////////////////////////////////
-	var _curr = macMiller;
-	var _totalSecs = convertSongLengthToSecs();
+	// var _curr = macMiller;
+	var _gameArray;
+	var _totalSecs;
 	var _life = 100;
 	var _progress = 0;
 	var _score = 0;
@@ -68,14 +90,22 @@ $(document).ready(function(){
 	// SOUND STUFF
 	//////////////////
 
+	var _soundFile;
+	var _src;
+
 	// SONG STUFF
-	var _soundFile = document.createElement("audio");
-	_soundFile.preload = "auto";
-	var _src = document.createElement("source");
-	_src.src = _curr.songFile;
-	_soundFile.appendChild(_src);
-	_soundFile.load();
-	_soundFile.volume = 0.500000;
+	function setUpAudio() {
+		_soundFile = document.createElement("audio");
+		_soundFile.preload = "auto";
+		_soundFile.id = "audio";
+		_src = document.createElement("source");
+		_src.src = _curr.songFile;
+		_soundFile.appendChild(_src);
+		_soundFile.load();
+		console.log(_soundFile);
+		_soundFile.volume = 0.500000;
+		_totalSecs = convertSongLengthToSecs();
+	}
 
 	// STOCK SOUNDS
 	var _tap = new Audio("../sounds/tap.mp3");
@@ -85,16 +115,15 @@ $(document).ready(function(){
 	//////////////////
 	// GET IT STARTED
 	//////////////////
-	var _gameArray = genFakeArray();
-	initiatePageElements();
 
 	// SETS ELEMENTS
 	function initiatePageElements() {
+		_gameArray = genFakeArray();
 		$("#bckGndImg").attr("src", _curr.songImage);
 		$("#songTitleGame").text(_curr.songTitle);
-		$("#highScore").text(_curr.highScore);
+		$("#highScore").text(_curr.highScore._score);
 		$("#score").text(_score);
-		$("#songLength").text(_curr.songLength);
+		$("#songLength").text(_soundFile.duration);
 	}
 
 	// FOR WHEN USERS CLICK ON KEYS
@@ -103,7 +132,7 @@ $(document).ready(function(){
   });
 
 	$("#homeButt").on("click", function(e) {
-		window.location = "index.html";
+		window.location = "/";
 	});
 
 	/////////////////////////////////////////
@@ -112,8 +141,7 @@ $(document).ready(function(){
 
 	// CONVERTS SONG LENGTH TO SECS
 	function convertSongLengthToSecs() {
-		var parts = _curr.songLength.split(":");
-		return Math.round(parts[0] * 60) + (parts[1] * 1);
+		;
 	}
 
 	// CONVERTS CURR SEC TO PROGRESS
@@ -282,7 +310,7 @@ $(document).ready(function(){
 		_currRow = -20;
 		$("#score").text(_score);
 		$("#score").css("color", "white");
-		$("#highScore").text(_curr.highScore);
+		$("#highScore").text(_curr.highScore._score);
 		$("#highScore").css("color", "white");
 		$("#playButt").css("visibility", "visible");
 		updateProgressBar();
@@ -293,7 +321,7 @@ $(document).ready(function(){
 	// INCREASES SCORE AND UPDATES IT VISUALLY
 	function updateScore() {
 		_score++;
-		if (_score == _curr.highScore) {
+		if (_score == _curr.highScore._score) {
 			$("#score").css("color", "gold");
 			$("#highScore").css("color", "red");
 		}
@@ -303,8 +331,8 @@ $(document).ready(function(){
 
 	// CHECKS IF THE HIGH SCORE WAS BEATEN TO RESET IT
 	function checkHighScore() {
-		if (_curr.highScore <= _score) {
-			_curr.highScore = _score;
+		if (_curr.highScore._score <= _score) {
+			_curr.highScore._score = _score;
 			// MORE HERE TO SAVE IT IN THE BACK END
 		}
 	}

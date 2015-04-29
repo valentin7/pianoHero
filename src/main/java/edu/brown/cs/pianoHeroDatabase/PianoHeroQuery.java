@@ -27,6 +27,7 @@ public class PianoHeroQuery {
   private final int SONGFILE_INDEX = 3;
   private final int SONGIMAGE_INDEX = 4;
   private final int SONGKEYS_INDEX = 5;
+  private final int ARTIST_INDEX = 6;
 
   private final int USERNAME_INDEX = 2;
   private final int SCOREVALUE_INDEX = 3;
@@ -85,14 +86,15 @@ public class PianoHeroQuery {
       String imagePath = results.getString(SONGIMAGE_INDEX);
       // Object keyStrokes = results.getObject(SONGKEYS_INDEX);
       final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
+      final String artistName = results.getString(ARTIST_INDEX);
 
       System.out.println("keyStrokes path:: " + keyStrokesPath);
       Song s;
 
-      boolean[][] songKeyStrokes = PianoHeroFileHandler
+      boolean[] songKeyStrokes = PianoHeroFileHandler
           .getStrokesArray(keyStrokesPath);
 
-      s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);
+      s = new Song(title, artistName, songId, mp3Path, imagePath, songKeyStrokes);
 
       // if (keyStrokes instanceof String) {
       // // this means we're getting from the fake, dummy database. So we put
@@ -134,7 +136,6 @@ public class PianoHeroQuery {
       final ResultSet results = prep.executeQuery();
       final List<Song> songs = new ArrayList<Song>();
 
-
       while (results.next()) {
         final String title = results.getString(SONGNAME_INDEX);
         final int songId = results.getInt(SONGID_INDEX);
@@ -142,12 +143,13 @@ public class PianoHeroQuery {
         final String imagePath = results.getString(SONGIMAGE_INDEX);
         // final Object keyStrokes = results.getObject(SONGKEYS_INDEX);
         final String keyStrokesPath = results.getString(SONGKEYS_INDEX);
+        final String artistName = results.getString(ARTIST_INDEX);
 
         Song s;
-        boolean[][] songKeyStrokes = PianoHeroFileHandler
+        boolean[] songKeyStrokes = PianoHeroFileHandler
             .getStrokesArray(keyStrokesPath);
 
-        s = new Song(title, songId, mp3Path, imagePath, songKeyStrokes);
+        s = new Song(title, artistName, songId, mp3Path, imagePath, songKeyStrokes);
 
         // if (keyStrokes instanceof String) {
         // // this means we're getting from the fake, dummy database. So we put

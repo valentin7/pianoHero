@@ -69,13 +69,20 @@ public class PianoHeroFileHandler {
    */
   public static String saveImage(File image) {
     try {
-      File imageDir = new File("pianoHeroFiles/songImages/");
-      File dest = new File(imageDir, "new"
+      // File imageDir = new File("pianoHeroFiles/songImages/");
+      File imageDir = new File("src/main/resources/static/img/");
+
+      File saveDir = new File("../img/");
+
+      File dest = new File(imageDir, ""
+          + image.getName());
+
+      File savedDir = new File(saveDir, ""
           + image.getName());
 
       copyFile(image, dest);
 
-      return dest.getPath();
+      return savedDir.getPath();
     } catch (IOException e) {
       System.err.println("ERROR: error saving image");
     }
@@ -91,19 +98,45 @@ public class PianoHeroFileHandler {
    */
   public static String saveMp3(File mp3) {
     try {
-      File songsDir = new File("pianoHeroFiles/songs/");
-      File dest = new File(songsDir, "new"
+      // File songsDir = new File("pianoHeroFiles/songs/");
+      File songsDir = new File("src/main/resources/static/songs/");
+      File saveDir = new File("../songs/");
+
+      File dest = new File(songsDir, ""
           + mp3.getName());
 
+      File saveDest = new File(saveDir, ""
+          + mp3.getName());
       copyFile(mp3, dest);
-      return dest.getPath();
+
+      return saveDest.getPath();
     } catch (IOException e) {
       System.err.println("ERROR: error saving image");
     }
     return null;
   }
 
-  public static String saveSongKeystrokes(boolean[][] keyStrokes, int songId) {
+  public static String saveSongKeystrokes(boolean[] keyStrokes, int songId) {
+    String path = "pianoHeroFiles/songKeyStrokes/";
+    String keyStrokesID = songId + "_keyStrokes.txt";
+    String keyStrokesPath = path + keyStrokesID;
+    try (PrintWriter writer = new PrintWriter(keyStrokesPath, "UTF-8")) {
+      String line = "";
+      for (int i = 0; i < keyStrokes.length; i++) {
+        String add = keyStrokes[i] ? "1" : "0";
+        line += add;
+      }
+      writer.println(line);
+
+      writer.close();
+    } catch (IOException e) {
+      System.err
+      .println("ERROR: error saving keystrokes for songId: " + songId);
+    }
+    return keyStrokesPath;
+  }
+
+  public static String save2DSongKeystrokes(boolean[][] keyStrokes, int songId) {
     String path = "pianoHeroFiles/songKeyStrokes/";
     String keyStrokesID = songId + "_keyStrokes.txt";
     String keyStrokesPath = path + keyStrokesID;
@@ -168,7 +201,7 @@ public class PianoHeroFileHandler {
     }
   }
 
-  public static boolean[][] getStrokesArray(String fileName) {
+  public static boolean[] getStrokesArray(String fileName) {
     // This will reference one line at a time
     String line = null;
 
@@ -203,7 +236,9 @@ public class PianoHeroFileHandler {
 
       bufferedReader.close();
 
-      return convert1DBooleansTo2D(results1D, length);
+      return results1D;
+
+      // convert1DBooleansTo2D(results1D, length);
 
     } catch (FileNotFoundException ex) {
       System.out.println(

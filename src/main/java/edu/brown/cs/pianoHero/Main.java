@@ -55,7 +55,7 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final Map<Integer, Collection<SongScore>> scores =
           new HashMap<Integer, Collection<SongScore>>();
-      
+
       // FOR TESTING PURPOSES
       songIDs.add(1);
       songIDs.add(2);
@@ -108,7 +108,10 @@ public class Main {
 
       Song song = phquery.getSongById(songID);
       List<SongScore> scores = phquery.getScoresForSong(songID);
-        
+      if (scores.isEmpty()) {
+        scores.add(new SongScore(songID, 0, "Default"));
+      }
+      
       final Map<String, Object> variables =
           ImmutableMap.of("song", song, "highScore", scores.get(0));
       return GSON.toJson(variables);
@@ -138,9 +141,14 @@ public class Main {
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
       final String title = qm.value("songTitle");
-      final String mp3Path = qm.value("mp3Path");
-      final String imagePath = qm.value("imagePath");
+
+      //final String mp3Path = qm.value("mp3Path");
+      //final String imagePath = qm.value("imagePath");
       final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
+      
+      File mp3Path = GSON.fromJson(qm.value("mp3Path"), File.class);
+      File imagePath = GSON.fromJson(qm.value("imagePath"), File.class);
+      
       
       // File image = GSON.fromJson(qm.value("songImage"), File.class);
       // System.out.println("image file name::");
@@ -152,7 +160,7 @@ public class Main {
       // System.out.println(mp3);
 
       // System.out.println(mp3.getName());
-      
+
       System.out.println("NEW SONG RECIEVED");
       System.out.println("Title: " + title);
       System.out.println("MP3 path: " + mp3Path);
@@ -161,16 +169,15 @@ public class Main {
       for (boolean bool : keyStrokes) {
         System.out.print(bool + " ");
       }
-      
 
-      //boolean[][] keyStrokes = { {false, true}, {true, false}};
+      // boolean[][] keyStrokes = { {false, true}, {true, false}};
 
-      //String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3);
-      //String savedImagePath = PianoHeroFileHandler.saveImage(image);
+      // String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3);
+      // String savedImagePath = PianoHeroFileHandler.saveImage(image);
 
-      //Song s = new Song("testSong", 2, savedMp3Path,
-      //    savedImagePath, keyStrokes);
-      //saveSongInDb(s);
+      // Song s = new Song("testSong", 2, savedMp3Path,
+      // savedImagePath, keyStrokes);
+      // saveSongInDb(s);
 
       // phManager.saveSong(s, mp3, image);
 
@@ -183,7 +190,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: Song Factory");
-      return new ModelAndView(variables, "songfactory.ftl");
+      return new ModelAndView(variables, "testing.ftl");
     }
   }
 
@@ -214,7 +221,6 @@ public class Main {
   public static void main(String[] args) {
     try {
       phquery = new PianoHeroQuery(dbPath);
-      phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
@@ -223,7 +229,6 @@ public class Main {
 
     // PianoHeroFileHandler phFileHandler = new PianoHeroFileHandler();
     // phFileHandler.doFileHandling();
-    doTest();
     runSparkServer();
   }
 
@@ -249,14 +254,14 @@ public class Main {
     System.out.println(mp3File.getPath());
     System.out.println(imageFile.getPath());
 
-    boolean[][] keyStrokes = { {false, true}, {true, false}};
+    boolean[] keyStrokes = {false, true, true, false};
     System.out.println("initial strokes: ");
     printKeyStrokes(keyStrokes);
 
     String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
     String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
 
-    Song s = new Song("testSong", 2, savedMp3Path,
+    Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
         savedImagePath, keyStrokes);
     saveSongInDb(s);
 
@@ -268,7 +273,7 @@ public class Main {
     Song retrievedSong = phquery.getSongById(2);
     File sImage = retrievedSong.getImageFile();
     File sSong = retrievedSong.getMp3File();
-    boolean[][] retrievedStrokes = PianoHeroFileHandler
+    boolean[] retrievedStrokes = PianoHeroFileHandler
         .getStrokesArray(retrievedSong.get_keyStrokesPath());
 
     System.out.println(sImage.getPath());
@@ -299,12 +304,23 @@ public class Main {
    *
    * @param keyStrokes
    */
-  private static void printKeyStrokes(boolean[][] keyStrokes) {
+  private static void print2DKeyStrokes(boolean[][] keyStrokes) {
     for (int i = 0; i < keyStrokes.length; i++) {
       for (int j = 0; j < keyStrokes[i].length; j++) {
         System.out.print(keyStrokes[i][j] + " ");
       }
       System.out.println();
+    }
+  }
+
+  /**
+   * prints keystrokes for given 2d boolean array.
+   *
+   * @param keyStrokes
+   */
+  private static void printKeyStrokes(boolean[] keyStrokes) {
+    for (int i = 0; i < keyStrokes.length; i++) {
+      System.out.print(keyStrokes[i] + " ");
     }
   }
 

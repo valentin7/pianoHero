@@ -8,27 +8,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/jquery-1.10.2.js"></script>
     <script src="js/jquery-ui.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/fileTesting.js"></script>
   </head>
 
 
   <body id="body">
     <h1>PIANO HERO</h1>
-    <form action="/storesong" enctype="multipart/form-data" method="POST">
+    <form id="form" action="/storesong" enctype="multipart/form-data" method="POST">
       <p>
       Name of the song:<br>
-      <input type="text" name="songTitle" size="30">
+      <input type="text" id="songTitle" size="30">
       </p>
       <p>
       Upload song image:<br>
-      <input type="file" name="songImage" size="40">
+      <input type="file" id="songImage" size="40">
       </p>
       <p>
       Upload song mp3:<br>
-      <input type="file" name="songMp3" size="40">
+      <input type="file" id="songMp3" size="40">
       </p>
       <div>
-      <input type="submit" value="Send">
+      <input type="submit" id="submitButton" value="Send">
       </div>
     </form>
 
