@@ -108,6 +108,8 @@ public class Main {
 
       Song song = phquery.getSongById(songID);
       List<SongScore> scores = phquery.getScoresForSong(songID);
+      
+      System.out.println(scores);
 
       final Map<String, Object> variables =
           ImmutableMap.of("song", song, "highScore", scores.get(0));

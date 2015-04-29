@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 	// ATTACH FUNCTION TO PLAY BUTTON SO GET NEW PAGE W/ CORRECT INFO
 	$("#playButt").on("click", function() {
-		window.location.href = '/playsong#' + curr.songID;
+		window.location.href = '/playsong#' + _curr.songID;
 	})
 
 	// ATTACH TO CREATE BUTTON
