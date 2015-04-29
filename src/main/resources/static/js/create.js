@@ -66,8 +66,8 @@ $(document).ready(function(){
       _curr.songLength = _song.duration;
       $("#songLength").text(convertSongSecsToNormal());
       _totalSecs = _song.duration;
-      //_totalSecs = 10;
-      _song.play();
+      _totalSecs = 5;
+      //_song.play();
     });
   })
 
@@ -300,13 +300,42 @@ $(document).ready(function(){
     _curr.gameArray = createGameArray();
     console.log("current object");
     console.log(_curr);
-    $("#overLayMessage").text("SAVED");
-    $("#recordButt").css("visibility", "hidden");
-    $("#restartButt").css("visibility", "hidden");
-    $("#restartButt2").css("display", "none");
-    $("#saveButt").css("display", "none");
-    $("#playButt").css("display", "block");
-    $("#createButt").css("display", "block");
+
+    var songText;
+
+    /*
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      //songText = reader.result;
+      console.log(reader.result);
+    }
+    reader.readAsText(_curr.songFile);
+    */
+
+    var url = URL.createObjectURL(_curr.songFile);
+
+    $.get(url, function(data){
+      console.log(data);
+    })
+
+    var postParameters = {
+      title: _curr.songTitle,
+      artist: _curr.artistName,
+      length: _curr.songLength,
+      mp3File: songText,
+      imgFile: JSON.stringify(_curr.songImage),
+      keyStrokes: JSON.stringify(_curr.gameArray)
+    };
+
+    $.post("/storesong", postParameters, function(responseJSON){
+      $("#overLayMessage").text("SAVED");
+      $("#recordButt").css ("visibility", "hidden");
+      $("#restartButt").css("visibility", "hidden");
+      $("#restartButt2").css("display", "none");
+      $("#saveButt").css("display", "none");
+      $("#playButt").css("display", "block");
+      $("#createButt").css("display", "block");
+    })
   }
 
   // TURNS THE KEYSTROKE ARRAY INTO A GAME ARRAY

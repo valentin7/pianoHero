@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>Piano Hero</title>
     <link rel="stylesheet" href="../css/main.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,700,900' rel='stylesheet' type='text/css'>
     <script src="../js/jquery-2.1.1.js"></script>
     <script src="../js/main.js"></script>
   </head>

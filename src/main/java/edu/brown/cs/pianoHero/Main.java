@@ -157,15 +157,12 @@ public class Main {
     @Override
     public Object handle(final Request req, final Response res) {
       final QueryParamsMap qm = req.queryMap();
-      final String title = qm.value("songTitle");
-
-      //final String mp3Path = qm.value("mp3Path");
-      //final String imagePath = qm.value("imagePath");
+      final String title = qm.value("title");
+      final String artist = qm.value("artist");
+      final int length = (int) Double.parseDouble(qm.value("length"));
+      final String mp3File = qm.value("mp3File");
+      final File imageFile = GSON.fromJson(qm.value("imgFile"), File.class);
       final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
-      
-      File mp3Path = GSON.fromJson(qm.value("mp3Path"), File.class);
-      File imagePath = GSON.fromJson(qm.value("imagePath"), File.class);
-      
       
       // File image = GSON.fromJson(qm.value("songImage"), File.class);
       // System.out.println("image file name::");
@@ -180,12 +177,11 @@ public class Main {
 
       System.out.println("NEW SONG RECIEVED");
       System.out.println("Title: " + title);
-      System.out.println("MP3 path: " + mp3Path);
-      System.out.println("Image path: " + imagePath);
       System.out.print("Keystrokes array: ");
       for (boolean bool : keyStrokes) {
         System.out.print(bool + " ");
       }
+      System.out.println(mp3File);
 
       // boolean[][] keyStrokes = { {false, true}, {true, false}};
 

@@ -212,7 +212,6 @@ public class PianoHeroFileHandler {
       // It's good to always wrap FileReader in BufferedReader.
       BufferedReader bufferedReader =
           new BufferedReader(fileReader);
-      System.out.println("opened file");
 
       int length = 0;
       ArrayList<Boolean> results = new ArrayList<Boolean>();
