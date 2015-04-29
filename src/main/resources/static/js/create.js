@@ -65,8 +65,8 @@ $(document).ready(function(){
     _song.addEventListener('loadedmetadata', function() {
       _curr.songLength = _song.duration;
       $("#songLength").text(convertSongSecsToNormal());
-      // _totalSecs = _song.duration;
-      _totalSecs = 10;
+      _totalSecs = _song.duration;
+      //_totalSecs = 10;
       _song.play();
     });
   })
@@ -84,7 +84,7 @@ $(document).ready(function(){
   });
 
   $("#homeButt").on("click", function(e) {
-    window.location = "index.html";
+    window.location = "/";
   });
 
   // CREATES A KEYSTROKE
@@ -343,7 +343,7 @@ $(document).ready(function(){
 
   // ATTACH FUNCTIONS AFTER SAVING GAME
   $("#createButt").on("click", function() {
-    window.location = "create.html";
+    window.location = "/songfactory";
   })
 
   $("#playButt").on("click", function() {

@@ -207,7 +207,7 @@ public class Main {
     public ModelAndView handle(Request req, Response res) {
       final Map<String, Object> variables =
           ImmutableMap.of("title", "PianoHero: Song Factory");
-      return new ModelAndView(variables, "testing.ftl");
+      return new ModelAndView(variables, "create.ftl");
     }
   }
 
