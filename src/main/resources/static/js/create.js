@@ -66,7 +66,7 @@ $(document).ready(function(){
       _curr.songLength = _song.duration;
       $("#songLength").text(convertSongSecsToNormal());
       _totalSecs = _song.duration;
-      //_song.play();
+      // _song.play();
     });
   })
 
@@ -358,7 +358,7 @@ $(document).ready(function(){
   })
 
   $("#playButt").on("click", function() {
-    window.location = "game.html";
+    window.location = "/";
   })
 
   // CHECKS IF CLICK WAS A HIT

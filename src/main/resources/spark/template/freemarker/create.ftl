@@ -37,16 +37,17 @@
         <div id="gameDiv" class="">
           <canvas id="canvas" width="920px" height="650px"></canvas>
           <div id="gameOverLay" class="">
-            <h2 id="overLayMessage" class="white">Put an mp3 in our Songs folder and an image in our Images folder</h2>
-            <p id="overLaySubMess" class="light subMessage">Then use those files to complete this form</p>
+            <h2 id="overLayMessage" class="white">To complete this form:</h2>
+            <p id="overLaySubMess" class="light subMessage">Place an mp3 in our Songs folder and image in our Images folder. 
+            Then use those files to complete this form.</p>
             <div id="overLayForm">
-              <label>mp3 file</label>
+              <label>mp3 file from our Songs folder</label>
               <input type="file" accept="audio/*" id="songFileInput" class="overLayInput"></input>
               <label>song title</label>
               <input type="text" id="songTitleInput" class="overLayInput"></input>
               <label>artist name</label>
               <input type="text" id="artistNameInput" class="overLayInput"></input>
-              <label>image for the song</label>
+              <label>image from our Images folder</label>
               <input type="file" accept="image/*" id="songImageInput" class="overLayInput"></input>
             </div>
             <button id="recordButt2" class="centeredButt medButt gameDivButt">start</button>

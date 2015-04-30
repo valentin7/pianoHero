@@ -3,7 +3,7 @@ $(document).ready(function(){
 	////////////////////////////////////////////////////
 	// GETTING SONG INFORMATION FROM SERVER
 	/////////////////////////////////////////////////////
-	
+
 	var _currInd = 0;
 	var _curr;
 	var _song;
@@ -95,6 +95,7 @@ $(document).ready(function(){
 	function setPageElements() {
 		if (_song != null) _song.pause();
 		_song = new Audio(_curr.songFile);
+		_song.volume = 0.15;
 		_song.play();
 		$("#bckGndImg").attr("src", _curr.songImage);
 		$("#songTitle").text(_curr.songTitle);

@@ -119,9 +119,10 @@ $(document).ready(function(){
 	// SETS ELEMENTS
 	function initiatePageElements() {
 		if (_curr.array.length === 0) {
+			console.log("made fake array");
 			_gameArray = genFakeArray();
 		} else {
-			_gameArray = _curr.array;
+			_gameArray = _curr.array.slice(0);
 		}
 
 		$("#bckGndImg").attr("src", _curr.songImage);
@@ -220,8 +221,6 @@ $(document).ready(function(){
 	function updateGame() {
 		_currSec = truncAtTwo(_currSec + _secPerRow);
 		_currRow = _currRow + 1;
-		// _currSec = truncAtTwo(_currSec + .05);
-		// _currRow = truncAtTwo(_currRow + .5);
 		_progress = getProgress();
 		updateProgressBar();
 		drawCanvas();
@@ -305,7 +304,11 @@ $(document).ready(function(){
 		$("#nextButt").css("display", "none");
 		_soundFile.pause();
 		_soundFile.currentTime = 0;
-		_gameArray = genFakeArray();
+		if (_curr.array.length !== 0) {
+			_gameArray = _curr.array.slice(0);
+		} else {
+			_gameArray = genFakeArray();
+		}
 		checkHighScore();
 		_life = 100;
 		_progress = 0;
