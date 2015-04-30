@@ -50,7 +50,6 @@ public class PianoHeroQuery {
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
     final Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys = ON;");
-    System.out.println("got here!!!");
     stat.close();
   }
 

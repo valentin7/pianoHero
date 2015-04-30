@@ -94,6 +94,7 @@ public class PianoHeroSQLCreate {
 
       ps.executeUpdate();
     } catch (SQLException e) {
+      e.printStackTrace();
       System.err.println("ERROR: error saving song to database");
     }
 

@@ -170,7 +170,7 @@ public class Main {
       Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath, length, keyStrokes);
       phManager.saveSong(s, mp3Name, imageName);
 
-      return GSON.toJson(true);
+      return GSON.toJson(maxID);
     }
   }
 
@@ -213,7 +213,7 @@ public class Main {
       phquery = new PianoHeroQuery(dbPath);
       phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
-      System.out.println(maxID);
+      maxID = phquery.getMaxID();
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
       System.exit(-1);
