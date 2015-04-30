@@ -11,16 +11,14 @@
     <img id="bckGndImg" class="backLayer" src="">
 
   	<div class="frontLayer">
-	  	<button id="createButt" class="topLeftButt bigButt">Create</button>
+	  	<button id="createButt" class="topLeftButt bigButt">Create Level</button>
 
-      <div class="centerLayer">
-  	    <h3>Piano Hero</h3>
-  	    <h1 id="songTitle"></h1>
-  	    <h3 id="artistName"></h3>
-  	    <button id="playButt" class="medButt centeredButt">Play</button>
-      </div>
-	    <button id="leftArr" class="arrowButt"><</button>
-	    <button id="rightArr" class="arrowButt">></button>
+      <h3 class="medMarginTop">Piano Hero</h3>
+  	  <h1 id="songTitle"></h1>
+  	  <h3 id="artistName"></h3>
+  	  <button id="playButt" class="medButt centeredButt">Play</button>
+	  <button id="leftArr" class="arrowButt"><</button>
+	  <button id="rightArr" class="arrowButt">></button>
     </div>
   </body>
 </html>

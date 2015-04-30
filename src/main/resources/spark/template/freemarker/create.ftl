@@ -37,8 +37,8 @@
         <div id="gameDiv" class="">
           <canvas id="canvas" width="920px" height="650px"></canvas>
           <div id="gameOverLay" class="">
-            <h2 id="overLayMessage" class="white">Please Fill Out Below</h2>
-            <p id="overLaySubMess" class="light subMessage"></p>
+            <h2 id="overLayMessage" class="white">Put an mp3 in our Songs folder and an image in our Images folder</h2>
+            <p id="overLaySubMess" class="light subMessage">Then use those files to complete this form</p>
             <div id="overLayForm">
               <label>mp3 file</label>
               <input type="file" accept="audio/*" id="songFileInput" class="overLayInput"></input>
