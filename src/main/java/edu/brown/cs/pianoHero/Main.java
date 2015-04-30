@@ -91,7 +91,7 @@ public class Main {
       final String user = qm.value("user");
 
       SongScore ss = new SongScore(songID, score, user);
-      saveScoreInDb(ss);
+      phquery.fillScore(ss);
       
       return GSON.toJson(null);
     }
@@ -168,7 +168,25 @@ public class Main {
       
       maxID++;
       Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath, length, keyStrokes);
-      phManager.saveSong(s, mp3Name, imageName);
+      
+      try {
+        File songFile = new File("Songs/" + mp3Name);
+        File songImage = new File("Images/" + imageName);
+        
+        File songDest = new File("pianoHeroFiles/songs/"
+            + "copied" + songFile.getName());
+        PianoHeroFileHandler.copyFile(songFile, songDest);
+
+        File imageDest = new File("pianoHeroFiles/songImages/"
+            + "copied" + songImage.getName());
+        
+        PianoHeroFileHandler.copyFile(songImage, imageDest);
+        phquery.fillSong(s);
+        
+      } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
 
       return GSON.toJson(maxID);
     }
@@ -191,7 +209,7 @@ public class Main {
   private static PianoHeroSQLCreate phSQLcreate;
   private static int maxID;
 
-  private static PianoHeroManager phManager;
+  //private static PianoHeroManager phManager;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 
   private static FreeMarkerEngine createEngine() {
@@ -212,7 +230,7 @@ public class Main {
     try {
       phquery = new PianoHeroQuery(dbPath);
       phSQLcreate = new PianoHeroSQLCreate(dbPath);
-      phManager = new PianoHeroManager(dbPath);
+      //phManager = new PianoHeroManager(dbPath);
       maxID = phquery.getMaxID();
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
