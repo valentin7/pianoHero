@@ -15,7 +15,8 @@ $(document).ready(function(){
 			songImage: response.song._imagePath,
 			songTitle: response.song._title,
 			highScore: response.highScore,
-			length: response.song._length
+			length: response.song._length,
+			array: response.song._keyStrokes
 		}
 		setUpAudio();
 		initiatePageElements();
@@ -117,7 +118,12 @@ $(document).ready(function(){
 
 	// SETS ELEMENTS
 	function initiatePageElements() {
-		_gameArray = genFakeArray();
+		if (_curr.array.length === 0) {
+			_gameArray = genFakeArray();
+		} else {
+			_gameArray = _curr.array;
+		}
+
 		$("#bckGndImg").attr("src", _curr.songImage);
 		$("#songTitleGame").text(_curr.songTitle);
 		$("#highScore").text(_curr.highScore._score);

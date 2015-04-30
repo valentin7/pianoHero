@@ -20,8 +20,11 @@ public class PianoHeroManager {
     phSQLCreate = new PianoHeroSQLCreate(dbPath);
   }
 
-  public void saveSong(Song song, File songFile, File songImage) {
+  public void saveSong(Song song, String songName, String imageName) {
     try {
+      File songFile = new File("Songs/" + songName);
+      File songImage = new File("Images/" + imageName);
+      
       File songDest = new File("pianoHeroFiles/songs/"
           + "copied" + songFile.getName());
       PianoHeroFileHandler.copyFile(songFile, songDest);

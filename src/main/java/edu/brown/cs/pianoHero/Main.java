@@ -91,7 +91,6 @@ public class Main {
       final String user = qm.value("user");
 
       SongScore ss = new SongScore(songID, score, user);
-      System.out.println("saving song");
       saveScoreInDb(ss);
       
       return GSON.toJson(null);
@@ -160,39 +159,17 @@ public class Main {
       final String title = qm.value("title");
       final String artist = qm.value("artist");
       final int length = (int) Double.parseDouble(qm.value("length"));
-      final String mp3File = qm.value("mp3File");
-      final File imageFile = GSON.fromJson(qm.value("imgFile"), File.class);
+      final String mp3Name = qm.value("mp3File");
+      final String imageName = qm.value("imgFile");
       final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
-      
-      // File image = GSON.fromJson(qm.value("songImage"), File.class);
-      // System.out.println("image file name::");
-      // System.out.println(image);
-      // System.out.println(image.getName());
 
-      // File mp3 = GSON.fromJson(qm.value("songMp3"), File.class);
-      // System.out.println("song mp3 file name::");
-      // System.out.println(mp3);
+      String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3Name);
+      String savedImagePath = PianoHeroFileHandler.saveImage(imageName);
 
-      // System.out.println(mp3.getName());
-
-      System.out.println("NEW SONG RECIEVED");
-      System.out.println("Title: " + title);
-      System.out.print("Keystrokes array: ");
-      for (boolean bool : keyStrokes) {
-        System.out.print(bool + " ");
-      }
-      System.out.println(mp3File);
-
-      // boolean[][] keyStrokes = { {false, true}, {true, false}};
-
-      // String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3);
-      // String savedImagePath = PianoHeroFileHandler.saveImage(image);
-
-      // Song s = new Song("testSong", 2, savedMp3Path,
-      // savedImagePath, keyStrokes);
-      // saveSongInDb(s);
-
-      // phManager.saveSong(s, mp3, image);
+      Song s = new Song(title, artist, 7, savedMp3Path, savedImagePath, length, keyStrokes);
+      saveSongInDb(s);
+      phManager.saveSong(s, mp3Name, imageName);
+      maxID++;
 
       return GSON.toJson(true);
     }
@@ -213,6 +190,7 @@ public class Main {
   private static String dbPath = "pianoHeroSQL.sqlite3";
   private static PianoHeroQuery phquery;
   private static PianoHeroSQLCreate phSQLcreate;
+  private static int maxID;
 
   private static PianoHeroManager phManager;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
@@ -236,6 +214,7 @@ public class Main {
       phquery = new PianoHeroQuery(dbPath);
       phSQLcreate = new PianoHeroSQLCreate(dbPath);
       phManager = new PianoHeroManager(dbPath);
+      System.out.println(maxID);
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
       System.exit(-1);
@@ -272,12 +251,12 @@ public class Main {
     System.out.println("initial strokes: ");
     printKeyStrokes(keyStrokes);
 
-    String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
-    String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
+    //String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
+    //String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
 
-    Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
-        savedImagePath, 200, keyStrokes);
-    saveSongInDb(s);
+    //Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
+     //   savedImagePath, 200, keyStrokes);
+    //saveSongInDb(s);
 
     // phManager.saveSong(s, mp3File, imageFile);
 

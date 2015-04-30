@@ -63,6 +63,15 @@ public class PianoHeroQuery {
   public void close() throws SQLException {
     conn.close();
   }
+  
+  public int getMaxID() throws SQLException {
+    String query = "SELECT id FROM Song ORDER BY id DESC;";
+    PreparedStatement prep = conn.prepareStatement(query);
+    
+    ResultSet results = prep.executeQuery();
+    results.next();
+    return results.getInt(1);
+  }
 
   /**
    * Gets a Song by its id.

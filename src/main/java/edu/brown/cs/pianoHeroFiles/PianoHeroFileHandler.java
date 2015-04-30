@@ -67,8 +67,9 @@ public class PianoHeroFileHandler {
    *          file
    * @return path saved
    */
-  public static String saveImage(File image) {
+  public static String saveImage(String imageName) {
     try {
+      File image = new File("Images/" + imageName);
       // File imageDir = new File("pianoHeroFiles/songImages/");
       File imageDir = new File("src/main/resources/static/img/");
 
@@ -96,8 +97,9 @@ public class PianoHeroFileHandler {
    *          file
    * @return path saved
    */
-  public static String saveMp3(File mp3) {
+  public static String saveMp3(String mp3Name) {
     try {
+      File mp3 = new File("Songs/" + mp3Name);
       // File songsDir = new File("pianoHeroFiles/songs/");
       File songsDir = new File("src/main/resources/static/songs/");
       File saveDir = new File("../songs/");
