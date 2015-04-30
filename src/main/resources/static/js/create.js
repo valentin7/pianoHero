@@ -66,7 +66,6 @@ $(document).ready(function(){
       _curr.songLength = _song.duration;
       $("#songLength").text(convertSongSecsToNormal());
       _totalSecs = _song.duration;
-      _totalSecs = 5;
       //_song.play();
     });
   })
