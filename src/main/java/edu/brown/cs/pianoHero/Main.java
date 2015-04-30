@@ -165,6 +165,8 @@ public class Main {
 
       String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3Name);
       String savedImagePath = PianoHeroFileHandler.saveImage(imageName);
+      
+      printKeyStrokes(keyStrokes);
 
       Song s = new Song(title, artist, 7, savedMp3Path, savedImagePath, length, keyStrokes);
       saveSongInDb(s);

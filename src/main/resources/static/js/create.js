@@ -327,18 +327,20 @@ $(document).ready(function(){
     console.log("number of rows:" + numOfRows);
 
     // create an array filled with falses
+    /*
     for (var i = 0; i < numOfRows + 1; i++) {
       var ind = getArrayInd(i);
       for (var j = ind; j < _numOfSlots + ind; j++) { // sets everything to false from left key dep on row
         array[j] = false;
       }
+    } */
+    for (var i = 0; i < numOfRows * _numOfSlots; i++) {
+      array[i] = false;
     }
 
     for (var i = 0; i < _keyStrokes.length; i++) {
-      var ind = getArrayInd(_keyStrokes[i].secs); // will have a sec of .1, so this finds its row
-      console.log("piece in row:" + ind);
+      var ind = getArrayInd(_keyStrokes[i].secs * 10); // will have a sec of .1, so this finds its row
       var col = _keyStrokes[i].type; // either 0 - 12
-      console.log("and col" + col);
       array[ind + col] = true;
     }
 
