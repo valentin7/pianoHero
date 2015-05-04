@@ -25,15 +25,16 @@ public class DifficultySongClassifier implements SongClassifier {
     int timeInterval = 0;
     int timeForPreviousStroke = 0;
 
-    for (int i = 0; i < keysLength; i++) {
+    // boolean[][] strokes2D = PianoHeroFileHandler
+    // .convert1DBooleansTo2D(keyStrokes, keysLength);
+
+    for (int i = 0; i < keyStrokes.length / keysLength; i++) {
       timeInterval++;
-      timeInterval = timeInterval % oneSecond;
 
-      for (int j = 0; j < keyStrokes.length / keysLength; j++) {
-        if (keyStrokes[j + i * keysLength]) {
+      for (int j = 0; j < keysLength; j++) {
 
+        if (keyStrokes[j + i * keysLength] == true) {
           int timeBetween = timeInterval - timeForPreviousStroke;
-
           currentDifficulty = currentDifficulty + getCloseAddition(timeBetween);
           currentDifficulty = currentDifficulty
               - getFarSubtraction(timeBetween);

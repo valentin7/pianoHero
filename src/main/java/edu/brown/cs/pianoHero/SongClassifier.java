@@ -12,7 +12,7 @@ public interface SongClassifier {
   /**
    * The totalKeys used in the keyboard for playing a song.
    */
-  public static final int totalKeys = 8;
+  public static final int totalKeys = 13;
 
   /**
    * Classifies the song and returns it's classification as a string.

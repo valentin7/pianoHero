@@ -166,12 +166,9 @@ public class Main {
       String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3Name);
       String savedImagePath = PianoHeroFileHandler.saveImage(imageName);
       
-      printKeyStrokes(keyStrokes);
-
-      Song s = new Song(title, artist, 7, savedMp3Path, savedImagePath, length, keyStrokes);
-      saveSongInDb(s);
-      phManager.saveSong(s, mp3Name, imageName);
       maxID++;
+      Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath, length, keyStrokes);
+      phManager.saveSong(s, mp3Name, imageName);
 
       return GSON.toJson(true);
     }
