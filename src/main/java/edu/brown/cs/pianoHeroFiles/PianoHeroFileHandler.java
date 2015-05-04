@@ -118,15 +118,6 @@ public class PianoHeroFileHandler {
     return null;
   }
 
-  /**
-   * Saves the 1d-array boolean of keystrokes for a given song id.
-   *
-   * @param keyStrokes
-   *          : 1d-array of booleans
-   * @param songId
-   *          : int, the song id
-   * @return String of the path where the keystrokes file was saved.
-   */
   public static String saveSongKeystrokes(boolean[] keyStrokes, int songId) {
     String path = "pianoHeroFiles/songKeyStrokes/";
     String keyStrokesID = songId + "_keyStrokes.txt";
@@ -142,20 +133,11 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-          .println("ERROR: error saving keystrokes for songId: " + songId);
+      .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
 
-  /**
-   * Saves a 2d-array boolean of keystrokes for a given song id.
-   *
-   * @param keyStrokes
-   *          : 2d-array of booleans
-   * @param songId
-   *          : int, the song id
-   * @return String of the path where the keystrokes file was saved.
-   */
   public static String save2DSongKeystrokes(boolean[][] keyStrokes, int songId) {
     String path = "pianoHeroFiles/songKeyStrokes/";
     String keyStrokesID = songId + "_keyStrokes.txt";
@@ -173,20 +155,11 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-          .println("ERROR: error saving keystrokes for songId: " + songId);
+      .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
 
-  /**
-   * Converts a 1d array of booleans to a 2d array of booleans.
-   *
-   * @param array
-   *          : the initial 1d array
-   * @param length
-   *          : the length of the partitions.
-   * @return the converted 2d array.
-   */
   public static boolean[][] convert1DBooleansTo2D(boolean[] array, int length) {
     boolean[][] boolean2d = new boolean[length][array.length / length];
 
@@ -198,13 +171,6 @@ public class PianoHeroFileHandler {
     return boolean2d;
   }
 
-  /**
-   * Converts a 2d array of booleans to a 1d array of booleans.
-   *
-   * @param array
-   *          : the initial 2d array
-   * @return the converted 1d array.
-   */
   public static boolean[] convert2DBooleansTo1D(boolean[][] boolean2D) {
     boolean[] boolean1D = new boolean[boolean2D.length * boolean2D[0].length];
 
@@ -217,26 +183,11 @@ public class PianoHeroFileHandler {
     return boolean1D;
   }
 
-  /**
-   * Returns a file from a given string path
-   *
-   * @param path
-   *          string representing the file path
-   * @return the File in the path
-   */
   public static File getFileFromPath(String path) {
     File file = new File(path);
     return file;
   }
 
-  /**
-   * Saves all the files and folders in a set, for a given initial folder.
-   *
-   * @param folder
-   *          the initial folder to look all files for.
-   * @param all
-   *          the set of files to save on
-   */
   public static void getAllFilesAndFolder(File folder, Set<File> all) {
     all.add(folder);
     if (folder.isFile()) {
@@ -252,14 +203,6 @@ public class PianoHeroFileHandler {
     }
   }
 
-  /**
-   * Gets the file of the strokes and converts it to a 1d boolean array to
-   * return
-   *
-   * @param fileName
-   *          the file name of the keystrokes
-   * @return the 1d array of the strokes
-   */
   public static boolean[] getStrokesArray(String fileName) {
     // This will reference one line at a time
     String line = null;
@@ -310,16 +253,6 @@ public class PianoHeroFileHandler {
     return null;
   }
 
-  /**
-   * Copies a file from an initial source path file to a destination
-   * 
-   * @param src
-   *          - the initial source file
-   * @param dst
-   *          - the destination path file
-   * @throws IOException
-   *           exception with file handling
-   */
   public static void copyFile(File src, File dst) throws IOException {
     InputStream in = new FileInputStream(src);
     OutputStream out = new FileOutputStream(dst);
@@ -348,7 +281,7 @@ public class PianoHeroFileHandler {
    * @throws IOException
    */
   public static void writeFile(String canonicalFilename, String text)
-    throws IOException
+      throws IOException
   {
     File file = new File(canonicalFilename);
     BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -361,7 +294,7 @@ public class PianoHeroFileHandler {
    * plain text use the writeFile method.
    */
   public static void writeFileAsBytes(String fullPath, byte[] bytes)
-    throws IOException
+      throws IOException
   {
     OutputStream bufferedOutputStream = new BufferedOutputStream(
         new FileOutputStream(fullPath));
