@@ -37,7 +37,8 @@ public class Song {
    * @param keyStrokes
    *          the path to the 2D array containing the song's keystrokes
    */
-  public Song(String title, String artistName, int id, String mp3Path, String imagePath,
+  public Song(String title, String artistName, int id, String mp3Path,
+      String imagePath,
       int length, boolean[] keyStrokes) {
     _title = title;
     _artistName = artistName;
@@ -60,7 +61,7 @@ public class Song {
   public int get_id() {
     return _id;
   }
-  
+
   /**
    * Returns the song's length.
    *
@@ -78,7 +79,7 @@ public class Song {
   public String get_imagePath() {
     return _imagePath;
   }
-  
+
   /**
    * Returns the song's artist's name.
    *
