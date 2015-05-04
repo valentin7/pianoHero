@@ -38,7 +38,7 @@ public class Main {
 
     @Override
     public void
-    handle(final Exception e, final Request req, final Response res) {
+        handle(final Exception e, final Request req, final Response res) {
       res.status(STATUS);
       final StringWriter stacktrace = new StringWriter();
       try (PrintWriter pw = new PrintWriter(stacktrace)) {
@@ -81,7 +81,7 @@ public class Main {
       return new ModelAndView(variables, "highscores.ftl");
     }
   }
-  
+
   private static class SaveScoreHandler implements Route {
     @Override
     public Object handle(final Request req, final Response res) {
@@ -92,7 +92,7 @@ public class Main {
 
       SongScore ss = new SongScore(songID, score, user);
       phquery.fillScore(ss);
-      
+
       return GSON.toJson(null);
     }
   }
@@ -127,7 +127,7 @@ public class Main {
         scores.add(new SongScore(songID, 0, "Default"));
       }
       System.out.println(song.get_length());
-      
+
       final Map<String, Object> variables =
           ImmutableMap.of("song", song, "highScore", scores.get(0));
       return GSON.toJson(variables);
@@ -161,28 +161,30 @@ public class Main {
       final int length = (int) Double.parseDouble(qm.value("length"));
       final String mp3Name = qm.value("mp3File");
       final String imageName = qm.value("imgFile");
-      final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"), boolean[].class);
+      final boolean[] keyStrokes = GSON.fromJson(qm.value("keyStrokes"),
+          boolean[].class);
 
       String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3Name);
       String savedImagePath = PianoHeroFileHandler.saveImage(imageName);
-      
+
       maxID++;
-      Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath, length, keyStrokes);
-      
+      Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath,
+          length, keyStrokes);
+
       try {
         File songFile = new File("Songs/" + mp3Name);
         File songImage = new File("Images/" + imageName);
-        
+
         File songDest = new File("pianoHeroFiles/songs/"
             + "copied" + songFile.getName());
         PianoHeroFileHandler.copyFile(songFile, songDest);
 
         File imageDest = new File("pianoHeroFiles/songImages/"
             + "copied" + songImage.getName());
-        
+
         PianoHeroFileHandler.copyFile(songImage, imageDest);
         phquery.fillSong(s);
-        
+
       } catch (IOException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -209,7 +211,7 @@ public class Main {
   private static PianoHeroSQLCreate phSQLcreate;
   private static int maxID;
 
-  //private static PianoHeroManager phManager;
+  // private static PianoHeroManager phManager;
   private static ArrayList<Integer> songIDs = new ArrayList<Integer>();
 
   private static FreeMarkerEngine createEngine() {
@@ -230,7 +232,7 @@ public class Main {
     try {
       phquery = new PianoHeroQuery(dbPath);
       phSQLcreate = new PianoHeroSQLCreate(dbPath);
-      //phManager = new PianoHeroManager(dbPath);
+      // phManager = new PianoHeroManager(dbPath);
       maxID = phquery.getMaxID();
     } catch (ClassNotFoundException | SQLException e) {
       System.err.println("ERROR: Error connecting to database.");
@@ -268,18 +270,18 @@ public class Main {
     System.out.println("initial strokes: ");
     printKeyStrokes(keyStrokes);
 
-    //String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
-    //String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
+    // String savedMp3Path = PianoHeroFileHandler.saveMp3(mp3File);
+    // String savedImagePath = PianoHeroFileHandler.saveImage(imageFile);
 
-    //Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
-     //   savedImagePath, 200, keyStrokes);
-    //saveSongInDb(s);
+    // Song s = new Song("testSong", "testArtist", 2, savedMp3Path,
+    // savedImagePath, 200, keyStrokes);
+    // saveSongInDb(s);
 
     // phManager.saveSong(s, mp3File, imageFile);
 
     System.out.println();
     System.out
-        .println("now showing we get the Files and keystrokes from the song:");
+    .println("now showing we get the Files and keystrokes from the song:");
     Song retrievedSong = phquery.getSongById(2);
     File sImage = retrievedSong.getImageFile();
     File sSong = retrievedSong.getMp3File();
