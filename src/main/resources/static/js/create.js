@@ -35,6 +35,7 @@ $(document).ready(function(){
   var _canvas = $("#canvas");
   var _ctx = _canvas.get(0).getContext("2d");
   var _song = null;
+  var _newSongID;
   // initiatePageElements();
 
   // ATTACH TO FORM ELEMENTS
@@ -310,6 +311,9 @@ $(document).ready(function(){
       };
 
       $.post("/storesong", postParameters, function(responseJSON){
+        _newSongID = responseJSON;
+        console.log(_newSongID);
+
         $("#overLayMessage").text("SAVED");
         $("#recordButt").css ("visibility", "hidden");
         $("#restartButt").css("visibility", "hidden");
@@ -360,7 +364,7 @@ $(document).ready(function(){
   })
 
   $("#playButt").on("click", function() {
-    window.location = "/";
+    window.location = "/playsong#" + _newSongID;
   })
 
   // CHECKS IF CLICK WAS A HIT

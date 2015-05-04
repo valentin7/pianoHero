@@ -50,8 +50,60 @@ public class PianoHeroQuery {
     conn = DriverManager.getConnection("jdbc:sqlite:" + path);
     final Statement stat = conn.createStatement();
     stat.executeUpdate("PRAGMA foreign_keys = ON;");
-    System.out.println("got here!!!");
     stat.close();
+  }
+  
+  public void fillSong(Song song) {
+    /*
+     * prepares an all purpose insert statement for saving songs.
+     */
+    String query = "INSERT INTO song VALUES (?,?,?,?,?,?,?)";
+
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+
+      ps.setInt(1, song.get_id());
+      ps.setString(2, song.get_title());
+      ps.setString(3, song.get_mp3Path());
+      ps.setString(4, song.get_imagePath());
+
+      ps.setString(5, song.get_keyStrokesPath());
+      ps.setString(6, song.get_artistName());
+      ps.setInt(7, song.get_length());
+
+      // PianoHeroFileHandler.saveSongKeystrokes(keyStrokes, songId)
+      // java.sql.Array keys = conn.createArrayOf("VARCHAR",
+      // song.get_keyStrokes());
+      // ps.setArray(5, keys);
+
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      System.err.println("ERROR: error saving song to database");
+    }
+
+  }
+  
+  public void fillScore(SongScore score) {
+    /*
+     * prepare an all purpose insert statement; note the use of question marks.
+     * Each question mark corresponds to an attribute. Essentially we are
+     * building a tuple to insert into the table. This allows us to use the Same
+     * PreparedStatement without having to create a new one for each insertion.
+     */
+    System.out.println("fillScore");
+    String query = "INSERT INTO score VALUES (?,?,?)";
+
+    try (PreparedStatement ps = conn.prepareStatement(query)) {
+      ps.setInt(1, score.getSongID());
+      ps.setString(2, score.getUserName());
+      ps.setInt(3, score.getScore());
+
+      ps.executeUpdate();
+      System.out.println("executed");
+    } catch (SQLException e) {
+      System.err.println("ERROR: couldn't save song to database");
+    }
+
   }
 
   /**
