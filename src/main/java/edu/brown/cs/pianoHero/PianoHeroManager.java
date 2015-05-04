@@ -32,7 +32,7 @@ public class PianoHeroManager {
       File imageDest = new File("pianoHeroFiles/songImages/"
           + "copied" + songImage.getName());
       PianoHeroFileHandler.copyFile(songImage, imageDest);
-      
+
       phSQLCreate.fillSong(song);
     } catch (IOException e) {
       System.err.println("ERROR: error saving song");

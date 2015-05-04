@@ -17,13 +17,12 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void simpleFillSongTest() throws ClassNotFoundException, SQLException,
-  IOException {
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
     boolean[] keyStrokes = {false, true};
 
-    Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3",
-        "imagePath",
+    Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
         200, keyStrokes);
 
     db.fillSong(s);
@@ -35,8 +34,8 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void simpleFillScoreTest() throws ClassNotFoundException,
-  SQLException,
-  IOException {
+    SQLException,
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
     SongScore s = new SongScore(7, 99, "JJ");
@@ -51,14 +50,13 @@ public class PianoHeroSQLCreateTest {
 
   @Test
   public void checkIfKeysConservedTest() throws ClassNotFoundException,
-  SQLException,
-  IOException {
+    SQLException,
+    IOException {
     PianoHeroSQLCreate db = new PianoHeroSQLCreate("toFillPianoHeroSQL.sqlite3");
 
     boolean[] keyStrokes = {false, true};
 
-    Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3",
-        "imagePath",
+    Song s = new Song("NewSong", "NewArtist", 3, "pianoHeroFiles/Intro.mp3", "imagePath",
         200, keyStrokes);
 
     db.fillSong(s);
