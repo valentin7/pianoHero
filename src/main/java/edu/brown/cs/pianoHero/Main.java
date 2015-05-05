@@ -170,6 +170,7 @@ public class Main {
       maxID++;
       Song s = new Song(title, artist, maxID, savedMp3Path, savedImagePath,
           length, keyStrokes);
+      String songDifficulty;
 
       try {
         File songFile = new File("Songs/" + mp3Name);
@@ -184,9 +185,11 @@ public class Main {
 
         PianoHeroFileHandler.copyFile(songImage, imageDest);
         phquery.fillSong(s);
+        SongClassifier classifier = new DifficultySongClassifier();
+        songDifficulty = classifier.classifySong(s);
+        System.out.println("SONG DIFFICULTY: " + songDifficulty);
 
       } catch (IOException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
 

@@ -131,8 +131,16 @@ public class PianoHeroFileHandler {
     String path = "pianoHeroFiles/songKeyStrokes/";
     String keyStrokesID = songId + "_keyStrokes.txt";
     String keyStrokesPath = path + keyStrokesID;
+
     try (PrintWriter writer = new PrintWriter(keyStrokesPath, "UTF-8")) {
       String line = "";
+
+      // this is for the fake, testing songs.
+      if (keyStrokes == null) {
+        System.out.println("FAKEEEEE");
+        line += "1000100100010100010101";
+      }
+
       for (int i = 0; i < keyStrokes.length; i++) {
         String add = keyStrokes[i] ? "1" : "0";
         line += add;
@@ -142,7 +150,7 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-          .println("ERROR: error saving keystrokes for songId: " + songId);
+      .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
@@ -173,7 +181,7 @@ public class PianoHeroFileHandler {
       writer.close();
     } catch (IOException e) {
       System.err
-          .println("ERROR: error saving keystrokes for songId: " + songId);
+      .println("ERROR: error saving keystrokes for songId: " + songId);
     }
     return keyStrokesPath;
   }
@@ -312,7 +320,7 @@ public class PianoHeroFileHandler {
 
   /**
    * Copies a file from an initial source path file to a destination
-   * 
+   *
    * @param src
    *          - the initial source file
    * @param dst
@@ -348,7 +356,7 @@ public class PianoHeroFileHandler {
    * @throws IOException
    */
   public static void writeFile(String canonicalFilename, String text)
-    throws IOException
+      throws IOException
   {
     File file = new File(canonicalFilename);
     BufferedWriter out = new BufferedWriter(new FileWriter(file));
@@ -361,7 +369,7 @@ public class PianoHeroFileHandler {
    * plain text use the writeFile method.
    */
   public static void writeFileAsBytes(String fullPath, byte[] bytes)
-    throws IOException
+      throws IOException
   {
     OutputStream bufferedOutputStream = new BufferedOutputStream(
         new FileOutputStream(fullPath));

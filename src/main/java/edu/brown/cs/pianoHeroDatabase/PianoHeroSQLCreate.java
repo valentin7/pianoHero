@@ -30,34 +30,38 @@ public class PianoHeroSQLCreate {
    *           - if there is an exception creating the tables.
    */
   public PianoHeroSQLCreate(String db) throws ClassNotFoundException,
-  SQLException {
+      SQLException {
     // Load the driver class
     Class.forName("org.sqlite.JDBC");
     String urlToDB = "jdbc:sqlite:" + db;
 
     // Set up a connection to the db
     conn = DriverManager.getConnection(urlToDB);
-    
-    
+
     // If we use these lines we overwrite our database, which we don't always
     // want to do
-    
-//    // These delete the tables if they already exist
-//    Statement stat = conn.createStatement();
-//    stat.execute("DROP TABLE IF EXISTS Song");
-//    stat.execute("DROP TABLE IF EXISTS Score");
-//    stat.close();
-//
-//    // schema to create a table for scores
-//    String schema = "CREATE TABLE Score (songId INTEGER, username  TEXT, scoreValue INTEGER);";
-//
-//    buildTable(schema);
-//
-//    // schema to create a table for songs
-//    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
-//        + "songImage TEXT, songKeys TEXT);";
-//
-//    buildTable(schema2);
+
+    //
+  }
+
+  public void createSchema() throws ClassNotFoundException,
+  SQLException {
+    // These delete the tables if they already exist
+    Statement stat = conn.createStatement();
+    stat.execute("DROP TABLE IF EXISTS Song");
+    stat.execute("DROP TABLE IF EXISTS Score");
+    stat.close();
+
+    // schema to create a table for scores
+    String schema = "CREATE TABLE Score (songId INTEGER, username  TEXT, scoreValue INTEGER);";
+
+    buildTable(schema);
+
+    // schema to create a table for songs
+    String schema2 = "CREATE TABLE Song (id INTEGER, songName TEXT, songFile  TEXT,"
+        + "songImage TEXT, songKeys TEXT, songArtist TEXT, songLength INTEGER);";
+
+    buildTable(schema2);
   }
 
   /**

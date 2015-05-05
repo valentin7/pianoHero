@@ -224,6 +224,7 @@ $(document).ready(function(){
         if (!_restarted) record();
         $("#overLayMessage").text("");
         $("#restartButt").css("visibility", "visible");
+        $("#saveNowButt").css("visibility", "visible");
         $("#recordButt").text("pause");
       }, _readyTimer);
     }, _readyTimer);
@@ -276,7 +277,7 @@ $(document).ready(function(){
     _currRow = 0;
     $("#recordButt").css("visibility", "visible");
     $("#restartButt2").css("display", "none");
-    $("#saveButt").css("display", "none");
+    $("#saveButt").css("display", "block");
     updateProgress();
     getReady();
   }
@@ -303,6 +304,11 @@ $(document).ready(function(){
     saveGame();
   })
 
+  // ATTACH SAVE FUNCTION TO BUTTON
+  $("#saveNowButt").on("click", function(e) {
+    saveGame();
+  })
+  
   // SAVES THE ARRAY AND SENDS TO THE BACK END
   function saveGame() {
     _curr.gameArray = createGameArray();
@@ -325,6 +331,7 @@ $(document).ready(function(){
         $("#overLayMessage").text("SAVED");
         $("#recordButt").css ("visibility", "hidden");
         $("#restartButt").css("visibility", "hidden");
+        $("#saveNowButt").css("visibility", "hidden");
         $("#restartButt2").css("display", "none");
         $("#saveButt").css("display", "none");
         $("#playButt").css("display", "block");

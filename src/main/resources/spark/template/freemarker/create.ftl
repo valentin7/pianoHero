@@ -27,6 +27,11 @@
         <div class="scoreDiv">
           <button id="recordButt" class="centeredButt medButt">start</button>
         </div>
+
+        <div class="scoreDiv">
+            <button id="saveNowButt" class="centeredButt medButt hidden">save level now</button>
+        </div>
+        
       </div>
 
       <div class="mainDiv">
@@ -53,8 +58,10 @@
             <button id="recordButt2" class="centeredButt medButt gameDivButt">start</button>
             <button id="restartButt2" class="centeredButt medButt gameDivButt gone">restart</button>
             <button id="saveButt" class="centeredButt medButt gameDivButt gone">save level</button>
+
             <button id="playButt" class="centeredButt medButt gameDivButt gone">play it!</button>
             <button id="createButt" class="centeredButt medButt gameDivButt gone">create another</button>
+            
           </div>
           <div id="zeroSlot" class="slot createSlot redSlot"><p>A</p></div>
           <div id="oneSlot" class="slot createSlot pinkSlot"><p>S</p></div>
