@@ -277,7 +277,9 @@ $(document).ready(function(){
     _currRow = 0;
     $("#recordButt").css("visibility", "visible");
     $("#restartButt2").css("display", "none");
-    $("#saveButt").css("display", "block");
+    //$("#saveButt").css("display", "block");
+    $("#saveButt").css("visibility", "hidden");
+
     updateProgress();
     getReady();
   }
