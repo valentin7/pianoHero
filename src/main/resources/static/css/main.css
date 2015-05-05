@@ -215,6 +215,10 @@ label {
 	margin-bottom: 4px;
 }
 
+#songDifficulty {
+	color: #f1f1f1;
+}
+
 #artistNameGame {
 	margin-bottom: 24px;
 }

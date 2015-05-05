@@ -50,6 +50,8 @@
       <div class="mainDiv">
         <button id="homeButt" class="topLeftButt medButt">home</button>
         <h3 id="songTitleGame"></h3>
+        <h4 id="songDifficulty"></h4>
+
 
         <div id="gameDiv" class="">
           <canvas id="canvas" width="920px" height="650px"></canvas>

@@ -127,9 +127,12 @@ public class Main {
         scores.add(new SongScore(songID, 0, "Default"));
       }
       System.out.println(song.get_length());
+      SongClassifier classifier = new DifficultySongClassifier();
+      String songDiff = classifier.classifySong(song);
 
       final Map<String, Object> variables =
-          ImmutableMap.of("song", song, "highScore", scores.get(0));
+          ImmutableMap.of("song", song, "highScore", scores.get(0),
+              "songDifficulty", songDiff);
       return GSON.toJson(variables);
     }
   }

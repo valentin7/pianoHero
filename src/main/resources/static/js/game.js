@@ -14,6 +14,7 @@ $(document).ready(function(){
 			songFile: response.song._mp3Path,
 			songImage: response.song._imagePath,
 			songTitle: response.song._title,
+			songDifficulty: response.songDifficulty,
 			highScore: response.highScore,
 			length: response.song._length,
 			array: response.song._keyStrokes
@@ -127,6 +128,7 @@ $(document).ready(function(){
 
 		$("#bckGndImg").attr("src", _curr.songImage);
 		$("#songTitleGame").text(_curr.songTitle);
+		$("#songDifficulty").text("Song is " + _curr.songDifficulty);
 		$("#highScore").text(_curr.highScore._score);
 		$("#score").text(_score);
 		$("#songLength").text(convertSongLength());

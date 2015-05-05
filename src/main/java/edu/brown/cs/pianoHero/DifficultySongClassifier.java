@@ -13,7 +13,30 @@ public class DifficultySongClassifier implements SongClassifier {
 
     int songDifficulty = calculateDifficulty(keyStrokes);
 
-    return null;
+    String difficultyLabel = "";
+
+    if (songDifficulty <= 0) {
+      difficultyLabel = "Random";
+    } else if (songDifficulty <= 30) {
+      difficultyLabel = "For Babies";
+    } else if (songDifficulty <= 200) {
+      difficultyLabel = "Pretty Easy";
+    } else if (songDifficulty <= 800) {
+      difficultyLabel = "Easy";
+    } else if (songDifficulty <= 1500) {
+      difficultyLabel = "Medium";
+    } else if (songDifficulty <= 2000) {
+      difficultyLabel = "Hard";
+    } else if (songDifficulty <= 2800) {
+      difficultyLabel = "Extremely Hard";
+    } else {
+      difficultyLabel = "Beware. More than Extremely Hard.";
+    }
+
+    System.out.println("song: " + s.get_title() + " is " + songDifficulty + " "
+        + difficultyLabel);
+
+    return difficultyLabel;
   }
 
   public int calculateDifficulty(boolean[] keyStrokes) {
