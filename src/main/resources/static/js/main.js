@@ -76,6 +76,9 @@ $(document).ready(function(){
 			hoverButton($("#rightArr"));
 			scrollThroughList("right");
 		}
+		if (e.which == 13) { // enter
+			window.location.href = '/playsong#' + _curr.songID;
+		}
   });
 
 	//SCROLL THROUGH LIST FUNCTION

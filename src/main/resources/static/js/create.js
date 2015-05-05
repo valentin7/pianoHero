@@ -80,7 +80,15 @@ $(document).ready(function(){
 
   // FOR WHEN USERS CLICK ON KEYS
   $(document.body).on("keydown", function(e){
-    if (_recording) recordKeystroke(e.which);
+    if (e.which == 13) {
+      if (!_started) startRecording();
+      else {
+        if (_recording) pauseRecording();
+        else resumeRecording();
+      }
+    } else {
+      if (_recording) recordKeystroke(e.which);
+    }
   });
 
   $("#homeButt").on("click", function(e) {

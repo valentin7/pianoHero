@@ -60,7 +60,6 @@
               and ring fingers.</p>
             <button id="playButt2" class="centeredButt medButt gameDivButt">start</button>
             <button id="restartButt2" class="centeredButt medButt gameDivButt gone">restart</button>
-            <button id="nextButt" class="centeredButt medButt gameDivButt gone">next song</button>
           </div>
           <div id="zeroSlot" class="slot gameSlot redSlot"><p>A</p></div>
           <div id="oneSlot" class="slot gameSlot pinkSlot"><p>S</p></div>

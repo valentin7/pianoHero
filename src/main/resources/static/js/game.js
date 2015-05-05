@@ -134,7 +134,13 @@ $(document).ready(function(){
 
 	// FOR WHEN USERS CLICK ON KEYS
 	$(document.body).on("keydown", function(e){
-		checkForHit(e.which);
+		if (e.which == 13) { // if hit enter
+			if (!_started) getReady();
+			else {
+				if (_playing) pauseGame();
+				else resumeGame();
+			}
+		} else checkForHit(e.which);
   });
 
 	$("#homeButt").on("click", function(e) {
@@ -301,7 +307,6 @@ $(document).ready(function(){
 	function restart() {
 		clearCanvas();
 		$("#restartButt2").css("display", "none");
-		$("#nextButt").css("display", "none");
 		_soundFile.pause();
 		_soundFile.currentTime = 0;
 		if (_curr.array.length !== 0) {
@@ -368,18 +373,7 @@ $(document).ready(function(){
 			$("#overLayMessage").text("YOU SURVIVED");
 			$("#playButt").css("visibility", "hidden");
 			$("#restartButt2").css("display", "block");
-			$("#nextButt").css("display", "block");
 		}
-	}
-
-	// ATTACH NEXT LEVEL FUNCTION TO BUTTON
-	$("#nextButt").on("click", function(e) {
-		nextLevel();
-	})
-
-	// TAKES THE USER TO THE NEXT LEVEL
-	function nextLevel() {
-		//
 	}
 
 	// UPDATES LIFE VARIABLE
