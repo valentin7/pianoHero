@@ -90,4 +90,35 @@ public class DifficultySongClassifierTest {
     assertTrue(s2D > s1D);
   }
 
+  @Test
+  public void sameDifficultyDifferentKeys() {
+    boolean[] easySong = {
+        false, false, false, false, false, false, false,
+        false, true, false, false, false, false,
+
+        false, false, false, false, false, false, false,
+        false, false, true, false, false, false,
+
+        false, false, false, false, false, false, false,
+        false, false, true, false, false, false};
+
+    boolean[] harderSong = {
+        false, true, false, false, false, false, false,
+        false, false, false, false, false, false,
+
+        false, false, false, false, false, false, false,
+        false, true, false, false, false, false,
+
+        false, false, false, false, true, false, false,
+        false, false, false, false, false, false};
+
+    DifficultySongClassifier classifier = new DifficultySongClassifier();
+
+    int s1D = classifier.calculateDifficulty(easySong);
+    int s2D = classifier.calculateDifficulty(harderSong);
+
+    System.out.println("difficulties: " + s1D + " and " + s2D);
+    assertTrue(s2D == s1D);
+  }
+
 }
